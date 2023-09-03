@@ -1,0 +1,18 @@
+﻿<Application
+    x:Class="TorcEditor.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:TorcEditor"
+    StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <SolidColorBrush x:Key="SoftBackground" Color="#2c3738" />
+        <SolidColorBrush x:Key="WE_MainBackground" Color="#34434a" />
+        <SolidColorBrush x:Key="WE_MainBorderColor" Color="#6c8a98" />
+        <SolidColorBrush x:Key="FontColor_1" Color="#b0bf3f" />
+        <SolidColorBrush x:Key="EditorSectionTitleColor" Color="#b0bf3f" />
+        <SolidColorBrush x:Key="FontColor_2" Color="#508c3e" />
+        <SolidColorBrush x:Key="EditorColor_1" Color="#1e292e" />
+
+
+    </Application.Resources>
+</Application>
