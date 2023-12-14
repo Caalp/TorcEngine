@@ -1,101 +1,84 @@
 #pragma once
 
-namespace Torc
+template<uint32 _SIZE> class CString;
+typedef CString<256> StandartLogMsg;
+
+enum class LogChannel
 {
-	class Logger
-	{
-	public:
-		enum LogChannel
-		{
-			LOG_LISTEN_NONE = 0,
-			LOG_LISTEN_INFO = 1,
-			LOG_LISTEN_WARNING = 2,
-			LOG_LISTEN_ERROR = 4,
-			LOG_LISTEN_ALL = 7,
-			COUNT
-		};
-		
-		class Listener
-		{
-		public:
-			virtual void LogError(const char* msg) = 0;
-			virtual void LogInfo(const char* msg) = 0;
-			virtual void LogWarning(const char* msg) = 0;
+	LC_Core = 0,
+	LC_GfxBackend,
+	LC_Renderer,
+	LC_Platform,
+	Count
+};
 
-			// In the begining listens for nothing 
-			// listenerType should be unique string for each type of listener
-			// it is used for identifying type of listener and making sure listener queue populated 
-			// with only unique listeners so, each listener in the queue is unique. 
-			// In case of dublications registeration will fail and it will assert.
-			Listener(const char* listenerType, LogChannel channel = LOG_LISTEN_NONE) :
-				m_listenerType(listenerType)
-				, m_channelToListen(channel)
-			{}
+enum class LogSeverity
+{
+	LS_Info,
+	LS_Warn,
+	LS_Error
+};
 
-			inline LogChannel GetChannels() const
-			{
-				return m_channelToListen;
-			}
-			const char* GetListenerType() const
-			{
-				return m_listenerType.c_str();
-			}
-		private:
-			LogChannel m_channelToListen;
-			std::string m_listenerType;
-		};
+class ILogListener
+{
+public:
+	virtual ~ILogListener() {}
+	virtual void OnLog(const char* msg, LogChannel channel, LogSeverity severity) = 0;
+};
 
-		Logger(const char* file, const char* function, int line, const char* msg);
-		Logger(const char* msg, ...);
-		~Logger() = default;
-		static void Initialize();
-		static void Shutdown();
+class ILogger
+{
+public:
+	virtual ~ILogger() {}
+	virtual void Log(const char* msg, LogChannel channel, LogSeverity severity, ...) = 0;
+	virtual void RegisterListener(ILogListener* listener) = 0;
+	virtual void RemoveListener(ILogListener* listener) = 0;
+};
 
-		static void Register(std::unique_ptr<Listener> listener);
-		static void Unregister(std::unique_ptr<Listener> listener);
+class LoggerBase : public ILogger
+{
+public:
+	LoggerBase();
+	~LoggerBase();
+	virtual void Log(const char* msg, LogChannel channel, LogSeverity severity, ...) override;
 
-		void LogInfo();
-		void LogError();
-		void LogWarning();
-		inline const char* MessageString()
-		{
-			return m_msg;
-		}
-	private:
-		char m_msg[1024];
-	};
+	virtual void RegisterListener(ILogListener* listener) override;
+	virtual void RemoveListener(ILogListener* listener) override;
+private:
+	// TODO(cagri): later replace this with concurrent container
+	std::vector<ILogListener*> m_logListeners;
+};
 
-	class LogToDebugWindow final : public Logger::Listener
-	{
-	public:
-		// currently just pipe all outputs to std 
-		LogToDebugWindow(Logger::LogChannel channel = Logger::LOG_LISTEN_ALL) : Listener("LogToDebugWindow", channel) {}
-		void LogError(const char* msg) override;
-		void LogInfo(const char* msg) override;
-		void LogWarning(const char* msg) override;
-	};
-
-	class LogToFile final : public Logger::Listener
-	{
-	public:
-		LogToFile(const char* file, Logger::LogChannel channel = Logger::LOG_LISTEN_ALL) : Listener("LogToFile", channel)
-		{
-
-		}
-
-		void LogError(const char* msg) override
-		{
-			//std::cout << "[ERROR] " << msg << std::endl;
-		}
-		void LogInfo(const char* msg) override
-		{
-			//std::cout << "[INFO] " << msg << std::endl;
-		}
-		void LogWarning(const char* msg) override
-		{
-			//std::cout << "[WARNING] " << msg << std::endl;
-		}
-	private:
-		// File here
-	};
+static const char* FormStrFromVarArgs(const char* t, ...)
+{ 
+	return ""; 
 }
+
+#ifdef _DEBUG
+#define LOG_INFO(channel, msg, ...)\
+	gEnv->logger->Log("[INFO] "##msg, channel, LogSeverity::LS_Info, __VA_ARGS__);
+
+#define LOG_WARN(channel, msg, ...)\
+	gEnv->logger->Log("[WARN] "##msg, channel, LogSeverity::LS_Warn, __VA_ARGS__);
+
+#define LOG_ERROR(channel, msg, ...)\
+	gEnv->logger->Log("[ERROR] "##msg, channel, LogSeverity::LS_Error, __VA_ARGS__);
+
+#define LOG_TRACE_INFO(msg, ...)
+	//Torc::Logger(__FILE__, __FUNCTION__, __LINE__, "[INFO] "##msg, __VA_ARGS__).LogInfo();
+
+#define ASSERT(expr,msg,...)\
+	if(!(expr))\
+	{\
+	 MessageBoxA(0,\
+		"NoNO",\
+	"Assertion", 0);\
+	 DebugBreak();\
+	}
+#else
+#define LOG_INFO(msg)
+#define LOG_WARN(msg)
+#define LOG_ERROR(expr,msg,...)
+#define LOG_TRACE_INFO(msg)
+#define ASSERT(msg,...)
+#endif

@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "TorcEditor": {
-      "commandName": "Project",
-      "nativeDebugging": true
-    }
-  }
-}

@@ -1,55 +1,82 @@
 #include "pch.h"
 #include "FileStream.h"
+#include "Platform/FileSystem.h"
 
-InputStream::~InputStream()
+File::File()
+	: m_fileHandle((TORC_HANDLE)((UINT_PTR)-1))
+{}
+
+File::File(TORC_HANDLE handle)
+	: m_fileHandle(handle)
+{}
+
+bool File::IsValid() const
 {
-	TE_DELETE_ALIGNED(m_buffer);
-	m_inputStream.close();
+	return m_fileHandle != (TORC_HANDLE)((UINT_PTR) - 1);
 }
 
-void InputStream::Open(const char* file, std::fstream::openmode mode)
+TORC_HANDLE File::GetHandle() const
 {
-	m_inputStream.open(file, mode);
+	return m_fileHandle;
 }
 
-void InputStream::Read()
+File FileStream::OpenToRead(const char* filePath)
 {
-	if (m_inputStream.good())
-	{
-		uint32_t fileLength = GetFileLength();
-		m_buffer = (uint8_t*)Memory::Alloc(fileLength, 1, MemoryTag::MEMORY_TAG_FILE_IO);
-
-		m_inputStream.read((char*)m_buffer, fileLength);
-	}
+	void* handle = fs::OpenFile(filePath, FileAccessMode::Access_Read, FileShareMode::Share_None, FileCreationFlag::Open_Existing);
+	return File{ (TORC_HANDLE)handle };
 }
 
-uint32_t InputStream::GetFileLength()
+File FileStream::OpenToWrite(const char* filePath)
 {
-	m_inputStream.seekg(0, m_inputStream.end);
-	uint32_t length = m_inputStream.tellg();
-	m_inputStream.seekg(0, m_inputStream.beg);
-	return length;
+	void* handle = fs::OpenFile(filePath, FileAccessMode::Access_Write, FileShareMode::Share_Read, FileCreationFlag::Open_Existing);
+	return File();
 }
 
-uint8_t* InputStream::Get()
+File FileStream::OpenToReadWrite(const char* filepath)
 {
-	return m_buffer;
+	return File();
 }
 
-OutputStream::~OutputStream()
+File FileStream::OpenToAppend(const char* filepath)
 {
-	m_ofs.close();
+	return File();
 }
 
-void OutputStream::Open(const char* file, std::fstream::openmode mode)
+uint32 FileStream::Read(File* file, uint8* buff, uint32 size)
 {
-	m_ofs.open(file, mode);
+	return fs::ReadFile(file->GetHandle(), (void*)buff, size);
 }
 
-void OutputStream::Write(uint8_t* buffer, size_t size)
+uint32 FileStream::Write(File* file, uint8* buff, uint32 size)
 {
-	if (m_ofs.is_open())
-	{
-		m_ofs.write((char*)buffer, size);
-	}
+	return uint32();
+}
+
+void FileStream::Close(File* file)
+{
+	fs::CloseFile(file->GetHandle());
+}
+
+FILEHANDLE FileManager::OpenForRead(const char* file)
+{
+	return FILEHANDLE();
+}
+
+FILEHANDLE FileManager::OpenForWrite(const char* file)
+{
+	return FILEHANDLE();
+}
+
+FILEHANDLE FileManager::OpenNewWrite(const char* file)
+{
+	return FILEHANDLE();
+}
+
+void FileManager::CloseFile(FILEHANDLE handle)
+{
+}
+
+File* FileManager::GetFile(FILEHANDLE handle)
+{
+	return nullptr;
 }

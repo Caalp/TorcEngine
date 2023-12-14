@@ -1,8 +1,7 @@
 #include "pch.h"
 #include "Logger.h"
-#include "Platform/Platform.h"
-
-using namespace Torc;
+#include "Core/Application.h"
+#include "Core/Logging/FileLogger.h"
 
 namespace
 {
@@ -12,112 +11,66 @@ namespace
 		std::wstring wstr(str1.begin(), str1.end());
 		return wstr;
 	}
-
-	static std::set<std::unique_ptr<Logger::Listener>> s_listeners;
+	core::Mutex lock;
 }
 
-Logger::Logger(const char* file, const char* function, int line, const char* msg)
-{
-	snprintf(m_msg, _countof(m_msg), " [FILE]  %s, [FUNC] %s, [LINE] %d, %s\n", file, function, line, msg);
-}
-Logger::Logger(const char* msg, ...)
-{
-	TE_ASSERT(strlen(msg) < _countof(m_msg), "Logger.cpp: logger msg length is larger than buffer size!");
-	std::time_t r = std::time(nullptr);
-	ctime_s(m_msg, _countof(m_msg), &r);
-	size_t len = strlen(m_msg);
+LoggerBase::LoggerBase()
+{}
 
+LoggerBase::~LoggerBase()
+{
+	m_logListeners.clear();
+}
+
+void LoggerBase::Log(const char* msg, LogChannel channel, LogSeverity severity, ...)
+{
 	va_list args;
-	va_start(args, msg);
-	m_msg[len - 1] = ' ';
-	vsnprintf(m_msg + (len), _countof(m_msg), msg, args);
+	va_start(args, severity);
+
+	SystemTime currentTime;
+	Torc::Platform::GetSystemTime(&currentTime);
+	std::string currTimeStr = SystemTimeToString(currentTime);
+
+	CString<256> fixedSizeString;
+	vsnprintf(fixedSizeString.Data(), fixedSizeString.Capacity(), msg, args);
+
 	va_end(args);
+
+	CString<256> temp = (currTimeStr + " " + std::string(fixedSizeString.c_str()) + "\n").c_str();
+	
+	core::ScopedLock{ lock };
+	for (auto& listener : m_logListeners)
+	{	
+		listener->OnLog(temp.c_str(), channel, severity);
+	}
 }
 
-void Logger::Initialize()
+void LoggerBase::RegisterListener(ILogListener* listener)
 {
-	// doesn't do anything
-}
-
-void Logger::Shutdown()
-{
-	s_listeners.clear();
-}
-
-void Logger::Register(std::unique_ptr<Listener> listener)
-{
-	for (auto it = s_listeners.begin(); it != s_listeners.end(); ++it)
+	core::ScopedLock{ lock };
+	std::vector<ILogListener*>::iterator begin = m_logListeners.begin();
+	std::vector<ILogListener*>::iterator end = m_logListeners.end();
+	for (auto i = begin; i != end; i++)
 	{
-		const char* t1 = (*it)->GetListenerType();
-		const char* t2 = listener->GetListenerType();
-
-		if (strcmp(t1, t2) == 0)
+		if ((*i) == listener)
 		{
-			// we can assert here
-			TE_ASSERT(false, "Trying to register same type of Logger twice this"
-				" will cause unnecessary function calls. This is unexceptable!");
 			return;
 		}
 	}
-	s_listeners.insert(std::move(listener));
+	m_logListeners.emplace_back(std::move(listener));
 }
 
-void Logger::Unregister(std::unique_ptr<Listener> listener)
+void LoggerBase::RemoveListener(ILogListener* listener)
 {
-	s_listeners.erase(listener);
-}
-
-void Logger::LogInfo()
-{
-	for (const auto& listener : s_listeners)
+	core::ScopedLock{ lock };
+	std::vector<ILogListener*>::iterator begin = m_logListeners.begin();
+	std::vector<ILogListener*>::iterator end = m_logListeners.end();
+	for (auto i = begin; i != end; i++)
 	{
-		// check if listener is listening for current channel
-		if (listener->GetChannels() & LOG_LISTEN_INFO)
+		if ((* i) == listener)
 		{
-			listener->LogInfo(m_msg);
+			m_logListeners.erase(i);
+			break;
 		}
 	}
 }
-
-void Logger::LogError()
-{
-	for (const auto& listener : s_listeners)
-	{
-		// check if listener is listening for current channel
-		if (listener->GetChannels() & LOG_LISTEN_ERROR)
-		{
-			listener->LogError(m_msg);
-		}
-	}
-}
-
-void Logger::LogWarning()
-{
-	for (const auto& listener : s_listeners)
-	{
-		// check if listener is listening for current channel
-		if (listener->GetChannels() & LOG_LISTEN_WARNING)
-		{
-			listener->LogWarning(m_msg);
-		}
-	}
-}
-
-void LogToDebugWindow::LogError(const char* msg)
-{
-	//TorcPlatform::PrintToDebugWindow(to_wchar(msg).c_str());
-	printf("%s", msg);
-}
-
-void LogToDebugWindow::LogInfo(const char* msg)
-{
-	//TorcPlatform::PrintToDebugWindow(to_wchar(msg).c_str());
-	printf("%s", msg);
-}
-
-void LogToDebugWindow::LogWarning(const char* msg)
-{
-	//TorcPlatform::PrintToDebugWindow(to_wchar(msg).c_str());
-	printf("%s", msg);
-}
-

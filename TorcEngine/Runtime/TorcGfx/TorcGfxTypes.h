@@ -229,28 +229,30 @@ namespace gfx
 		USAGE_GPU_CPU_READ_WRITE = 3
 	};
 
-	enum class TORC_GFX_RESOURCE_BIND_FLAG
+	typedef enum TORC_GFX_RESOURCE_BIND_FLAG
 	{
-		BIND_VERTEX_BUFFER = 0x1L,
-		BIND_INDEX_BUFFER = 0x2L,
-		BIND_CONSTANT_BUFFER = 0x4L,
-		BIND_SHADER_RESOURCE = 0x8L,
-		BIND_STREAM_OUTPUT = 0x10L,
-		BIND_RENDER_TARGET = 0x20L,
-		BIND_DEPTH_STENCIL = 0x40L,
-		BIND_UNORDERED_ACCESS = 0x80L,
-		BIND_DECODER = 0x200L,
-		BIND_VIDEO_ENCODER = 0x400L
-	};
+		BIND_VERTEX_BUFFER = (1 << 0),
+		BIND_INDEX_BUFFER = (1 << 1),
+		BIND_SHADER_RESOURCE = (1 << 2),
+		BIND_STREAM_OUTPUT = (1 << 3),
+		BIND_RENDER_TARGET = (1 << 4),
+		BIND_DEPTH_STENCIL = (1 << 5),
+		BIND_UNORDERED_ACCESS = (1 << 6),
+		BIND_DECODER = (1 << 7),
+		BIND_VIDEO_ENCODER = (1 << 8),
+		BIND_CONSTANT_BUFFER = (1 << 9)
+	} TORC_GFX_RESOURCE_BIND_FLAG;
 
-	enum class TORC_GFX_CPU_ACCESS_FLAG
+	enum TORC_GFX_CPU_ACCESS_FLAG
 	{
+		NO_ACCESS = 0,
 		CPU_ACCESS_WRITE = 0x10000L,
 		CPU_ACCESS_READ = 0x20000L
 	};
 
 	enum class TORC_GFX_RESOURCE_MISC_FLAG
 	{
+		RESOURCE_MISC_NOT_USED = 0,
 		RESOURCE_MISC_GENERATE_MIPS = 0x1L,
 		RESOURCE_MISC_SHARED = 0x2L,
 		RESOURCE_MISC_TEXTURECUBE = 0x4L,
@@ -319,6 +321,32 @@ namespace gfx
 		TEXTURE_ADDRESS_CLAMP,
 		TEXTURE_ADDRESS_BORDER,
 		TEXTURE_ADDRESS_MIRROR_ONCE
+	};
+
+	enum class TORC_GFX_PRIMITIVE_TOPOLOGY
+	{
+		PRIMITIVE_TOPOLOGY_UNDEFINED = 0,
+		PRIMITIVE_TOPOLOGY_POINTLIST,
+		PRIMITIVE_TOPOLOGY_LINELIST,
+		PRIMITIVE_TOPOLOGY_LINESTRIP,
+		PRIMITIVE_TOPOLOGY_TRIANGLELIST,
+		PRIMITIVE_TOPOLOGY_TRIANGLESTRIP,
+		PRIMITIVE_TOPOLOGY_LINELIST_ADJ,
+		PRIMITIVE_TOPOLOGY_LINESTRIP_ADJ,
+		PRIMITIVE_TOPOLOGY_TRIANGLELIST_ADJ,
+		PRIMITIVE_TOPOLOGY_TRIANGLESTRIP_ADJ,
+	};
+
+	enum class TORC_GFX_RTV_DIMENSION {
+		RTV_DIMENSION_UNKNOWN = 0,
+		RTV_DIMENSION_BUFFER = 1,
+		RTV_DIMENSION_TEXTURE1D = 2,
+		RTV_DIMENSION_TEXTURE1DARRAY = 3,
+		RTV_DIMENSION_TEXTURE2D = 4,
+		RTV_DIMENSION_TEXTURE2DARRAY = 5,
+		RTV_DIMENSION_TEXTURE2DMS = 6,
+		RTV_DIMENSION_TEXTURE2DMSARRAY = 7,
+		RTV_DIMENSION_TEXTURE3D = 8
 	};
 
 	/* Parameters */
@@ -416,10 +444,13 @@ namespace gfx
 
 	struct RenderTargetDesc
 	{
-
+		bool createMatchingDepthView;
+		TORC_GFX_RESOURCE_DATA_FORMAT format;
+		TORC_GFX_RTV_DIMENSION viewDimension;
+		TextureDesc textureDesc;
 	};
 
-	struct ViewPortDesc
+	struct ViewportDesc
 	{
 		float topLeftX;
 		float topLeftY;
@@ -434,8 +465,70 @@ namespace gfx
 		SwapChainDesc SwapChainDesc;
 		const char* backendDLLName; // name of the dll that will be imported
 		const void* targetWindow; // instance of the target window that swapchain and device will be created for
-		class IGfxDevice** gfxDevice;
-		class IGfxContext** gfxContext;
-		class IGfxSwapChain** gfxSwapChain;
+		bool isForEditorLoad;
+	};
+
+	struct SubResourceData
+	{
+		const void* sysMem;
+		uint32_t    sysMemPitch;
+		uint32_t    sysMemSlicePitch;
+
+		uint32_t byteWidth;
+		uint32_t structureByteStride;
+
+		SubResourceData()
+			: byteWidth(0)
+			, structureByteStride(0)
+			, sysMemPitch(0)
+			, sysMemSlicePitch(0)
+			, sysMem(nullptr)
+		{}
+	};
+
+	struct BufferDesc
+	{
+		uint32_t byteWidth;
+		uint32_t structureByteStride;
+		TORC_GFX_RESOURCE_USAGE usage;
+		TORC_GFX_RESOURCE_BIND_FLAG bindFlags;
+		TORC_GFX_CPU_ACCESS_FLAG cpuAccessFlags;
+		TORC_GFX_RESOURCE_MISC_FLAG	miscFlags;
+
+		enum ConstantBufferType
+		{
+			PS,
+			VS,
+			GS,
+			HS,
+			DS
+		};
+		union
+		{
+			struct IndexBuffer
+			{
+				gfx::TORC_GFX_RESOURCE_DATA_FORMAT format;
+				uint32_t offset;
+			} ib;
+
+			struct ConstantBuffer
+			{
+				ConstantBufferType cbType;
+				uint32_t startSlot;
+				uint32_t numBuffers;
+			} cb;
+
+			struct VertextBuffer
+			{
+				uint32_t stride;
+				uint32_t offset;
+				uint32_t startSlot;
+				uint32_t numBuffers;
+			} vb;
+
+			uint32 dummy[4] = { 0, 0, 0, 0 };
+		};
+
+		SubResourceData data;
 	};
 }

@@ -4,8 +4,6 @@
 
 #include <libloaderapi.h>
 
-using namespace Torc;
-
 Plugin::Plugin(const char* pluginDLL, const char* initFunc, const char* releaseFunc)
 	: m_pluginName(pluginDLL)
 	, m_initFunc(initFunc)
@@ -13,13 +11,12 @@ Plugin::Plugin(const char* pluginDLL, const char* initFunc, const char* releaseF
 	, m_object(nullptr)
 {}
 
-Torc::Plugin::~Plugin()
+Plugin::~Plugin()
 {
 	if (m_object != nullptr)
 	{
 		m_pluginReleaseFunc(&m_object);
 	}
-	
 	FreeLibrary((HINSTANCE)m_pluginInstance);
 }
 
@@ -33,16 +30,14 @@ const char* Plugin::GetPluginName() const
 	return m_pluginName;
 }
 
-void Torc::Plugin::Load()
+void Plugin::Load()
 {
-
 	m_pluginInstance = LoadLibraryA(m_pluginName);
 	if (m_pluginInstance == NULL)
 	{
 		// oh no
 		exit(1);
 	}
-	
 	m_pluginInitFunc = (INITIALIZE_PLUGIN)GetProcessAddress((HINSTANCE)m_pluginInstance, m_initFunc);
 
 	//Release DLL if we werent able to get the function
@@ -52,8 +47,6 @@ void Torc::Plugin::Load()
 		// complain
 		exit(1);
 	}
-
-	
 	m_pluginReleaseFunc = (INITIALIZE_PLUGIN)::GetProcAddress((HINSTANCE)m_pluginInstance, m_releaseFunc);
 
 	//Release DLL if we werent able to get the function
@@ -65,11 +58,10 @@ void Torc::Plugin::Load()
 	}
 }
 
-void Torc::Plugin::CallInitialize(void** obj)
+void Plugin::CallInitialize(void** obj)
 {
 	// order matters here since initialize function 
 	// initialized the pointer pointed by obj and later we will release it
 	m_pluginInitFunc(obj);
 	m_object = *obj;
-	
 }

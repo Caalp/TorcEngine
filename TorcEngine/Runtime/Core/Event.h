@@ -5,8 +5,6 @@ namespace Torc
 	class Event
 	{
 	public:
-
 	private:
-
 	};
 }

@@ -4,8 +4,6 @@
 class ShaderD3D11
 {
 public:
-
-
 private:
 	union
 	{

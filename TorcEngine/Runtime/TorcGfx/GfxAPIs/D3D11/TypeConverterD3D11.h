@@ -14,10 +14,11 @@ namespace typeConverter
 	D3D11_FILL_MODE ConvertTorcGfxType(gfx::TORC_GFX_FILL_MODE op);
 	D3D11_CULL_MODE ConvertTorcGfxType(gfx::TORC_GFX_CULL_MODE op);
 	D3D11_USAGE ConvertTorcGfxType(gfx::TORC_GFX_RESOURCE_USAGE op);
-	D3D11_BIND_FLAG ConvertTorcGfxType(gfx::TORC_GFX_RESOURCE_BIND_FLAG op);
-	D3D11_CPU_ACCESS_FLAG ConvertTorcGfxType(gfx::TORC_GFX_CPU_ACCESS_FLAG op);
+	uint32 ConvertTorcGfxType(uint32 op);
+	uint32 ConvertTorcGfxType(gfx::TORC_GFX_CPU_ACCESS_FLAG op);
 	D3D11_RESOURCE_MISC_FLAG ConvertTorcGfxType(gfx::TORC_GFX_RESOURCE_MISC_FLAG op);
 	DXGI_FORMAT ConvertTorcGfxType(gfx::TORC_GFX_RESOURCE_DATA_FORMAT op);
 	D3D11_FILTER ConvertTorcGfxType(gfx::TORC_GFX_FILTER op);
 	D3D11_TEXTURE_ADDRESS_MODE ConvertTorcGfxType(gfx::TORC_GFX_TEXTURE_ADDRESS_MODE op);
+	D3D_PRIMITIVE_TOPOLOGY ConvertTorcGfxType(gfx::TORC_GFX_PRIMITIVE_TOPOLOGY op);
 };

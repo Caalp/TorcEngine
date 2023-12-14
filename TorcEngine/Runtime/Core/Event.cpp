@@ -2,8 +2,4 @@
 #include "Core/Event.h"
 
 namespace Core
-{
-
-
-
-}
+{}

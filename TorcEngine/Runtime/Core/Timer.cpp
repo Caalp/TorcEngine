@@ -2,50 +2,44 @@
 #include "Core/Timer.h"
 #include "Platform/Platform.h"
 
-using namespace Torc;
-bool Timer::StartTimer()
+using namespace core;
+
+core::Timer::Timer()
 {
 	// WinAPI function gets the performance-frequency counter in seconds.
 	// If it returns zero that means system doesn't support high-resolution
 	// counter. ( per unit of time in seconds)
 
-	//QueryPerformanceFrequency((LARGE_INTEGER*)&frequency);
-	Platform::GetSystemFrequency(frequency);
-
-	if (frequency == 0)
-	{
-		return false;
-	}
+	// returns freq in secs
+	Torc::Platform::GetSystemFrequency(frequency);
 
 	// Divide it by 1000 to find occurence in ms
-	tickPerMs = (float)(frequency / 1000);
-
-	// Retrieve current value of performance counter and save it into startTime
-	//QueryPerformanceCounter((LARGE_INTEGER*)&startTime);
-	Platform::GetSystemPerformanceCounter(startTime);
-
-	return true;
+	tickPerMs = (double)(frequency / 1000.0);
 }
 
-void Timer::StopTimer()
+void Timer::Start()
 {
-	// 64-bit int for storing current time
+	// Retrieve current value of performance counter and save it into startTime
+	Torc::Platform::GetSystemPerformanceCounter(startTime);
+}
+
+Timer::ElapsedTime Timer::Elapsed()
+{
+	// 64-bit int for storing current time/ticks
 	__int64 currentTime = 0;
-	// Get the current value of performance counter 
-	//QueryPerformanceCounter((LARGE_INTEGER*)&currentTime);
-	Platform::GetSystemPerformanceCounter(currentTime);
+
+	// Get the number of ticks
+	Torc::Platform::GetSystemPerformanceCounter(currentTime);
+
 	// calculate the difference of current and starting time
+	// which gives the number of ticks happened since begining
 	__int64 difference = currentTime - startTime;
-	// in order to calculate the frameTime in ms we should divide it by tickPerMs
-	// such as if it is capable of ticking 20 times per ms how much time it will take to
-	// tick to get equal to difference(variable)
+
+	// total time that passed in milliseconds during ticks
 	elapsedTime = difference / tickPerMs;
 
 	// After calculation set the startTime as currentTime for next run countinue from there
 	startTime = currentTime;
-}
 
-double Timer::GetElapsedTime() const
-{
-	return elapsedTime;
+	return { elapsedTime };
 }

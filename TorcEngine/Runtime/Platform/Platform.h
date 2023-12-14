@@ -1,5 +1,14 @@
 #pragma once
 
+class WindowBase;
+struct AppCreateParams;
+
+enum class WindowMessage
+{
+	WINDOW_MESSAGE_PRINT_TO_WINDOW,
+	WINDOW_MESSAGE_CLOSE_WINDOW,
+};
+
 namespace Torc
 {
 	class Platform
@@ -16,48 +25,21 @@ namespace Torc
 		/**
 		* Initialized the Platform layer and any related systems
 		*/
-		static bool Startup();
+		static void Initialize(AppCreateParams* params);
 
 		/**
 		* Creates a debug window that runs on its own thread. Debug window reflects log information in real time.
 		*/
-		static void CreateDebugWnd();
+		static WindowBase* CreateDebugWnd();
 
 		/**
 		* Creates a main window which runs on its own thread, and used for rendering.
 		*/
-		static void CreateMainWnd();
-
-		/**
-		 * This function retrieves pointer to platform specific window class.
-		 * To have leverage the functionality explicit casting to WindowBase required.
-		 * In short all window classes are derived from WindowBase class.
-		 * 
-		 * @return void pointer to MainWindow class 
-		 */
-		static void* GetMainWindow();
-
-		/**
-		* Removes closed window from active windows list.
-		*/
-		static void RemoveClosedWindow();
-
-		/**
-		* 
-		*/
-		static void SetWindowTitleForActiveWindows(const char* title);
+		static WindowBase* CreateMainWnd();
 
 		/**
 		*/
-		static void SetWindowTitleAt(const char* title, int idx);
-
-		/**
-		*/
-		static void PrintToDebugWindow(const wchar_t* msg);
-
-		/**
-		*/
-		static void Shutdown();
+		static void Release();
 
 		/**
 		*/
@@ -86,19 +68,15 @@ namespace Torc
 
 		/**
 		*/
-		static int32_t ProcessMessages() noexcept;
+		static bool GetSystemFrequency(int64_t& frequency);
 
 		/**
 		*/
-		static void GetSystemFrequency(int64_t& frequency);
+		static bool GetSystemPerformanceCounter(int64_t& perfCount);
+		static void GetSystemTime(SystemTime* systemTime);
+		static const char* GetEngineRootDirectory();
 
-		/**
-		*/
-		static void GetSystemPerformanceCounter(int64_t& perfCount);
-
-		/**
-		*/
-		static bool IsAnyWindowActive();
+		static bool SendMessageToWindow(TORC_HWND targetWindow, WindowMessage msg, void* data);
 
 	private:
 		static inline uintptr_t AlignAddress(uintptr_t addr, size_t align);

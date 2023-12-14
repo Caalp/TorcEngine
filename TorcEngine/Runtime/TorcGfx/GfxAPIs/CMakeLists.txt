@@ -1,8 +1,6 @@
 # Platform/TorcGfx/GfxAPIs/CMakeLists.txt
 message(STATUS "PROCESSING ${CMAKE_CURRENT_SOURCE_DIR}")
 
-
-
 if("${gfx_backend_uppercase}" STREQUAL "D3D11")
 	#set_target_sources("${TORC_ENGINE_LIB_STATIC}" "${CMAKE_CURRENT_SOURCE_DIR}/GfxAPIs/D3D11")
 	

@@ -14,6 +14,7 @@ namespace
 		"MEMORY_TAG_RENDERER",
 		"MEMORY_TAG_STACK_ALLOCATOR",
 		"MEMORY_TAG_POOL_ALLOCATOR",
+		"MEMORY_TAG_LINEAR_ALLOCATOR",
 		"MEMORY_TAG_ENTITY",
 		"MEMORY_TAG_FILE_IO",
 		"MEMORY_TAG_FREE_LIST"
@@ -29,7 +30,6 @@ namespace
 
 bool Memory::Initialize()
 {
-	
 	return true;
 }
 
@@ -49,31 +49,24 @@ void Memory::PrintMemoryUsageInfo()
 	}
 }
 
-void* Memory::Alloc(size_t bytes, size_t align, MemoryTag memTag)
-{
-	void* mem = AllocAligned(bytes, align, memTag);
-	m_usage[(uint8_t)memTag] += (bytes + align);
-	return mem;
-}
-
-void* Memory::Alloc(size_t bytes, MemoryTag memTag)
+void* Memory::_Alloc(size_t bytes, MemoryTag memTag)
 {
 	m_usage[(uint8_t)memTag] += bytes;
 	return Torc::Platform::MemAlloc(bytes);
 }
 
-void* Memory::AllocAligned(size_t bytes, size_t align, MemoryTag memTag)
+void* Memory::_AllocAligned(size_t bytes, size_t align, MemoryTag memTag)
 {
 	//m_usage[(uint8_t)memTag] += (bytes + align);
 	return Torc::Platform::MemAllocAligned(bytes, align);
 }
 
-void Memory::Free(void* bytes)
+void Memory::_Free(void* bytes)
 {
 	Torc::Platform::MemFree(bytes);
 }
 
-void Memory::FreeAligned(void* bytes)
+void Memory::_FreeAligned(void* bytes)
 {
 	Torc::Platform::MemFreeAligned(bytes);
 }

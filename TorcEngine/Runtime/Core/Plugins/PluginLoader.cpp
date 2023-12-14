@@ -2,31 +2,24 @@
 #include "PluginLoader.h"
 #include "Core/Plugins/Plugin.h"
 #include "Core/Plugins/PluginRegistry.h"
+#include "Core/TorcSystem/ISystem.h"
 
-using namespace Torc;
-
-namespace
+bool PluginLoader::Initialize(SystemGlobalEnvironment& env)
 {
-	static PluginLoader* s_pluginLoader;
-}
-
-PluginLoader* PluginLoader::GetInstance()
-{
-	if (s_pluginLoader == nullptr)
-	{
-		s_pluginLoader = new PluginLoader;
-	}
-	return s_pluginLoader;
-}
-
-bool Torc::PluginLoader::Release()
-{
-	delete s_pluginLoader;
-
+	env.pluginLoader = this;
 	return true;
 }
 
-void Torc::PluginLoader::LoadPlugins()
+void PluginLoader::Release()
+{
+	for (auto& [key, val] : m_plugins)
+	{
+		delete val;
+	}
+	m_plugins.clear();
+}
+
+void PluginLoader::LoadPlugins()
 {
 	for (auto elem : pluginRegistry)
 	{
@@ -34,7 +27,7 @@ void Torc::PluginLoader::LoadPlugins()
 	}
 }
 
-Plugin* Torc::PluginLoader::GetPlugin(const char* name)
+Plugin* PluginLoader::GetPlugin(const char* name)
 {
 	auto plugin = m_plugins.find(name);
 	if (plugin == m_plugins.end())
@@ -44,7 +37,7 @@ Plugin* Torc::PluginLoader::GetPlugin(const char* name)
 	return plugin->second;
 }
 
-void Torc::PluginLoader::Load(const char* name, const char* initFunc, const char* releaseFunc)
+void PluginLoader::Load(const char* name, const char* initFunc, const char* releaseFunc)
 {
 	// TODO: after this check we can add another check if given function is loaded
 	// if we are loading different function from given dll, this should be allowed 
@@ -58,13 +51,3 @@ void Torc::PluginLoader::Load(const char* name, const char* initFunc, const char
 	plugin->Load();
 	m_plugins[name] = plugin;
 }
-
-Torc::PluginLoader::~PluginLoader()
-{
-	for (auto& [key, val] : m_plugins)
-	{
-		delete val;
-	}
-	m_plugins.clear();
-}
-

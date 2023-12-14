@@ -1,24 +1,21 @@
 #pragma once
 
+class Plugin;
 
-namespace Torc
+class PluginLoader
 {
-	class Plugin;
+public:
+	PluginLoader() = default;
 
-	class PluginLoader
-	{
-	public:
-		static PluginLoader* GetInstance();
-		static bool Release();
+	bool Initialize(SystemGlobalEnvironment& env);
+	void Release();
+
+	void LoadPlugins();
+	Plugin* GetPlugin(const char* name);
+
+private:
+	void Load(const char* name, const char* initFunc, const char* releaseFunc);
 	
-		void LoadPlugins();
-		Plugin* GetPlugin(const char* name);
-
-	private:
-		void Load(const char* name, const char* initFunc, const char* releaseFunc);
-		PluginLoader() = default;
-		~PluginLoader();
-	private:
-		std::map<std::string, Plugin*> m_plugins;
-	};
-}
+private:
+	std::map<std::string, Plugin*> m_plugins;
+};

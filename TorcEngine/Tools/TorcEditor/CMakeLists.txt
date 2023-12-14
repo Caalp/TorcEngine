@@ -1,70 +1,34 @@
-project(TorcEditor VERSION 0.1.0 LANGUAGES CSharp)
+# TorcEngine/Tools/TorcEditor/CMakeLists.txt
+message(STATUS "PROCESSING ${CMAKE_CURRENT_SOURCE_DIR}")
 
-include(CSharpUtilities)
-set(CMAKE_CSharp_FLAGS "/langversion:8 /platform:x64")
-include_external_msproject(
-    TorcEditor "${CMAKE_CURRENT_SOURCE_DIR}/TorcEditor.csproj")
-	
-	 set_target_properties(
-     TorcEditor PROPERTIES
-	 VS_GLOBAL_PROJECT_TYPES "{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}")
+include_directories("${CMAKE_SOURCE_DIR}/TorcEngine/Runtime" "${CMAKE_SOURCE_DIR}/TorcEngine/ThirdParty")
 
-set_target_properties(TorcEditor PROPERTIES FOLDER "Tools")
+# folder to look for libraries
+link_directories(${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 
-# file(GLOB_RECURSE cs_sources CONFIGURE_DEPENDS
-	# ${CMAKE_CURRENT_SOURCE_DIR}/*.xaml
-	# ${CMAKE_CURRENT_SOURCE_DIR}/*.xaml.cs
-	# ${CMAKE_CURRENT_SOURCE_DIR}/*.cs
-# )
+file(GLOB_RECURSE SRCS *.cpp *h)
+print_list("${SRCS}")
+GROUP_SRC("${SRCS}")
 
-# add_executable(TorcEditor ${cs_sources})
-# set_target_properties(TorcEditor PROPERTIES FOLDER ${TOOLS_TARGET_FOLDER_NAME})
-# set_target_properties(
-    # TorcEditor PROPERTIES
-    # VS_GLOBAL_PROJECT_TYPES "{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}"
-# )
+set(EDITOR_PROJECT_NAME "TorcEditor")
+set(imgui_src "")
+file(GLOB_RECURSE imgui_src "${CMAKE_SOURCE_DIR}/TorcEngine/ThirdParty/ImGui/*h" "${CMAKE_SOURCE_DIR}/TorcEngine/ThirdParty/ImGui/*cpp")
+add_library("ImGui" ${imgui_src})
 
-# csharp_set_designer_cs_properties(
-	# Properties/AssemblyInfo.cs
-    # # Properties/Resources.Designer.cs
-    # # Properties/Resources.resx
-    # Properties/Settings.Designer.cs
-    # Properties/Settings.settings)
+# add main entry point to the game
+add_executable(${EDITOR_PROJECT_NAME} WIN32 EditorMain.cpp)
 
+target_compile_definitions(${EDITOR_PROJECT_NAME} PRIVATE "TORC_EDITOR")
+target_include_directories(${EDITOR_PROJECT_NAME} PRIVATE "${CMAKE_SOURCE_DIR}/TorcEngine/Runtime")
+target_include_directories(${EDITOR_PROJECT_NAME} PRIVATE "${CMAKE_SOURCE_DIR}/TorcEngine/ThirdParty")
 
+# link engine with executable
+target_link_libraries(${EDITOR_PROJECT_NAME} PRIVATE TorcEngine)
+target_link_libraries(${EDITOR_PROJECT_NAME} PRIVATE ImGui)
+add_dependencies(${EDITOR_PROJECT_NAME} TorcEngine GfxD3D11)
 
-# file(GLOB_RECURSE cs_xaml_sources CONFIGURE_DEPENDS
-	# ${CMAKE_CURRENT_SOURCE_DIR}/*.xaml
-	# ${CMAKE_CURRENT_SOURCE_DIR}/*.xaml.cs
-# )
-# csharp_set_xaml_cs_properties(${cs_xaml_sources})
+# in this case project name and folder names match
+set_target_properties(${EDITOR_PROJECT_NAME} PROPERTIES FOLDER "Tools/${EDITOR_PROJECT_NAME}")
 
-# set_property(SOURCE App.xaml PROPERTY VS_XAML_TYPE "ApplicationDefinition")
-# set_property(TARGET TorcEditor PROPERTY VS_DOTNET_TARGET_FRAMEWORK_VERSION "v4.6.1")
-# set_property(TARGET TorcEditor PROPERTY WIN32_EXECUTABLE TRUE)
-
-# set_property(TARGET TorcEditor PROPERTY VS_DOTNET_REFERENCES
-      # "Microsoft.CSharp"
-      # "PresentationCore"
-      # "PresentationFramework"
-      # "System"
-      # "System.Core"
-      # "System.Data"
-      # "System.Windows"
-      # "System.Windows.Forms"
-	  # "System.Runtime.Serialization"
-	  # "System.Drawing"
-	  # "System.Drawing.Image"
-	  # "System.Collections"
-      # "System.Data.DataSetExtensions"
-      # "System.Net.Http"
-      # "System.Xaml"
-      # "System.Xml"
-      # "System.Xml.Linq"
-      # "WindowsBase")
-	  
-	  # install(TARGETS TorcEditor EXPORT sampleAppTargets
-  # RUNTIME DESTINATION TorcEditor/
-  # ARCHIVE DESTINATION TorcEditor/
-  # LIBRARY DESTINATION TorcEditor/
-# )
+set_target_sources("${EDITOR_PROJECT_NAME}" "${CMAKE_CURRENT_SOURCE_DIR}")
+add_as_sub_directory("${CMAKE_CURRENT_SOURCE_DIR}")

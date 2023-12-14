@@ -2,7 +2,6 @@
 
 namespace TorcPlatform::Utils
 {
-
 	uint64_t ByteToMb(uint64_t sizeInBytes);
 	uint64_t byteToGb(uint64_t sizeInBytes);
 }
@@ -59,19 +58,13 @@ namespace Torc
 	};
 
 	struct GPUInfo
-	{
-
-	};
+	{};
 
 	struct MonitorInfo
-	{
-
-	};
+	{};
 
 	struct InputDeviceInfo
-	{
-
-	};
+	{};
 
 	struct SystemHardwareInfo
 	{

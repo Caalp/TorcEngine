@@ -1,0 +1,299 @@
+#pragma once
+#include "Core/Common/Containers/Queue.h"
+#include "Platform/Platform.h"
+
+enum SystemEvent
+{
+	SYSTEM_EVENT_WINDOW_MOVE,
+	SYSTEM_EVENT_WINDOW_RESIZE,
+	SYSTEM_EVENT_WINDOW_CLOSED,
+	SYSTEM_EVENT_MAIN_WINDOW_INITIALIZED,
+	SYSTEM_EVENT_MAIN_WINDOW_CLOSED,
+
+	SYSTEM_EVENT_ENGINE_SHUTDOWN,
+
+	SYSTEM_EVENT_GAME_PAUSED,
+	SYSTEM_EVENT_GAME_RESUMED,
+	SYSTEM_EVENT_RENDERER_INITIALIZED,
+	SYSTEM_EVENT_SYSTEM_INIT_BEGAN,
+	SYSTEM_EVENT_SYSTEM_INIT_DONE,
+
+	SYSTEM_EVENT_USER
+
+};
+
+
+struct InputEvent;
+class BaseInput;
+class Renderer;
+class PluginLoader;
+class Application;
+class System;
+class BaseInput;
+class PlatformInput;
+
+struct ILogger
+{
+	enum class LogChannel
+	{
+		LC_Core,
+		LC_GfxBackend,
+		LC_Renderer,
+		LC_Platform
+	};
+
+	enum class LogSeverity
+	{
+		LS_Info,
+		LS_Warn,
+		LS_Error
+	};
+
+	virtual void Log(const char* msg, LogChannel channel, LogSeverity severity) = 0;
+};
+
+template<uint32 _SIZE>
+class CString
+{
+public:
+	CString() = default;
+
+	CString(const char(&str)[_SIZE])
+	{
+		strcpy_s(m_data, str);
+		printf(
+	}
+
+	CString(const CString& rhs)
+	{
+		strcpy_s(m_data, rhs.m_data);
+	}
+
+	bool operator==(const CString& rhs)
+	{
+		return !strcmp(m_data, rhs.m_data);
+	}
+
+	const char* c_str() const
+	{
+		return m_data;
+	}
+
+	void Copy(const char* str)
+	{
+		strcpy_s(m_data, str);
+	}
+
+private:
+	char m_data[_SIZE];
+};
+
+class FixedSizeCString : public CString<256>
+{
+public:
+	FixedSizeCString() = default;
+	FixedSizeCString(const char* str)
+	{
+		Copy(str);
+	}
+};
+
+class SLogger : public ILogger
+{
+public:
+	SLogger()
+	{
+		m_logQueue.Init(4096);
+	}
+	virtual void Log(const char* msg, LogChannel channel, LogSeverity severity) override
+	{
+		m_logQueue.Enqueue(msg);
+	}
+private:
+	ThreadSafeQueue<FixedSizeCString> m_logQueue;
+};
+
+struct DebugWindowLogger
+{
+
+};
+
+#define TE_LOG(msg)\
+	gEnv->logger->Log(#msg, ILogger::LogChannel::LC_Core, ILogger::LogSeverity::LS_Info);
+
+
+class SystemTimer
+{
+	enum {MAX_FRAME_TIME_COUNT = 100};
+public:
+	SystemTimer()
+		: m_startTime(0.0f)
+		, m_finishTime(0.0f)
+	{
+		if (!Torc::Platform::GetSystemFrequency(m_frequency))
+		{
+			m_frequency = 10'000'000;
+		}
+
+		m_ticksPerMs = m_frequency / 1000;
+	}
+
+	double GetCurrentSysTime() const
+	{
+		int64 time;
+		Torc::Platform::GetSystemPerformanceCounter(time);
+
+		return static_cast<double>(time) / (double)m_ticksPerMs;
+	}
+
+	double GetRawFrameTime() const
+	{
+		return m_rawFrameTime;
+	}
+
+	void CalculateSmoothedFrameTime()
+	{
+		m_smoothedFrameTime = 0.0f;
+	}
+
+	double GetSmoothedFrameTime() const
+	{
+		return m_smoothedFrameTime;
+	}
+
+	void CalculateAverageFrameTime() 
+	{
+		double frameTimeSum = 0.0f;
+		for (int i = 0; i < MAX_FRAME_TIME_COUNT; i++)
+		{
+			frameTimeSum += m_frameTimes[i];
+		}
+
+		m_averageFrameTime =  frameTimeSum / MAX_FRAME_TIME_COUNT;
+	}
+
+	double GetAverageFrameTime()
+	{
+		return m_averageFrameTime;
+	}
+
+	void UpdateTimer()
+	{
+		m_finishTime = GetCurrentSysTime();
+		m_rawFrameTime = m_finishTime - m_startTime;
+
+		m_startTime = m_finishTime;
+
+		for (int i = MAX_FRAME_TIME_COUNT - 2; i > -1; --i)
+		{
+			m_frameTimes[i + 1] = m_frameTimes[i];
+		}
+
+		//if (m_rawFrameTime < 6.0)
+		//{
+		//	// spin until reaching 0.4
+		//	double tAccum = m_rawFrameTime;
+		//	do
+		//	{
+
+		//		m_finishTime = GetCurrentSysTime();
+		//		tAccum += m_finishTime - m_startTime;
+		//		m_startTime = m_finishTime;
+		//		
+
+		//	} while (tAccum < 6.0);
+		//	m_rawFrameTime = tAccum;
+		//}
+
+		m_frameTimes[0] = m_rawFrameTime;
+
+		double oldAveFrameTime = m_averageFrameTime;
+		CalculateAverageFrameTime();
+		double newAveFrameTime = m_averageFrameTime;
+		if (newAveFrameTime > 0.4)
+		{
+			m_smoothedFrameTime = 0.4;
+		}
+		else
+		{
+			m_smoothedFrameTime = newAveFrameTime;
+		}
+	}
+
+private:
+
+	double m_startTime;
+	double m_finishTime;
+	double m_rawFrameTime;
+	double m_smoothedFrameTime;
+	double m_averageFrameTime;
+	double m_frameTimes[MAX_FRAME_TIME_COUNT];
+
+	int64 m_frequency;
+	int64 m_ticksPerMs;
+};
+
+struct EditorCreateDesc
+{
+	uint32 width;
+	uint32 height;
+	const char* windowTitle;
+};
+
+
+
+struct ISystemEventListener
+{
+	virtual ~ISystemEventListener() {}
+	virtual void OnSystemEvent(SystemEvent event, uint64 wparam, uint64 lparam) = 0;
+};
+
+struct IWindowEventListener
+{
+	virtual ~IWindowEventListener() {}
+	virtual bool OnWindowEvent(TORC_HWND hWnd, uint32 msg, uint64 wparam, uint64 lparam) = 0;
+};
+
+struct IWindowEventDispatcher
+{
+	virtual ~IWindowEventDispatcher() {}
+	virtual bool RegisterListener(IWindowEventListener* pListener, const char* szName) = 0;
+	virtual bool RemoveListener(IWindowEventListener* pListener) = 0;
+
+	virtual void OnWindowEvent(TORC_HWND hWnd, uint32 msg, uint64 wparam, uint64 lparam, bool force_queue = false) = 0;
+	virtual void Update() = 0;
+};
+
+
+//! Structure used for getting notified when a system event occurs.
+struct ISystemEventDispatcher
+{
+	virtual ~ISystemEventDispatcher() {}
+	virtual bool RegisterListener(ISystemEventListener* pListener, const char* szName) = 0;
+	virtual bool RemoveListener(ISystemEventListener* pListener) = 0;
+
+	virtual void OnSystemEvent(SystemEvent event, UINT_PTR wparam, UINT_PTR lparam, bool force_queue = false) = 0;
+	virtual void Update() = 0;
+};
+
+struct SystemGlobalEnvironment
+{
+	ILogger* logger;
+	BaseInput* baseInput;
+	PlatformInput* platformInput;
+	Application* application;
+	Renderer* rr;
+	PluginLoader* pluginLoader;
+	struct IEditor* editor;
+
+	uint64 mainThreadId;
+};
+
+struct IEditor
+{
+	virtual void GetDesc(EditorCreateDesc& desc) = 0;
+	virtual void OnFrameBegin() = 0;
+	virtual void OnFrameEnd() = 0;
+};
+
+extern SystemGlobalEnvironment* gEnv;
