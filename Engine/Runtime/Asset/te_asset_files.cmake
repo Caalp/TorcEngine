@@ -1,0 +1,10 @@
+set(FILES
+    Asset.h
+    Asset.cpp
+    Mesh.h
+    Mesh.cpp
+    Model.h
+    Model.cpp
+    Node.h
+    Node.cpp
+)

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.13)
+cmake_minimum_required(VERSION 3.19)
 
 if(POLICY CMP0079 )
   cmake_policy(SET CMP0079 NEW)
@@ -8,21 +8,19 @@ project(TorcEngine)
 include(Config/Build/CMake/cmake_configure.cmake)
 include(Config/Build/CMake/cmake_gfx_configure.cmake)
 include(Config/Build/CMake/cmake_utilities.cmake)
+include(Config/Build/CMake/cmake_wrappers.cmake)
+
+#<copy_destination>@<copy_target> and entries are separated by semicolon
+define_property(GLOBAL PROPERTY COPY_TARGET_DEPENDENCY_LIST)
+
+# check https://cmake.org/cmake/help/v3.20/prop_tgt/OPTIMIZE_DEPENDENCIES.html#prop_tgt:OPTIMIZE_DEPENDENCIES
 #set(CMAKE_OPTIMIZE_DEPENDENCIES 1)
 
-#Check for visual studio version
-#get_filename_component(vs_version  "[HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\VisualStudio\\14.0\\VC\\Runtimes\\debug\\x64;Version]" ABSOLUTE CACHE)
-#message( "vs_version = ${vs_version}" )
-
-# set_target_properties(
-#     TorcEngine PROPERTIES
-#     VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/TorcEngine")
-
-
-# set_target_properties(
-    # TorcEngine PROPERTIES
-    # ENGINE_HOME_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
-
-add_subdirectory(TorcEngine)
+add_subdirectory(3rdParty)
+add_subdirectory(Engine)
 add_subdirectory(TestGame)
 
+get_property(test_var GLOBAL PROPERTY COPY_TARGET_DEPENDENCY_LIST)
+write_file(${CMAKE_CURRENT_BINARY_DIR}/dependecy_list "${test_var}")
+
+execute_process(COMMAND python Config/Build/copy_dependency_list.py ${CMAKE_CURRENT_BINARY_DIR}/dependecy_list)

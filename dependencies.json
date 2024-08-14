@@ -1,0 +1,29 @@
+{
+	"DownloadPath" : "./3rdParty",
+	"Dependencies" :[
+		{
+			"Name": "FreeImage",
+			"Source": {
+				"Type": "git",
+				"Url": "https://github.com/danoli3/FreeImage.git",
+				"Revision": "9143437a9c0d759dbecdcbb10591d16f"
+			}
+		},
+		{
+        "Name": "nlohmann",
+        "Source": {
+            "Type": "git",
+            "Url": "https://github.com/nlohmann/json.git",
+            "Revision": "58855735085eed29bdfbf75ca007039c"
+			}
+		},
+		{
+        "Name": "RapidJSON",
+        "Source": {
+            "Type": "https",
+            "Url": "https://github.com/Tencent/rapidjson/archive/refs/tags/v1.1.0.zip",
+            "Revision": "ceb1cf16e693a3170c173dc040a9d2bd"
+			}
+		}
+	]	
+}

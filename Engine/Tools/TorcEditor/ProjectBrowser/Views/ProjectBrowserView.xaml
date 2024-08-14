@@ -1,0 +1,193 @@
+﻿<Window
+	x:Class="TorcEditor.ProjectBrowser.ProjectBrowserView"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:con="clr-namespace:TorcEditor.Converters"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:local="clr-namespace:TorcEditor.ProjectBrowser"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	Title="ProjectBrowserView"
+	Width="800"
+	Height="600"
+	ResizeMode="NoResize"
+	WindowStartupLocation="CenterScreen"
+	mc:Ignorable="d">
+
+	<Window.Resources>
+		<con:ByteToImageConverter x:Key="ByteToImageConverter" />
+	</Window.Resources>
+	<Grid>
+		<TabControl>
+			<TabItem Header="Projects">
+				<Grid Background="Gray">
+					<StackPanel>
+						<StackPanel>
+							<Label Content="My Projects" />
+							<Separator Height="12" Margin="10,0" />
+						</StackPanel>
+						<ListBox
+							x:Name="listboxMyProjects"
+							Width="600"
+							Height="400"
+							Background="LightGray"
+							BorderThickness="0"
+							ItemsSource="{Binding MyProjects, Source={x:Static local:ProjectInstance.Instance}}"
+							ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+							SelectedIndex="0">
+							<ListBox.ItemContainerStyle>
+								<Style TargetType="{x:Type ListBoxItem}">
+									<Setter Property="Margin" Value="10" />
+								</Style>
+							</ListBox.ItemContainerStyle>
+							<ListBox.ItemTemplate>
+								<DataTemplate>
+									<StackPanel Orientation="Vertical">
+										<Image Source="{Binding Item2.Icon}" Stretch="None" />
+										<Label Content="{Binding Item2.Name}" />
+									</StackPanel>
+								</DataTemplate>
+							</ListBox.ItemTemplate>
+							<ListBox.ItemsPanel>
+								<ItemsPanelTemplate>
+									<WrapPanel IsItemsHost="True" Orientation="Horizontal" />
+								</ItemsPanelTemplate>
+							</ListBox.ItemsPanel>
+						</ListBox>
+					</StackPanel>
+
+					<Button
+						Width="150"
+						Height="35"
+						Margin="100,450,0,0"
+						Click="buttonOpenProject_Click"
+						Content="Open Project" />
+					<Button
+						Width="150"
+						Height="35"
+						Margin="450,450,0,0"
+						Click="buttonCancel_Click"
+						Content="Cancel" />
+
+				</Grid>
+
+			</TabItem>
+			<TabItem
+				Name="NewProjectTab"
+				Height="20"
+				VerticalAlignment="Top"
+				Header="New Project">
+				<Grid Background="Gray">
+
+
+					<Grid
+						Width="600"
+						Height="300"
+						Margin="0,0,0,160"
+						Background="LightGray">
+
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="1.5*" />
+							<ColumnDefinition Width="10" />
+							<ColumnDefinition Width="1*" />
+						</Grid.ColumnDefinitions>
+						<ListBox
+							x:Name="listboxProjectTemplates"
+							Background="LightGray"
+							BorderThickness="0"
+							ItemsSource="{Binding ProjectTemplates, Source={x:Static local:ProjectInstance.Instance}}"
+							ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+							SelectedIndex="0">
+							<ListBox.ItemContainerStyle>
+								<Style TargetType="{x:Type ListBoxItem}">
+									<Setter Property="Margin" Value="10" />
+								</Style>
+							</ListBox.ItemContainerStyle>
+							<ListBox.ItemTemplate>
+								<DataTemplate>
+									<StackPanel Orientation="Vertical">
+										<Image Source="{Binding Icon}" Stretch="None" />
+										<Label Content="{Binding ProjectType}" />
+									</StackPanel>
+								</DataTemplate>
+							</ListBox.ItemTemplate>
+							<ListBox.ItemsPanel>
+								<ItemsPanelTemplate>
+									<WrapPanel IsItemsHost="True" Orientation="Horizontal" />
+								</ItemsPanelTemplate>
+							</ListBox.ItemsPanel>
+						</ListBox>
+
+						<Border
+							Grid.Column="1"
+							Width="1"
+							Margin="1,15"
+							HorizontalAlignment="Stretch"
+							Background="Black" />
+						<StackPanel
+							Grid.Column="2"
+							HorizontalAlignment="Center"
+							VerticalAlignment="Stretch">
+							<Image
+								Margin="10"
+								VerticalAlignment="Center"
+								Source="{Binding SelectedItem.Screenshot, ElementName=listboxProjectTemplates}" />
+						</StackPanel>
+					</Grid>
+
+					<StackPanel
+						Margin="0,250,0,0"
+						HorizontalAlignment="Center"
+						Orientation="Horizontal">
+						<TextBox
+							x:Name="textBoxProjectPath"
+							Width="300"
+							Height="25"
+							FontSize="12"
+							TextChanged="textBoxTextChangedEventHandler" />
+						<Button
+							Width="50"
+							Height="25"
+							Click="btnOpenFiles_Click"
+							Content="..." />
+						<TextBox
+							x:Name="textBoxProjectName"
+							Width="150"
+							Height="25"
+							Margin="20,0,0,0"
+							FontSize="12"
+							TextChanged="textBoxTextChangedEventHandler" />
+
+					</StackPanel>
+					<Label
+						Width="100"
+						Height="30"
+						Margin="0,300,200,0"
+						Content="Project Path" />
+					<Label
+						Width="100"
+						Height="30"
+						Margin="350,300,0,0"
+						Content="Project Name" />
+					<Button
+						x:Name="buttonCreateProject"
+						Width="150"
+						Height="30"
+						Margin="0,400,0,0"
+						Click="buttonCreateProject_Click"
+						Content="Create Project"
+						IsEnabled="False" />
+					<Label
+						x:Name="labelInfo"
+						Height="30"
+						Margin="0,500,0,0"
+						HorizontalAlignment="Center"
+						Foreground="SpringGreen" />
+				</Grid>
+
+			</TabItem>
+
+		</TabControl>
+
+
+	</Grid>
+</Window>

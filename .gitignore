@@ -14,6 +14,11 @@
 *.userprefs
 Bin/
 CMakeSolutions/
+Test-Dir/
+3rdParty/
+build/
+*.Build.props
+.vscode/
 
 # Mono auto generated files
 mono_crash.*

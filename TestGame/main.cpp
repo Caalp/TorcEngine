@@ -1,24 +1,15 @@
-#include "pch.h"
-#include "Renderer/Renderer.h"
-#include "Renderer/Camera.h"
-#include <random>
-#include <chrono>
-
-
-#include "Core/IOStream/FileStream.h"
-#include "Platform/FileSystem.h"
-
 #define _CRTDBG_MAP_ALLOC
 
-#include "Core/Application.h"
-#include "Renderer/IGPUResource.h"
-#include "Renderer/GPUObjects/BlendState.h"
-#include "Renderer/GPUObjects/SamplerState.h"
-#include "Renderer/GPUObjects/Shader.h"
-#include "Renderer/GPUObjects/Buffer.h"
+#include <Core/Application.h>
+#include <Core/FileSystem/FileSystem.h>
+#include <Core/Logging/Logger.h>
+#include <Core/TorcSystem/ISystem.h>
+#include <GameCore/Components/TransformComponent.h>
 
 #include <variant>
-
+#include <random>
+#include <chrono>
+#include <Windows.h>
 
 #ifdef USE_D3D11_GFX_BACKEND
 // include the dll here
@@ -27,220 +18,272 @@
 // print out and error here    
 #endif
 
-struct debug_state
-{
-	debug_state() {}
-	~debug_state() { _CrtDumpMemoryLeaks(); }
-};
+//struct debug_state
+//{
+//	debug_state() {}
+//	~debug_state() { _CrtDumpMemoryLeaks(); }
+//};
+//
+//#pragma init_seg(compiler)
+//debug_state ds;
 
-#pragma init_seg(compiler)
-debug_state ds;
+//static void PrintDebug(const char* str, ...)
+//{
+//	char dbg[256];
+//
+//	va_list args;
+//	va_start(args, str);
+//	vsnprintf(dbg, _countof(dbg), str, args);
+//	va_end(args);
+//
+//	OutputDebugStringA(dbg);
+//}
 
-static void PrintDebug(const char* str, ...)
-{
-	char dbg[256];
+//void Main()
+//{
+	//gfx::ITorcGfxBackend* gfxBackend = gEnv->rr->GetGFXBackend();
+	//struct Vertex
+	//{
+	//	DirectX::XMFLOAT3 pos;
+	//};
 
-	va_list args;
-	va_start(args, str);
-	vsnprintf(dbg, _countof(dbg), str, args);
-	va_end(args);
+	//std::vector<Vertex> vertices;
+	//vertices.resize(24);
 
-	OutputDebugStringA(dbg);
-}
+	//constexpr float side = 1.0f;
 
-void Main()
-{
-	gfx::ITorcGfxBackend* gfxBackend = gEnv->rr->GetGFXBackend();
-	struct Vertex
-	{
-		DirectX::XMFLOAT3 pos;
-	};
+	//vertices[0].pos = { -side,-side,-side };// 0 near side
+	//vertices[1].pos = { side,-side,-side };// 1
+	//vertices[2].pos = { -side,side,-side };// 2
+	//vertices[3].pos = { side,side,-side };// 3
+	//vertices[4].pos = { -side,-side,side };// 4 far side
+	//vertices[5].pos = { side,-side,side };// 5
+	//vertices[6].pos = { -side,side,side };// 6
+	//vertices[7].pos = { side,side,side };// 7
+	//vertices[8].pos = { -side,-side,-side };// 8 left side
+	//vertices[9].pos = { -side,side,-side };// 9
+	//vertices[10].pos = { -side,-side,side };// 10
+	//vertices[11].pos = { -side,side,side };// 11
+	//vertices[12].pos = { side,-side,-side };// 12 right side
+	//vertices[13].pos = { side,side,-side };// 13
+	//vertices[14].pos = { side,-side,side };// 14
+	//vertices[15].pos = { side,side,side };// 15
+	//vertices[16].pos = { -side,-side,-side };// 16 bottom side
+	//vertices[17].pos = { side,-side,-side };// 17
+	//vertices[18].pos = { -side,-side,side };// 18
+	//vertices[19].pos = { side,-side,side };// 19
+	//vertices[20].pos = { -side,side,-side };// 20 top side
+	//vertices[21].pos = { side,side,-side };// 21
+	//vertices[22].pos = { -side,side,side };// 22
+	//vertices[23].pos = { side,side,side };// 23
 
-	std::vector<Vertex> vertices;
-	vertices.resize(24);
+	//std::vector<uint16_t> indices =
+	//{
+	//		0,2,1,    2,3,1,
+	//		4,5,7,    4,7,6,
+	//		8,10, 9,  10,11,9,
+	//		12,13,15, 12,15,14,
+	//		16,17,18, 18,17,19,
+	//		20,23,21, 20,22,23
+	//};
+	//Renderer* rr = gEnv->rr;
+	//static bool isInitialized = false;
 
-	constexpr float side = 1.0f;
+	//BufferHandle vb;
+	//BufferHandle ib;
+	//BufferHandle objectCBHandle;
+	//BufferHandle cameraCBHandle;
+	//ShaderHandle ps;
+	//ShaderHandle vs;
+	//if (!isInitialized)
+	//{
+	//	static std::string engineRoot = Torc::Platform::GetEngineRootDirectory();
+	//	static std::string shaderDirectory = engineRoot + "\\TorcEngine\\Shaders\\";
+	//	ps = rr->CompileShader((shaderDirectory + "BasicPS.hlsl").c_str(), Shader::Type::PS);
+	//	vs = rr->CompileShader((shaderDirectory + "BasicVS.hlsl").c_str(), Shader::Type::VS);
 
-	vertices[0].pos = { -side,-side,-side };// 0 near side
-	vertices[1].pos = { side,-side,-side };// 1
-	vertices[2].pos = { -side,side,-side };// 2
-	vertices[3].pos = { side,side,-side };// 3
-	vertices[4].pos = { -side,-side,side };// 4 far side
-	vertices[5].pos = { side,-side,side };// 5
-	vertices[6].pos = { -side,side,side };// 6
-	vertices[7].pos = { side,side,side };// 7
-	vertices[8].pos = { -side,-side,-side };// 8 left side
-	vertices[9].pos = { -side,side,-side };// 9
-	vertices[10].pos = { -side,-side,side };// 10
-	vertices[11].pos = { -side,side,side };// 11
-	vertices[12].pos = { side,-side,-side };// 12 right side
-	vertices[13].pos = { side,side,-side };// 13
-	vertices[14].pos = { side,-side,side };// 14
-	vertices[15].pos = { side,side,side };// 15
-	vertices[16].pos = { -side,-side,-side };// 16 bottom side
-	vertices[17].pos = { side,-side,-side };// 17
-	vertices[18].pos = { -side,-side,side };// 18
-	vertices[19].pos = { side,-side,side };// 19
-	vertices[20].pos = { -side,side,-side };// 20 top side
-	vertices[21].pos = { side,side,-side };// 21
-	vertices[22].pos = { -side,side,side };// 22
-	vertices[23].pos = { side,side,side };// 23
+	//	gfx::BufferDesc vbeDesc{};
+	//	vbeDesc.vb.numBuffers = 1;
+	//	vbeDesc.vb.startSlot = 0;
+	//	vbeDesc.vb.stride = sizeof(Vertex);
+	//	vbeDesc.bindFlags = gfx::TORC_GFX_RESOURCE_BIND_FLAG::BIND_VERTEX_BUFFER;
 
-	std::vector<uint16_t> indices =
-	{
-			0,2,1,    2,3,1,
-			4,5,7,    4,7,6,
-			8,10, 9,  10,11,9,
-			12,13,15, 12,15,14,
-			16,17,18, 18,17,19,
-			20,23,21, 20,22,23
-	};
-	Renderer* rr = gEnv->rr;
-	static bool isInitialized = false;
+	//	gfx::SubResourceData initData{};
+	//	initData.sysMem = vertices.data();
+	//	initData.byteWidth = (uint32)vertices.size() * sizeof(Vertex);
+	//	initData.structureByteStride = (uint32)sizeof(Vertex);
+	//	vbeDesc.data = initData;
 
-	BufferHandle vb;
-	BufferHandle ib;
-	BufferHandle objectCBHandle;
-	BufferHandle cameraCBHandle;
-	ShaderHandle ps;
-	ShaderHandle vs;
-	if (!isInitialized)
-	{
-		static std::string engineRoot = Torc::Platform::GetEngineRootDirectory();
-		static std::string shaderDirectory = engineRoot + "\\TorcEngine\\Shaders\\";
-		ps = rr->CompileShader((shaderDirectory + "BasicPS.hlsl").c_str(), Shader::Type::PS);
-		vs = rr->CompileShader((shaderDirectory + "BasicVS.hlsl").c_str(), Shader::Type::VS);
+	//	vb = rr->CreateBuffer(vbeDesc);
 
-		gfx::BufferDesc vbeDesc{};
-		vbeDesc.vb.numBuffers = 1;
-		vbeDesc.vb.startSlot = 0;
-		vbeDesc.vb.stride = sizeof(Vertex);
-		vbeDesc.bindFlags = gfx::TORC_GFX_RESOURCE_BIND_FLAG::BIND_VERTEX_BUFFER;
+	//	gfx::BufferDesc ibeDesc{};
 
-		gfx::SubResourceData initData{};
-		initData.sysMem = vertices.data();
-		initData.byteWidth = (uint32)vertices.size() * sizeof(Vertex);
-		initData.structureByteStride = (uint32)sizeof(Vertex);
-		vbeDesc.data = initData;
+	//	ibeDesc.ib.format = gfx::TORC_GFX_RESOURCE_DATA_FORMAT::FORMAT_R16_UINT;
+	//	ibeDesc.ib.offset = 0;
+	//	ibeDesc.bindFlags = gfx::TORC_GFX_RESOURCE_BIND_FLAG::BIND_INDEX_BUFFER;
 
-		vb = rr->CreateBuffer(vbeDesc);
+	//	gfx::SubResourceData initData2{};
+	//	initData2.sysMem = indices.data();
+	//	initData2.byteWidth = (uint32)indices.size() * sizeof(uint16_t);
+	//	initData2.structureByteStride = sizeof(uint16_t);
+	//	ibeDesc.data = initData2;
 
-		gfx::BufferDesc ibeDesc{};
+	//	ib = rr->CreateBuffer(ibeDesc);
 
-		ibeDesc.ib.format = gfx::TORC_GFX_RESOURCE_DATA_FORMAT::FORMAT_R16_UINT;
-		ibeDesc.ib.offset = 0;
-		ibeDesc.bindFlags = gfx::TORC_GFX_RESOURCE_BIND_FLAG::BIND_INDEX_BUFFER;
+	//	rr->BindPrimitiveTopology(gfx::TORC_GFX_PRIMITIVE_TOPOLOGY::PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-		gfx::SubResourceData initData2{};
-		initData2.sysMem = indices.data();
-		initData2.byteWidth = (uint32)indices.size() * sizeof(uint16_t);
-		initData2.structureByteStride = sizeof(uint16_t);
-		ibeDesc.data = initData2;
+	//	struct TransformationConstantBuffer
+	//	{
+	//		math::Matrix4x4f world;
+	//		math::Matrix4x4f worldInverseTranspose;
+	//	};
 
-		ib = rr->CreateBuffer(ibeDesc);
+	//	TransformationConstantBuffer objectConstantBuffer;
+	//	objectConstantBuffer.world = math::MatrixIdentity<math::Matrix4x4f>();
+	//	objectConstantBuffer.worldInverseTranspose = math::MatrixIdentity<math::Matrix4x4f>();
 
-		rr->SetPrimitiveTopology(gfx::TORC_GFX_PRIMITIVE_TOPOLOGY::PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	//	gfx::BufferDesc objCBDesc{};
+	//	objCBDesc.usage = gfx::TORC_GFX_RESOURCE_USAGE::USAGE_GPU_READ_CPU_WRITE;
+	//	objCBDesc.cpuAccessFlags = gfx::TORC_GFX_CPU_ACCESS_FLAG::CPU_ACCESS_WRITE;
+	//	objCBDesc.cb.cbType = gfx::BufferDesc::ConstantBufferType::VS;
+	//	objCBDesc.bindFlags = gfx::TORC_GFX_RESOURCE_BIND_FLAG::BIND_CONSTANT_BUFFER;
+	//	objCBDesc.cb.startSlot = 0;
+	//	objCBDesc.cb.numBuffers = 1;
 
-		struct TransformationConstantBuffer
-		{
-			math::Matrix4x4f world;
-			math::Matrix4x4f worldInverseTranspose;
-		};
+	//	gfx::SubResourceData InitData3{};
+	//	InitData3.sysMem = &objectConstantBuffer;
+	//	InitData3.byteWidth = sizeof(TransformationConstantBuffer);
+	//	InitData3.structureByteStride = 0u;
+	//	objCBDesc.data = InitData3;
 
-		TransformationConstantBuffer objectConstantBuffer;
-		objectConstantBuffer.world = math::MatrixIdentity<math::Matrix4x4f>();
-		objectConstantBuffer.worldInverseTranspose = math::MatrixIdentity<math::Matrix4x4f>();
+	//	objectCBHandle = rr->CreateBuffer(objCBDesc);
 
-		gfx::BufferDesc objCBDesc{};
-		objCBDesc.usage = gfx::TORC_GFX_RESOURCE_USAGE::USAGE_GPU_READ_CPU_WRITE;
-		objCBDesc.cpuAccessFlags = gfx::TORC_GFX_CPU_ACCESS_FLAG::CPU_ACCESS_WRITE;
-		objCBDesc.cb.cbType = gfx::BufferDesc::ConstantBufferType::VS;
-		objCBDesc.bindFlags = gfx::TORC_GFX_RESOURCE_BIND_FLAG::BIND_CONSTANT_BUFFER;
-		objCBDesc.cb.startSlot = 0;
-		objCBDesc.cb.numBuffers = 1;
+	//	struct CameraConstantBuffer
+	//	{
+	//		math::Matrix4x4f viewMatrix;
+	//		math::Matrix4x4f projectionMatrix;
+	//		math::Matrix4x4f viewProjMatrix;
+	//		math::Vec3f cameraPosition;
+	//		float padding;
 
-		gfx::SubResourceData InitData3{};
-		InitData3.sysMem = &objectConstantBuffer;
-		InitData3.byteWidth = sizeof(TransformationConstantBuffer);
-		InitData3.structureByteStride = 0u;
-		objCBDesc.data = InitData3;
+	//	};
 
-		objectCBHandle = rr->CreateBuffer(objCBDesc);
+	//	CameraConstantBuffer cameraConstantBuffer;
+	//	static Camera staticCamera;
+	//	staticCamera.SetCameraLens(0.25f * 3.1415926535f, 1280 / 720.0f, 1.0f, 1000.0f);
+	//	cameraConstantBuffer.cameraPosition = staticCamera.GetPosition();
+	//	cameraConstantBuffer.viewMatrix = staticCamera.GetViewMatrix();
+	//	cameraConstantBuffer.projectionMatrix = staticCamera.GetProjectionMatrix();
+	//	math::MatrixMultiply(objectConstantBuffer.world, cameraConstantBuffer.viewMatrix, &cameraConstantBuffer.viewProjMatrix);
+	//	math::MatrixMultiply(cameraConstantBuffer.viewProjMatrix, cameraConstantBuffer.projectionMatrix, &cameraConstantBuffer.viewProjMatrix);
+	//	math::MatrixTranspose(cameraConstantBuffer.viewProjMatrix, &cameraConstantBuffer.viewProjMatrix);
 
-		struct CameraConstantBuffer
-		{
-			math::Matrix4x4f viewMatrix;
-			math::Matrix4x4f projectionMatrix;
-			math::Matrix4x4f viewProjMatrix;
-			math::Vec3f cameraPosition;
-			float padding;
+	//	gfx::BufferDesc cbd2Desc{};
+	//	cbd2Desc.usage = gfx::TORC_GFX_RESOURCE_USAGE::USAGE_GPU_READ_CPU_WRITE;
+	//	cbd2Desc.cpuAccessFlags = gfx::TORC_GFX_CPU_ACCESS_FLAG::CPU_ACCESS_WRITE;
+	//	cbd2Desc.cb.cbType = gfx::BufferDesc::ConstantBufferType::VS;
+	//	cbd2Desc.bindFlags = gfx::TORC_GFX_RESOURCE_BIND_FLAG::BIND_CONSTANT_BUFFER;
+	//	cbd2Desc.cb.startSlot = 1;
+	//	cbd2Desc.cb.numBuffers = 1;
 
-		};
+	//	gfx::SubResourceData InitData4{};
+	//	InitData4.sysMem = &cameraConstantBuffer;
+	//	InitData4.byteWidth = sizeof(CameraConstantBuffer);
+	//	InitData4.structureByteStride = 0u;
+	//	cbd2Desc.data = InitData4;
 
-		CameraConstantBuffer cameraConstantBuffer;
-		static Camera staticCamera;
-		staticCamera.SetCameraLens(0.25f * 3.1415926535f, 1280 / 720.0f, 1.0f, 1000.0f);
-		cameraConstantBuffer.cameraPosition = staticCamera.GetPosition();
-		cameraConstantBuffer.viewMatrix = staticCamera.GetViewMatrix();
-		cameraConstantBuffer.projectionMatrix = staticCamera.GetProjectionMatrix();
-		math::MatrixMultiply(objectConstantBuffer.world, cameraConstantBuffer.viewMatrix, &cameraConstantBuffer.viewProjMatrix);
-		math::MatrixMultiply(cameraConstantBuffer.viewProjMatrix, cameraConstantBuffer.projectionMatrix, &cameraConstantBuffer.viewProjMatrix);
-		math::MatrixTranspose(cameraConstantBuffer.viewProjMatrix, &cameraConstantBuffer.viewProjMatrix);
+	//	cameraCBHandle = rr->CreateBuffer(cbd2Desc);
 
-		gfx::BufferDesc cbd2Desc{};
-		cbd2Desc.usage = gfx::TORC_GFX_RESOURCE_USAGE::USAGE_GPU_READ_CPU_WRITE;
-		cbd2Desc.cpuAccessFlags = gfx::TORC_GFX_CPU_ACCESS_FLAG::CPU_ACCESS_WRITE;
-		cbd2Desc.cb.cbType = gfx::BufferDesc::ConstantBufferType::VS;
-		cbd2Desc.bindFlags = gfx::TORC_GFX_RESOURCE_BIND_FLAG::BIND_CONSTANT_BUFFER;
-		cbd2Desc.cb.startSlot = 1;
-		cbd2Desc.cb.numBuffers = 1;
+	//	rr->BindBuffer(ib);
+	//	rr->BindBuffer(vb);
+	//	rr->BindBuffer(objectCBHandle);
+	//	rr->BindBuffer(cameraCBHandle);
+	//	rr->BindShader(vs);
+	//	rr->BindShader(ps);
 
-		gfx::SubResourceData InitData4{};
-		InitData4.sysMem = &cameraConstantBuffer;
-		InitData4.byteWidth = sizeof(CameraConstantBuffer);
-		InitData4.structureByteStride = 0u;
-		cbd2Desc.data = InitData4;
+	//	isInitialized = true;
+	//}
+	//
+	//math::Vec4f bc;
+	//bc.x = 0.2f;
+	//bc.y = 0.2f;
+	//bc.z = 0.2f;
+	//bc.w = 1.0f;
+	//rr->ClearBackBuffer(bc);
 
-		cameraCBHandle = rr->CreateBuffer(cbd2Desc);
+	//gfxBackend->DrawIndexed((uint32)indices.size(), 0u, 0);
+	//rr->EndFrame();
+//}
 
-		rr->SetBuffer(ib);
-		rr->SetBuffer(vb);
-		rr->SetBuffer(objectCBHandle);
-		rr->SetBuffer(cameraCBHandle);
-		rr->SetShader(vs);
-		rr->SetShader(ps);
+//static std::vector<IGPUResource*> m_gpuResources;
 
-		isInitialized = true;
-	}
-	
-	math::Vec4f bc;
-	bc.x = 0.2f;
-	bc.y = 0.2f;
-	bc.z = 0.2f;
-	bc.w = 1.0f;
-	rr->ClearBackBuffer(bc);
-
-	gfxBackend->DrawIndexed((uint32)indices.size(), 0u, 0);
-	rr->EndFrame();
-}
-
-static std::vector<IGPUResource*> m_gpuResources;
+#include <FreeImage/FreeImage.h>
+#include <Core/Singleton/Singleton.h>
+#include <Asset/Asset.h>
 
 void Main2()
 {
-	static bool init = false;
-	if (!init)
-	{
-		init = true;
 
+	static bool run = true;
+
+	if (run)
+	{
+		std::string filepath = "Assets/wall.bmp";
+		TORC_HANDLE file = fs::OpenFile(filepath.c_str(), FileAccessMode::Access_Read, FileShareMode::Share_None, FileCreationFlag::Open_Existing);
+
+		if (fs::IsOpen(file))
+		{
+			TE_Warning(LogChannel::LC_Core, "Found!!");
+			fs::CloseFile(file);
+		}
+		else
+		{
+			TE_Warning(LogChannel::LC_Core, "Not Found!!");
+		}
+
+		run = false;
 	}
 }
 
+void Main3()
+{
+
+	static bool run = true;
+
+	if (run)
+	{
+		std::string filepath = "Assets/wall.bmp";
+		TE::AssetInfo info;
+		info.m_relativePath = filepath;
+		info.m_type = TE::Asset::Type::Image;
+		TE::ImageAssetLoader imageLoader;
+		uint8* data = imageLoader.Load(info);
+
+		if (data != nullptr)
+		{
+			TE_Warning(LogChannel::LC_Core, "Image is loaded");
+		}
+		else
+		{
+			TE_Warning(LogChannel::LC_Core, "Image is not loaded");
+		}
+
+		delete data;
+		run = false;
+	}
+}
+
+struct dummy
+{
+
+};
+
 int APIENTRY WinMain(HINSTANCE hInst, HINSTANCE hInstPrev, PSTR cmdline, int cmdshow)
 {
-	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-	_CrtSetReportMode(_CRT_ERROR, _CRTDBG_MODE_DEBUG);
+	/*_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+	_CrtSetReportMode(_CRT_ERROR, _CRTDBG_MODE_DEBUG);*/
 
+	// launch the engine in a separate thread
 	AppCreateParams params = {};
 	params.cmdLineArgs = cmdline;
 
@@ -250,12 +293,9 @@ int APIENTRY WinMain(HINSTANCE hInst, HINSTANCE hInstPrev, PSTR cmdline, int cmd
 	Application app;
 	app.Initialize(params);
 
-	app.Run(&Main);
+	app.Run(&Main3);
 
 	app.Release();
-
-	//CommandBucket<uint16_t> testBucket;
-	//command::DrawIndexed* c1 = testBucket.AddCommand<command::DrawIndexed>(1, 0);
 
 	// an object with
 	// PS: C:\\Users\\calp\\source\\repos\\TorcEngine\\TorcEngine\\Shaders\\BasicPS.hlsl

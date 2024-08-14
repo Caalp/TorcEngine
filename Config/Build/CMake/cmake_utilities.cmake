@@ -1,10 +1,10 @@
-function(print_list arg_list)
+function(te_print_list arg_list)
 	foreach(line ${arg_list})
 		message(STATUS "${line}")
 	endforeach()
 endfunction()
 
-function(list_sub_dirs result startingDir)
+function(te_list_sub_dirs result startingDir)
   message(STATUS "GATHERING SUB-DIRECTORIES STARTING FROM ${startingDir}")
   file(GLOB subDirs RELATIVE ${startingDir} ${startingDir}/*)
   set(dirs "")
@@ -20,7 +20,9 @@ function(list_sub_dirs result startingDir)
   print_list("${result}")
 endfunction()
 
-function(add_as_sub_directory current_dir)
+# iterates and captures directories which contains CMakeLists.txt and adds them as sub-directory
+# with that folder structure can be captured as it's structured
+function(te_add_as_sub_directory current_dir)
   message(STATUS "GATHERING SUB-DIRECTORIES STARTING FROM ${current_dir}")
   file(GLOB subDirs RELATIVE ${current_dir} ${current_dir}/*)
   foreach(dir ${subDirs})
@@ -36,7 +38,7 @@ function(add_as_sub_directory current_dir)
   endforeach()
 endfunction()
 
-function(add_target_sources_from_path target dir_to_add)
+function(te_add_target_sources_from_path target dir_to_add)
   message(STATUS "ADDING TARGET SOURCES TO ${target} STARTING FROM ${dir_to_add}")
   file(GLOB dir_content RELATIVE ${dir_to_add} ${dir_to_add}/*)
   set(elems "")
@@ -52,7 +54,7 @@ function(add_target_sources_from_path target dir_to_add)
 endfunction()
 
 # this function would add headers as PUBLIC, and cpp files as PRIVATE to the target
-function(set_target_sources target_proj from_path)
+function(te_set_target_sources target_proj from_path)
 message(STATUS "SETTING TARGET SOURCES  FOR ${target_proj} STARTING IN ${from_path}")
 set(source_files "")
 set(header_files "")
@@ -64,6 +66,9 @@ foreach(elem ${subDirs})
 			message(STATUS "SOURCE FILE ADDED ${from_path}/${elem}")
 			list(APPEND source_files "${from_path}/${elem}")
 		elseif("${elem}" MATCHES ".*\\.h")
+			message(STATUS "HEADER FILE ADDED ${from_path}/${elem}")
+			list(APPEND header_files "${from_path}/${elem}")
+    elseif("${elem}" MATCHES ".*\\.hpp")
 			message(STATUS "HEADER FILE ADDED ${from_path}/${elem}")
 			list(APPEND header_files "${from_path}/${elem}")
 		else()
@@ -88,7 +93,7 @@ endif()
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${header_files} ${source_files} )
 endfunction()
 
-function(group_and_append SRCS from_path)
+function(te_group_and_append SRCS from_path)
 message(STATUS "group_and_append: SETTING TARGET SOURCES  FOR ${target_proj} STARTING IN ${from_path}")
 set(source_files "")
 set(header_files "")
@@ -111,7 +116,26 @@ endforeach()
 message(STATUS "SOURCE FILES GATHERED ${SRCS}")
 endfunction()
 
-MACRO(GROUP_SRC SRCS)
+# given file list will capture folder structure
+function(te_source_group FILES)
+foreach(FILE ${FILES}) 
+    #convert source file to absolute
+	get_filename_component(ABSOLUTE_PATH "${FILE}" ABSOLUTE)
+	
+    # Get the directory of the absolute source file
+    get_filename_component(PARENT_DIR "${ABSOLUTE_PATH}" DIRECTORY)
+    
+    # Remove common directory prefix to make the group
+    string(REPLACE "${CMAKE_CURRENT_SOURCE_DIR}" "" GROUP "${PARENT_DIR}")
+	
+    # Make sure we are using windows slashes
+    string(REPLACE "/" "\\" GROUP "${GROUP}")
+    set(GROUP "${GROUP}")
+    source_group("${GROUP}" FILES "${FILE}")
+endforeach()
+endfunction()
+
+MACRO(TE_GROUP_SRC SRCS)
   foreach(FILE ${SRCS}) 
     #convert source file to absolute
 	  get_filename_component(ABSOLUTE_PATH "${FILE}" ABSOLUTE)
@@ -134,5 +158,5 @@ MACRO(GROUP_SRC SRCS)
     source_group("${GROUP}" FILES "${FILE}")
   #message(STATUS "Setting the source ${GROUP}")
   endforeach()
-ENDMACRO(GROUP_SRC)
+ENDMACRO(TE_GROUP_SRC)
 
