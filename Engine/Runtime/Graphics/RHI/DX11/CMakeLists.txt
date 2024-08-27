@@ -12,7 +12,7 @@ te_add_target(SHARED SOURCE_GROUP
         PUBLIC
             TORC_DLL_EXPORT=1
     TARGET_PROPERTIES
-        FOLDER Engine/Runtime/Graphics/RDI
+        FOLDER Engine/Runtime/Graphics/RHI
         LINKER_LANGUAGE CXX
     INCLUDE_DIRECTORIES
         PUBLIC
@@ -20,6 +20,5 @@ te_add_target(SHARED SOURCE_GROUP
     BUILD_DEPENDENCIES
         PUBLIC
             TE::Core
-            TE::RPI
-            TE::RDICommon
+            TE::RHI.Public
 )

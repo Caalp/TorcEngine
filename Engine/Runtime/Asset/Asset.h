@@ -1,8 +1,8 @@
 #pragma once
 
 #include <Core/Singleton/Singleton.h>
-#include <Core/BaseTypes.h>
-#include <Core/FileSystem/FileSystem.h>
+#include <Core/Base.h>
+#include <Core/IO/FileIOBase.h>
 #include <Core/Logging/Logger.h>
 
 #include <FreeImage/FreeImage.h>
@@ -228,105 +228,106 @@ namespace TE
 		// returns image info and byte color data array
 		uint8* Load(const AssetInfo& info)
 		{
-			if (info.m_relativePath.empty() && info.m_absolutePath.empty())
-			{
-				// invalid path
-				return nullptr;
-			}
+			//if (info.m_relativePath.empty() && info.m_absolutePath.empty())
+			//{
+			//	// invalid path
+			//	return nullptr;
+			//}
 
-			TEStd::string pathToUse;
-			bool isUsingAbsPath = false;
-			if (!info.m_absolutePath.empty())
-			{
-				pathToUse = info.m_absolutePath;
-				isUsingAbsPath = true;
-			}
-			else
-			{
-				pathToUse = info.m_relativePath;
-			}
+			//TEStd::string pathToUse;
+			//bool isUsingAbsPath = false;
+			//if (!info.m_absolutePath.empty())
+			//{
+			//	pathToUse = info.m_absolutePath;
+			//	isUsingAbsPath = true;
+			//}
+			//else
+			//{
+			//	pathToUse = info.m_relativePath;
+			//}
 
-			if (!fs::IsFileExist(pathToUse.c_str()))
-			{
-				if (!isUsingAbsPath)
-				{
-					pathToUse = info.m_relativePath;
-					if (!fs::IsFileExist(pathToUse.c_str()))
-					{
-						// file is not exists in the given path
-						return nullptr;
-					}
-				}
-			}
+			//if (!fs::IsFileExist(pathToUse.c_str()))
+			//{
+			//	if (!isUsingAbsPath)
+			//	{
+			//		pathToUse = info.m_relativePath;
+			//		if (!fs::IsFileExist(pathToUse.c_str()))
+			//		{
+			//			// file is not exists in the given path
+			//			return nullptr;
+			//		}
+			//	}
+			//}
 
-			TORC_HANDLE fileHandle = fs::OpenFile(pathToUse.c_str(), FileAccessMode::Access_Read, FileShareMode::Share_None, FileCreationFlag::Open_Existing);
+			//TORC_HANDLE fileHandle = fs::OpenFile(pathToUse.c_str(), FileAccessMode::Access_Read, FileShareMode::Share_None, FileCreationFlag::Open_Existing);
 
-			uint8* data = nullptr;
-			uint32 size = 0;
-			if (fs::IsOpen(fileHandle))
-			{
-				size = fs::GetSize(fileHandle);
-				data = new uint8[size];
-				uint32 bytesRead = fs::ReadFile(fileHandle, data, size);
+			//uint8* data = nullptr;
+			//uint32 size = 0;
+			//if (fs::IsOpen(fileHandle))
+			//{
+			//	size = fs::GetSize(fileHandle);
+			//	data = new uint8[size];
+			//	uint32 bytesRead = fs::ReadFile(fileHandle, data, size);
 
-				if (bytesRead != size)
-				{
-					delete data;
-					fs::CloseFile(fileHandle);
-					return nullptr;
-				}
-				fs::CloseFile(fileHandle);
-			}
+			//	if (bytesRead != size)
+			//	{
+			//		delete data;
+			//		fs::CloseFile(fileHandle);
+			//		return nullptr;
+			//	}
+			//	fs::CloseFile(fileHandle);
+			//}
 
 
-			//FreeImage_Initialise();
-			FIBITMAP* bmp = nullptr;
-			FIMEMORY* fimem = FreeImage_OpenMemory(data, size);
-			if (data)
-			{
-				TEStd::string extension = GetFileExtensionFromFilename(pathToUse);
-				
-				auto pair = s_extensionToImageFormat.find(extension);
-				if (pair == s_extensionToImageFormat.end())
-				{
-					delete data;
-					FreeImage_DeInitialise();
-					FreeImage_CloseMemory(fimem);
-					return nullptr;
-				}
-				bmp = FreeImage_LoadFromMemory(pair->second, fimem);
-			}
+			////FreeImage_Initialise();
+			//FIBITMAP* bmp = nullptr;
+			//FIMEMORY* fimem = FreeImage_OpenMemory(data, size);
+			//if (data)
+			//{
+			//	TEStd::string extension = GetFileExtensionFromFilename(pathToUse);
+			//	
+			//	auto pair = s_extensionToImageFormat.find(extension);
+			//	if (pair == s_extensionToImageFormat.end())
+			//	{
+			//		delete data;
+			//		FreeImage_DeInitialise();
+			//		FreeImage_CloseMemory(fimem);
+			//		return nullptr;
+			//	}
+			//	bmp = FreeImage_LoadFromMemory(pair->second, fimem);
+			//}
 
-			if (!bmp)
-			{
-				TE_Warning(LogChannel::LC_Core, "FreeImage_LoadFromMemory returned null!");
-				delete data;
-				FreeImage_DeInitialise();
-				FreeImage_CloseMemory(fimem);
-				return nullptr;
-			}
-			else
-			{
-				uint32 width = FreeImage_GetWidth(bmp);
-				uint32 height = FreeImage_GetHeight(bmp);
+			//if (!bmp)
+			//{
+			//	TE_Warning(LogChannel::LC_Core, "FreeImage_LoadFromMemory returned null!");
+			//	delete data;
+			//	FreeImage_DeInitialise();
+			//	FreeImage_CloseMemory(fimem);
+			//	return nullptr;
+			//}
+			//else
+			//{
+			//	uint32 width = FreeImage_GetWidth(bmp);
+			//	uint32 height = FreeImage_GetHeight(bmp);
 
-				uint32 pixelSize = FreeImage_GetBPP(bmp);
+			//	uint32 pixelSize = FreeImage_GetBPP(bmp);
 
-				if (pixelSize != 32)
-				{
-					FIBITMAP* oldImage = bmp;
-					bmp = FreeImage_ConvertTo32Bits(oldImage);
-					FreeImage_Unload(oldImage);
-				}	
+			//	if (pixelSize != 32)
+			//	{
+			//		FIBITMAP* oldImage = bmp;
+			//		bmp = FreeImage_ConvertTo32Bits(oldImage);
+			//		FreeImage_Unload(oldImage);
+			//	}	
 
-				int32 totalSize = width*height*(FreeImage_GetBPP(bmp) / 8);
-				uint8* imageData = new uint8[totalSize];		
+			//	int32 totalSize = width*height*(FreeImage_GetBPP(bmp) / 8);
+			//	uint8* imageData = new uint8[totalSize];		
 
-				Torc::Platform::MemCopy(imageData, FreeImage_GetBits(bmp), totalSize);
-				FreeImage_Unload(bmp);
+			//	Torc::Platform::MemCopy(imageData, FreeImage_GetBits(bmp), totalSize);
+			//	FreeImage_Unload(bmp);
 
-				return imageData;;
-			}
+			//	return imageData;;
+			//}
+			return nullptr;
 		}
 
 		// loads image from byte array of image file

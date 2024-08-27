@@ -1,6 +1,5 @@
 #pragma once
 #include "RPI/IGPUResource.h"
-#include "RDI/RDIShared/TorcGfxTypes.h"
 
 class BlendState : public IGPUResource
 {

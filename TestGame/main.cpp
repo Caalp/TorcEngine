@@ -1,7 +1,7 @@
 #define _CRTDBG_MAP_ALLOC
 
 #include <Core/Application.h>
-#include <Core/FileSystem/FileSystem.h>
+#include <Core/IO/FileIOBase.h>
 #include <Core/Logging/Logger.h>
 #include <Core/TorcSystem/ISystem.h>
 #include <GameCore/Components/TransformComponent.h>
@@ -228,7 +228,7 @@ void Main2()
 
 	if (run)
 	{
-		std::string filepath = "Assets/wall.bmp";
+		/*std::string filepath = "Assets/wall.bmp";
 		TORC_HANDLE file = fs::OpenFile(filepath.c_str(), FileAccessMode::Access_Read, FileShareMode::Share_None, FileCreationFlag::Open_Existing);
 
 		if (fs::IsOpen(file))
@@ -239,7 +239,7 @@ void Main2()
 		else
 		{
 			TE_Warning(LogChannel::LC_Core, "Not Found!!");
-		}
+		}*/
 
 		run = false;
 	}

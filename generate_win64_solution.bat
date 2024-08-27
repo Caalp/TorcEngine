@@ -1,6 +1,6 @@
 @echo off
 set BUILD_FOLDER=.\build\windows_vs2022
-set TARGET_PLATFORM=win64
+set TARGET_PLATFORM=Windows
 set DIR_3RDPARTY=.\3rdParty
 
 echo checking and installing for dependencies

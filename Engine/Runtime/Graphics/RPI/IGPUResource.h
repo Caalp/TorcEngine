@@ -1,5 +1,6 @@
 #pragma once
-#include "RDI/RDIShared/TorcGfxTypes.h"
+#include <RHI/Include/base.h>
+#include <RHI/RHI.Public/RHITypes.h>
 
 namespace gfx
 {
@@ -126,9 +127,9 @@ struct ResourceDescID
 		};
 	};
 
-	static IDType GetID(const gfx::BlendDesc& bsDesc);
-	static IDType GetID(const gfx::DepthStencilDesc& dssDesc);
+	/*static IDType GetID(const gfx::BlendDesc& bsDesc);
+	static IDType GetID(const DepthStencilDescription& dssDesc);
 	static IDType GetID(const gfx::RasterizerDesc& rsDesc);
 	static IDType GetID(const gfx::SamplerDesc& ssDesc);
-	static ResourceType GetResourceType(const IDType id);
+	static ResourceType GetResourceType(const IDType id);*/
 };

@@ -1,5 +1,5 @@
+#include <Core/Base.h>
 #include "Graphics/RPI/Camera.h"
-#include "Core/BaseTypes.h"
 
 #include <unordered_map>
 

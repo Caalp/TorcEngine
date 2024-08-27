@@ -8,7 +8,6 @@ namespace Torc
 {
 	namespace Test
 	{
-		static ECManager* s_ecManager = ECManager::GetInstance();
 		struct TestComponent : Component
 		{
 
@@ -17,8 +16,6 @@ namespace Torc
 		TEST_CASE("Test Entity Component", "[Test_Entity]")
 		{
 			// 1. Create entity
-			Entity* testEntity0 = s_ecManager->Create();
-			REQUIRE((testEntity0 != nullptr && testEntity0->GetId() >= 0));
 			
 			// 2. Create component and assign to entity
 			//TestComponent* tc0 = new TestComponent;

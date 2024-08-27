@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef TORC_PLATFORM_WINDOWS
+#ifdef PLATFORM_WINDOWS
 #define TE_GetProcessAddress(pluginInstance, functionName) ::GetProcAddress(pluginInstance, functionName)
 #define TE_FreeLibrary(pluginInstance) ::FreeLibrary(pluginInstance);
 #endif 

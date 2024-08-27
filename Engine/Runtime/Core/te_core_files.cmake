@@ -24,14 +24,17 @@ set(FILES
     Component/Component.cpp
     Component/Entity.h
     Component/Entity.cpp
-    Component/ECRegistry.h
-    Component/ECManager.h
-    Component/ECManager.cpp
 
     # RTTI Folder
     RTTI/TypeName.h
     RTTI/TypeList.h
     RTTI/RttiMacros.h
+
+    # Environment Folder
+    Environment/Environment.h
+    Environment/Environment.inl
+    Environment/EnvironmentVariable.h
+    Environment/EnvironmentVariable.inl
 
 
     # Input folder
@@ -73,13 +76,14 @@ set(FILES
     Memory/Allocators/StackFrameAllocator.h
     Memory/Memory.cpp
     Memory/Memory.h
+    Memory/Memory_defs.h
 
-    # Plugins folder
-    Plugins/Plugin.cpp
-    Plugins/Plugin.h
-    Plugins/PluginLoader.cpp
-    Plugins/PluginLoader.h
-    Plugins/PluginRegistry.h
+    # Module folder
+    Module/Module.cpp
+    Module/Module.h
+    Module/PluginLoader.cpp
+    Module/PluginLoader.h
+    Module/PluginRegistry.h
 
     # TorcStd folder
     TorcStd/Containers/circular_queue.h

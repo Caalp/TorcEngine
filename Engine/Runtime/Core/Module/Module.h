@@ -23,3 +23,13 @@ private:
 	INITIALIZE_PLUGIN m_pluginInitFunc;
 	RELEASE_PLUGIN m_pluginReleaseFunc;
 };
+
+namespace Torc
+{
+	class Module
+	{
+	public:
+		virtual void ActivateModule() = 0;
+	private:
+	};
+}

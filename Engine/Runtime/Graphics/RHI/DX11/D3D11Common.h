@@ -10,9 +10,8 @@
 #include <vector>
 #include <memory>
 
-#include "Core/BaseTypes.h"
+#include <Core/Base.h>
 #include "Core/Logging/Logger.h"
-#include "TypeConverterD3D11.h"
 
 #pragma comment(lib,"d3d11.lib")
 #pragma comment(lib,"D3DCompiler.lib")

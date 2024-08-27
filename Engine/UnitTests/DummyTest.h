@@ -5,8 +5,35 @@
 #include <Core/TorcStd/Containers/queue.h>
 #include <Core/Profiling/Timer.h>
 #include <Core/Memory/Memory.h>
+#include <Core/Math/Uuid.h>
 #include <stack>
 #include <queue>
+
+#include <Core/RTTI/RttiMacros.h>
+#include <Core/Component/Entity.h>
+#include <Core/Component/Component.h>
+
+#include <Core/Module/Module.h>
+
+struct TestA
+{
+	TORC_RTTI(TestA, "{4A5D1388-13FD-4742-AD1B-189318EB4D2E}");
+};
+
+struct TestB : TestA
+{
+	TORC_RTTI(TestB, "{4A5D1388-13FD-4742-AD1B-189318EB4D2E}", TestA);
+};
+
+struct TestC
+{
+	TORC_RTTI(TestC, "{4A5D1388-13FD-4742-AD1B-189318EB4D2E}");
+};
+
+struct TestComp0 : Torc::Component
+{
+	TORC_COMPONENT(TestComp0)
+};
 
 uint32_t factorial(uint32_t number) {
 	return number <= 1 ? number : factorial(number - 1) * number;
@@ -22,6 +49,43 @@ TEST_CASE("Factorials are computed", "[factorial]") {
 
 TEST_CASE("Vec3DotProduct are computed", "[Vec3DotProduct]") {
 	REQUIRE(math::Vector3DotProduct(math::Vec3f{ 1.0f, 2.0f, 3.0f }, math::Vec3f{ 5.0f, -2.0f, -10.0f }) == -29.0f);
+}
+
+TEST_CASE("Vec3DotProduct are computed", "[Uuid]") {
+	static Torc::Uuid test = "{5E29ED67-64BB-4F8A-92C2-A8595DB67AE2}";
+	static Torc::Uuid test2 = "{5E29ED67-64BB-4F8A-92C2-A8595DB67AE2}";
+	static Torc::Uuid test3 = "{4A5D1388-13FD-4742-AD1B-189318EB4D2E}";
+
+	bool a = test == test2;
+	TorcStd::string s0 = test.ToString();
+	TorcStd::string s1 = test2.ToString();
+	TorcStd::string s2 = test3.ToString();
+
+	TestB b;
+	bool aa = TestB::IsTypeOf<TestC>();
+
+	Torc::Entity m_entity;
+	TestComp0 testComp0;
+
+	bool assigned = m_entity.AssignComponent(testComp0);
+
+	bool hasComp = m_entity.HasComponent(&testComp0);
+
+	TestComp0* tc0_2 = m_entity.GetComponent<TestComp0>();
+
+	TestComp0* tc0_1 = m_entity.RemoveComponent<TestComp0>();
+
+	hasComp = m_entity.HasComponent(&testComp0);
+
+	tc0_2 = m_entity.GetComponent<TestComp0>();
+
+	//TorcStd::string uuidStr = test.ToString();
+
+}
+
+TEST_CASE("Vec3DotProduct are computed", "[RHI]") {
+	
+
 }
 
 TEST_CASE("Math Functions", "[Test_Math]")

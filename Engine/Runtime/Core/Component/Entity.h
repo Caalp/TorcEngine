@@ -18,86 +18,58 @@ struct HashType
 
 namespace Torc
 {
-
-	class ComponentBase;
-
-	template<typename, typename>
-	class ECRegistry;
+	class Component;
 
 	class Entity
 	{
 	public:
 
-		static Entity* Create();
+		static const EntityId InvalidEntityId = 0;
 
-		Entity(EntityId id)
-			: m_id(id)
+		Entity()
+			: m_id(GenerateId())
+			, m_allowDuplicateComponents(false)
 		{}
 
-		// Assigns given component to entity, memory of component should be persist
-		// outside of scope of this function. Function only stores pointer to passed component.
-		// Function will return true if same type of component is not exists and passed one is assigned
-		// otherwise, false.
+		Entity(bool allowDuplicateComponents)
+			: m_id(GenerateId())
+			, m_allowDuplicateComponents(allowDuplicateComponents)
+		{}
+
+		//! Assigns given component to entity, memory of component should be persist
+		//! outside of scope of this function. Function only stores pointer to passed component.
+		//! Function will return true if same type of component is not exists and passed one is assigned
+		//! otherwise, false.
 		template<typename T>
-		bool AssignComponent(T& component, bool replaceIfExist = false)
+		bool AssignComponent(T& component)
 		{
 			core::ScopedLock lock{ m_mutex };
-			T* foundComponent = nullptr;
-			size_t componentId = HashType<T>::Hash();
-			for (ComponentBase* comp : m_components)
+			if (!m_allowDuplicateComponents)
 			{
-				/*if (comp::GetId() == (uint64_t)componentId)
+				for (Component* comp : m_components)
 				{
-					foundComponent =  static_cast<T*>(comp);
-					break;
-				}*/
+					if (comp->IsSameAs(*comp))
+					{
+						return false;
+					}
+				}
 			}
-			if (foundComponent)
-			{
-				return false;
-			}
-
 			component.SetEntity(this);
 			m_components.push_back(&component);
 			return true;
 		}
 
-		/*template<typename T>
-		bool CreateComponent(T& component)
-		{
-			core::ScopedLock lock{ m_mutex };
-			T* foundComponent = nullptr;
-			size_t componentId = HashType<T>::Hash();
-			for (ComponentBase* comp : m_components)
-			{
-				if (comp::GetId() == (uint64_t)componentId)
-				{
-					foundComponent = static_cast<T*>(comp);
-					break;
-				}
-			}
-			if (foundComponent)
-			{
-				return false;
-			}
-
-			component.SetEntity(this);
-			m_components.push_back(&component);
-			return true;
-		}*/
-
 		template<typename T>
 		T* RemoveComponent()
 		{
-			size_t componentId = HashType<T>::Hash();
 			core::ScopedLock lock{ m_mutex };
 			for (auto iter = m_components.begin(); iter != m_components.end(); iter++)
 			{
-				if ((*iter)->GetId().m_id == (uint64_t)componentId)
+				if ((*iter)->IsSameAs(*(*iter)))
 				{
-					component = *iter;
+					T* component = (T*)*iter;
 					m_components.erase(iter);
-					return *iter;
+					return component;
 				}
 			}
 			return nullptr;
@@ -106,11 +78,10 @@ namespace Torc
 		template<typename T>
 		T* GetComponent()
 		{
-			size_t componentId = HashType<T>::Hash();
 			core::ScopedLock lock{ m_mutex };
-			for (ComponentBase* comp : m_components)
+			for (Component* comp : m_components)
 			{
-				if (comp->GetId().m_id == (uint64_t)componentId)
+				if (comp->IsSameAs(*comp))
 				{
 					return static_cast<T*>(comp);
 				}
@@ -118,27 +89,16 @@ namespace Torc
 			return nullptr;
 		}
 
-		bool HasComponent(uint64 componentId);
+		bool HasComponent(const Component* component);
 		EntityId GetId() const;
 
 	private:
-		/*template<typename T>
-		T* GetComponentInternal()
-		{
-			size_t componentId = HashType<T>::Hash();
-			core::ScopedLock lock{ m_mutex };
-			for (ComponentBase* comp : m_components)
-			{
-				if (comp->GetId().m_id == (uint64_t)componentId)
-				{
-					return static_cast<T*>(comp);
-				}
-			}
-			return nullptr;
-		}*/
-	private:
+
+		static EntityId GenerateId();
+
 		EntityId m_id;
+		bool m_allowDuplicateComponents;
 		core::Mutex m_mutex;
-		std::vector<ComponentBase*> m_components;
+		std::vector<Component*> m_components;
 	};
 }

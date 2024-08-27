@@ -6,26 +6,24 @@
 
 namespace Torc
 {
-	Entity* Entity::Create()
+
+	static core::Atomic<EntityId> s_entityId{1};
+
+	EntityId Entity::GenerateId()
 	{
-		ECManager* ecFactory = gEnv->application->GetECManager();
-		if (!ecFactory)
-		{
-			TE_Warning(LogChannel::LC_Core, "ECManager is not initialized, cannot create entity.");
-			return nullptr;
-		}
-		return ecFactory->Create();
+		EntityId newId = s_entityId++;
+		return newId;
 	}
 
-	bool Entity::HasComponent(uint64 componentId)
+	bool Entity::HasComponent(const Component* component)
 	{
 		core::ScopedLock lock{ m_mutex };
-		for (ComponentBase* comp : m_components)
+		for (Component* comp : m_components)
 		{
-			/*if (comp->GetId().m_id == componentId)
+			if (comp->IsSameAs(*component))
 			{
-				return comp;
-			}*/
+				return true;
+			}
 		}
 		return false;
 	}

@@ -17,7 +17,6 @@ class DebugWindowLogger;
 
 namespace Torc
 {
-	class ECManager;
 	class FileLogger;
 }
 
@@ -70,9 +69,6 @@ public:
 	bool IsDebugWindowEnabled() const;
 	bool IsDebugInputDeviceEnabled() const;
 	
-	Torc::ECManager* GetECManager();
-	void SetECManager(Torc::ECManager* ecManager);
-
 	ILogger* GetLogger();
 	PlatformInput* GetPlatformInput();
 	BaseInput* GetBaseInput();
@@ -121,6 +117,4 @@ private:
 	DebugWindowLogger* m_debugWindowLogger;
 
 	PlatformInput* m_platformInput;
-
-	Torc::ECManager* m_ecManager;
 };

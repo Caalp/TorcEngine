@@ -53,12 +53,8 @@
       "Id": "20bc16da-8cf3-33a8-81dd-43b69382fe5e",
       "Items": [
         {
-          "Id": "cba40c57-c3b5-4286-b536-37a775312221",
-          "Command": "[Environment_Init],"
-        },
-        {
-          "Id": "8332d1a9-05c1-48d7-860b-6ba7f2f629fb",
-          "Command": "[Environment_Init2]"
+          "Id": "7272890f-1103-4e9f-975b-e7d2a37ef7b7",
+          "Command": "[Uuid]"
         }
       ]
     },

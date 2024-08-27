@@ -19,4 +19,4 @@ te_add_target(STATIC SOURCE_GROUP
         PRIVATE
             3rdParty::DirectXMath
 )
-add_subdirectory(RDI)
+add_subdirectory(RHI)

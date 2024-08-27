@@ -3,8 +3,8 @@
 #include <debugapi.h>
 
 #include "Renderer.h"
-#include "Core/Plugins/Plugin.h"
-#include "Core/Plugins/PluginLoader.h"
+#include "Core/Module/Module.h"
+#include "Core/Module/PluginLoader.h"
 
 #include "GPUObjects/BlendState.h"
 #include "GPUObjects/RasterizerState.h"

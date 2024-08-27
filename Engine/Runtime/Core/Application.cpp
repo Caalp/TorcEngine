@@ -2,7 +2,7 @@
 
 #include "Core/TorcStd/String/string_utils.h"
 #include "Core/Profiling/Timer.h"
-#include "Core/Plugins/PluginLoader.h"
+#include "Core/Module/PluginLoader.h"
 #include "Core/Logging/Logger.h"
 
 #include "Core/Platform/Platform.h"
@@ -12,11 +12,9 @@
 #include "Core/Profiling/SystemTimer.h"
 #include "Core/Logging/DebugWindowLogger.h"
 #include "Core/Logging/FileLogger.h"
-#include "Core/Component/ECManager.h"
 
 #include <RapidJSON/document.h>
 #include <CityHash/city.h>
-#include "Core/Component/ECManager.h"
 #include "Core/Component/Entity.h"
 #include "Core/Component/Component.h"
 
@@ -100,8 +98,6 @@ bool Application::Initialize(AppCreateParams& createParams)
 	OnSystemEvent(SystemEvent::SYSTEM_EVENT_MAIN_WINDOW_INITIALIZED, 0, 0);
 
 	m_windows.emplace_back(WindowBasePtr{ mainWnd });
-
-	Torc::ECManager::StartUp();
 
 	// main window is needed for the majority of the systems below, so need to make sure that main window is exist
 	m_platformInput = new PlatformInput;
@@ -280,7 +276,6 @@ void Application::Release()
 		delete m_debugWindowLogger;
 
 	m_baseInput.Release();
-	Torc::ECManager::Shutdown();
 	delete m_platformInput;
 	Torc::Platform::MemZero((void*)gEnv, sizeof(SystemGlobalEnvironment));
 
@@ -483,25 +478,6 @@ bool Application::IsDebugInputDeviceEnabled() const
 	const auto& iter = std::find_if(m_cmdArgList.begin(), m_cmdArgList.end(),
 									[](CMDArg arg) -> bool { return (arg == CMDArg("debugInputDevice")); });
 	return (iter != m_cmdArgList.end());
-}
-
-Torc::ECManager* Application::GetECManager()
-{
-	return m_ecManager;
-}
-
-void Application::SetECManager(Torc::ECManager* ecManager)
-{
-	if (m_ecManager == ecManager)
-	{
-		return;
-	}
-
-	if (m_ecManager)
-	{
-		m_ecManager->Shutdown();
-	}
-	m_ecManager = ecManager;
 }
 
 ILogger* Application::GetLogger()

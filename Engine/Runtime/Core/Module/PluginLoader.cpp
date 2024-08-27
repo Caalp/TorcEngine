@@ -1,6 +1,6 @@
 #include "PluginLoader.h"
-#include "Core/Plugins/Plugin.h"
-#include "Core/Plugins/PluginRegistry.h"
+#include "Core/Module/Module.h"
+#include "Core/Module/PluginRegistry.h"
 #include "Core/TorcSystem/ISystem.h"
 
 bool PluginLoader::Initialize(SystemGlobalEnvironment& env)

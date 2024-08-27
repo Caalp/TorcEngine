@@ -4,8 +4,6 @@
 
 typedef uint64 ComponentId;
 
-#define TORC_RTTI(_className, _uuid, _parent)
-
 #define TORC_COMPONENT(_name)\
 	static constexpr const char* _componentName = #_name;\
 	virtual TorcStd::string GetName() const {return _name::_componentName;}\
@@ -17,6 +15,7 @@ typedef uint64 ComponentId;
 
 namespace Torc
 {
+	class Entity;
 	//! Base component class for all components
 	class Component
 	{

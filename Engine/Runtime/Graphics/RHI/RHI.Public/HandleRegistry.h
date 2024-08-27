@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../../../Core/BaseTypes.h"
-#include "Core/Common/Containers/FreeList.h"
+#include <Core/Base.h>
+#include <Core/TorcStd/Containers/freelist.h>
 #include <typeinfo>
 #include <functional>
 
