@@ -1,0 +1,6 @@
+add_subdirectory(packages/Catch2)
+add_subdirectory(packages/CityHash)
+add_subdirectory(packages/DirectXMath)
+add_subdirectory(packages/FreeImage)
+add_subdirectory(packages/ImGui)
+add_subdirectory(packages/RapidJSON)

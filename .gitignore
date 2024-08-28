@@ -15,10 +15,13 @@
 Bin/
 CMakeSolutions/
 Test-Dir/
-3rdParty/
+3rdParty/packages/
 build/
 *.Build.props
 .vscode/
+
+#exclude folder
+!Config/Build/
 
 # Mono auto generated files
 mono_crash.*

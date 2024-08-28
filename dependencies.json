@@ -1,20 +1,13 @@
 {
 	"DownloadPath" : "./3rdParty",
+	"SkipDownload" : true,
 	"Dependencies" :[
 		{
 			"Name": "FreeImage",
 			"Source": {
 				"Type": "git",
 				"Url": "https://github.com/danoli3/FreeImage.git",
-				"Revision": "9143437a9c0d759dbecdcbb10591d16f"
-			}
-		},
-		{
-        "Name": "nlohmann",
-        "Source": {
-            "Type": "git",
-            "Url": "https://github.com/nlohmann/json.git",
-            "Revision": "58855735085eed29bdfbf75ca007039c"
+				"Revision": "f1c1faea28d1482457a8840104e568f1"
 			}
 		},
 		{
@@ -22,7 +15,39 @@
         "Source": {
             "Type": "https",
             "Url": "https://github.com/Tencent/rapidjson/archive/refs/tags/v1.1.0.zip",
-            "Revision": "ceb1cf16e693a3170c173dc040a9d2bd"
+            "Revision": "149f533bdccca89faf96fd03c5f0be12"
+			}
+		},
+		{
+        "Name": "ImGui",
+        "Source": {
+            "Type": "https",
+            "Url": "",
+            "Revision": "0125226b1244a0ab09bb9de42ffc5d33"
+			}
+		},
+		{
+        "Name": "DirectXMath",
+        "Source": {
+            "Type": "https",
+            "Url": "",
+            "Revision": "fa13c39733ee37d38e376e1119e616f1"
+			}
+		},
+		{
+        "Name": "CityHash",
+        "Source": {
+            "Type": "https",
+            "Url": "",
+            "Revision": "d8903bc4b445fb73a7f61bb75e2b1b7a"
+			}
+		},
+		{
+        "Name": "Catch2",
+        "Source": {
+            "Type": "https",
+            "Url": "",
+            "Revision": "5312ad6026628fbf4b18e59607a391c0"
 			}
 		}
 	]	
