@@ -148,13 +148,27 @@ namespace Torc
 
 	}
 	
+	struct ComBusTraits
+	{
+		enum EHandlerType
+		{
+			Single,
+			Multiple
+		};
+		static const EHandlerType HandlerType = EHandlerType::Single;
+	};
 	//! In order to simplify commmunication between listeners and dispatchers,
 	//! ComBus a.k.a Communication Bus class will be used as shared interface.
 	template<typename T>
-	class ComBus
+	class ComBus : public ComBusTraits
 	{
+	public:
+		typedef T Type;
+
+		static void Connect();
 		
+		static void Disconnect();
 
-
+		static void Broadcast();
 	};
 }

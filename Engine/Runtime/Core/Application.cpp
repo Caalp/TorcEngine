@@ -2,7 +2,7 @@
 
 #include "Core/TorcStd/String/string_utils.h"
 #include "Core/Profiling/Timer.h"
-#include "Core/Module/PluginLoader.h"
+#include "Core/Module/ModuleManager.h"
 #include "Core/Logging/Logger.h"
 
 #include "Core/Platform/Platform.h"
@@ -39,7 +39,7 @@ namespace
 {
 	SystemGlobalEnvironment env;
 	//Renderer rr;
-	PluginLoader pluginLoader;
+	ModuleManager moduleManager;
 	ILogger* logger;
 	WindowBase* mainWnd = nullptr;
 	WindowBase* debugWnd = nullptr;
@@ -110,11 +110,6 @@ bool Application::Initialize(AppCreateParams& createParams)
 	{
 		m_dbgDevice.Initialize(&m_baseInput);
 	}
-
-	pluginLoader.Initialize(*gEnv);
-
-	// Load plugings first
-	pluginLoader.LoadPlugins();
 
 	/*gfx::GfxBackendParams gfxParams;
 	gfxParams.backendDLLName = "TE.GfxD3D11.dll";
@@ -264,8 +259,6 @@ bool Application::Run(main mainLoop)
 void Application::Release()
 {
 	m_platformInput->Release();
-	//rr.Release();
-	pluginLoader.Release();
 
 	Platform::Release();
 

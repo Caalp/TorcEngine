@@ -79,6 +79,10 @@ namespace Torc
 
 		static bool SendMessageToWindow(TORC_HWND targetWindow, WindowMessage msg, void* data);
 
+		static void* LoadDLL(const char* lib);
+		static void* RetrieveMethodFromDLL(void* moduleInstance, const char* methodName);
+		static void FreeDLL(void* moduleInstance);
+
 	private:
 		static inline uintptr_t AlignAddress(uintptr_t addr, size_t align);
 		static inline uint8_t* AlignPointer(uint8_t* ptr, size_t align);

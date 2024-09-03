@@ -1,35 +1,20 @@
 #pragma once
 
-class Plugin
-{
-	typedef bool (*INITIALIZE_PLUGIN)(void** obj);
-	typedef bool (*RELEASE_PLUGIN)(void** obj);
-public:
-	Plugin(const char* pluginDLL, const char* initFunc, const char* releaseFunc);
-	~Plugin();
-
-	void Load();
-	void CallInitialize(void** obj);
-
-	void* GetPlugin() const;
-	const char* GetPluginName() const;
-
-private:
-	void* m_object; // initialized object
-	void* m_pluginInstance;
-	const char* m_pluginName;
-	const char* m_initFunc;
-	const char* m_releaseFunc;
-	INITIALIZE_PLUGIN m_pluginInitFunc;
-	RELEASE_PLUGIN m_pluginReleaseFunc;
-};
-
 namespace Torc
 {
 	class Module
 	{
 	public:
-		virtual void ActivateModule() = 0;
+		typedef Module* (*InitFunc)(const char*);
+		Module(const char* moduleName);
+		virtual ~Module() = default;
+
+		const char* GetModuleName() const;
+
+		virtual void Startup() = 0;
+		virtual void Shutdown() = 0;
+
 	private:
+		const char* m_moduleName;
 	};
 }

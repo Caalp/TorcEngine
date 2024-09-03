@@ -81,9 +81,8 @@ set(FILES
     # Module folder
     Module/Module.cpp
     Module/Module.h
-    Module/PluginLoader.cpp
-    Module/PluginLoader.h
-    Module/PluginRegistry.h
+    Module/ModuleManager.h
+    Module/ModuleManager.cpp
 
     # TorcStd folder
     TorcStd/Containers/circular_queue.h
