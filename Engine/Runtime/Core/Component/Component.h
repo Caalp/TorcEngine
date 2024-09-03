@@ -1,15 +1,15 @@
 #pragma once
 #include "Core/Base.h"
-#include "Core/TorcStd/String/String.h"
+#include "Core/Std/String/String.h"
 
 typedef uint64 ComponentId;
 
 #define TORC_COMPONENT(_name)\
 	static constexpr const char* _componentName = #_name;\
-	virtual TorcStd::string GetName() const {return _name::_componentName;}\
+	virtual Std::string GetName() const {return _name::_componentName;}\
 
 #define TORC_BASE_COMPONENT_DECL(_name)\
-	virtual TorcStd::string GetName() const = 0;\
+	virtual Std::string GetName() const = 0;\
 	virtual bool IsSameAs(const Component& comp) const { return comp.GetName() == this->GetName(); }\
 
 

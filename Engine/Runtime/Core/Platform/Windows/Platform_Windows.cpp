@@ -1,7 +1,7 @@
 #include "Core/Platform/Windows/Window_Windows.h"
-#include "Core/TorcStd/String/string_utils.h"
+#include "Core/Std/String/string_utils.h"
 #include "Core/Logging/Logger.h"
-#include "Core/TorcSystem/ISystem.h"
+#include "Core/System/ISystem.h"
 #include "Core/Platform/Platform.h"
 
 #include "Core/Input/PlatformInput.h"
@@ -195,16 +195,16 @@ namespace Torc
 
 	void* Platform::LoadDLL(const char* lib)
 	{
-
+		return LoadLibraryA(lib);
 	}
 
 	void* Platform::RetrieveMethodFromDLL(void* moduleInstance, const char* methodName)
 	{
-
+		return GetProcAddress((HMODULE)moduleInstance, methodName);
 	}
 
-	 void Platform::FreeDLL(void* moduleInstance)
+	void Platform::FreeDLL(void* moduleInstance)
 	{
-
+		FreeLibrary((HMODULE)moduleInstance);
 	}
 }

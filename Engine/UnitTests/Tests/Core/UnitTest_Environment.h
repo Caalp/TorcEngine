@@ -1,5 +1,5 @@
 #pragma once
-#include <Core/TorcSystem/ISystem.h>
+#include <Core/System/ISystem.h>
 
 struct TestClassA { int m_a = 5; };
 

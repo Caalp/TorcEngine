@@ -1,6 +1,6 @@
 #pragma once
 #include "Core/Base.h"
-#include "Core/TorcSystem/ISystem.h"
+#include "Core/System/ISystem.h"
 
 #include <vector>
 

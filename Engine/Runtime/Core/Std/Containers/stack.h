@@ -1,7 +1,7 @@
 #pragma once
 #include "Core/Base.h"
 #include "Core/Memory/Allocators/StackAllocator.h"
-#include "Core/Threading/Atomic.h"
+#include "Core/Std/Threading/Atomic.h"
 
 template <class T, class Allocator = StackAllocator<T>>
 class Stack_TS

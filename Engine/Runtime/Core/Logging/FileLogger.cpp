@@ -1,18 +1,18 @@
 #include "FileLogger.h"
 #include "Core/IO/FileStream.h"
 #include "Core/IO/FileIOBase.h"
-#include "Core/TorcStd/String/string.h"
+#include "Core/Std/String/string.h"
 #include "Core/IO/Path/Path.h"
 
 namespace Torc
 {
 	FileLogger::FileLogger()
 	{
-		Path loggerMainDirectory(TorcStd::string(Platform::GetEngineRootDirectory()) + "\\Logs\\");
+		Path loggerMainDirectory(Std::string(Platform::GetEngineRootDirectory()) + "\\Logs\\");
 		SystemTime currentTime;
 		Torc::Platform::GetSystemTime(&currentTime);
 
-		TorcStd::string currentTimeString = SystemTimeToString(currentTime);
+		Std::string currentTimeString = SystemTimeToString(currentTime);
 
 		if (!IO::FileIOBase::IsDirectory(loggerMainDirectory))
 		{

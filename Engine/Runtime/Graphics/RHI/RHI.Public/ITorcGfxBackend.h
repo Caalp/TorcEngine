@@ -1,5 +1,5 @@
 #pragma once
-#include "Core/TorcSystem/ISystem.h"
+#include "Core/System/ISystem.h"
 #include "RDI/RDIShared/TorcGfxTypes.h"
 
 struct BlendStateHandle;

@@ -1,5 +1,5 @@
 #pragma once
-#include "Core/TorcSystem/ISystem.h"
+#include "Core/System/ISystem.h"
 
 // NOTE(cagri): this is redefinition of values defined in BaseInput.h
 #define DI_MOUSE 0

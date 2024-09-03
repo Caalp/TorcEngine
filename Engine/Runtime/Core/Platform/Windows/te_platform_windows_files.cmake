@@ -9,6 +9,6 @@ set(PLATFORM_FILES
 	${CMAKE_CURRENT_LIST_DIR}/Window_Windows.cpp
 	${CMAKE_CURRENT_LIST_DIR}/Window_Windows.h
 
-	${CMAKE_CURRENT_LIST_DIR}/Core/TorcSystem/WindowsPlatformComponent.h
-	${CMAKE_CURRENT_LIST_DIR}/Core/TorcSystem/WindowsPlatformComponent.cpp
+	${CMAKE_CURRENT_LIST_DIR}/Core/System/WindowsPlatformComponent.h
+	${CMAKE_CURRENT_LIST_DIR}/Core/System/WindowsPlatformComponent.cpp
 )

@@ -4,7 +4,7 @@
 
 #include <string>
 
-namespace TorcStd
+namespace Std
 {
 	using string = std::string;
 }

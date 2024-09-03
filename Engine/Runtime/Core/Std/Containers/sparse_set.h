@@ -1,6 +1,6 @@
 #pragma once
 
-namespace TorcStd
+namespace Std
 {
 	template<typename T, class Allocator>
 	class sparse_set

@@ -1,5 +1,5 @@
 #pragma once
-#include "Core/TorcStd/Containers/Queue.h"
+#include "Core/Std/Containers/Queue.h"
 #include "Core/Platform/Platform.h"
 
 #include <assert.h>
@@ -38,11 +38,15 @@ struct InputEvent;
 class BaseInput;
 class Renderer;
 class PluginLoader;
-class Application;
 class System;
 class BaseInput;
 class PlatformInput;
 class ILogger;
+
+namespace Torc
+{
+	class Application;
+}
 
 namespace gfx
 {
@@ -111,7 +115,7 @@ struct SystemGlobalEnvironment
 	ILogger* logger;
 	BaseInput* baseInput;
 	PlatformInput* platformInput;
-	Application* application;
+	Torc::Application* application;
 	Renderer* rr;
 	PluginLoader* pluginLoader;
 	struct IEditor* editor;
@@ -150,18 +154,42 @@ namespace Torc
 	
 	struct ComBusTraits
 	{
-		enum EHandlerType
+		enum EHandlerCount
 		{
 			Single,
 			Multiple
 		};
-		static const EHandlerType HandlerType = EHandlerType::Single;
+		enum EHandlingPolicy
+		{
+			SingleThreaded,
+			MultiThreaded
+		};
+		static const EHandlerCount HandlerCount = EHandlerCount::Single;
+		static const EHandlingPolicy HandlingPolicy = EHandlingPolicy::SingleThreaded;
 	};
+
 	//! In order to simplify commmunication between listeners and dispatchers,
 	//! ComBus a.k.a Communication Bus class will be used as shared interface.
 	template<typename T>
 	class ComBus : public ComBusTraits
 	{
+	private:
+		template<typename T>
+		class ComBusContainer
+		{
+			void RegisterHandler(T* handler)
+			{
+				m_handlers.push_back(handler);
+			}
+
+			void UnregisterHandler(T* handler)
+			{
+				//m_handlers.push_back(handler);
+			}
+
+			std::vector<T*> m_handlers;
+		};
+
 	public:
 		typedef T Type;
 
@@ -170,5 +198,8 @@ namespace Torc
 		static void Disconnect();
 
 		static void Broadcast();
+
+	private:
+		ComBusContainer<T> m_container;
 	};
 }

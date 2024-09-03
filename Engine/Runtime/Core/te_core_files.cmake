@@ -8,7 +8,6 @@ set(FILES
     Common/UtilMacros.h
     Common/Utils.cpp
     Common/Utils.h
-    Common/Math/MathUtils.h
 
     # Math folder
     Math/Vector4.h
@@ -18,12 +17,15 @@ set(FILES
     Math/Hashing.cpp
     Math/Uuid.h
     Math/Uuid.cpp
+	Math/MathUtils.h
 
     # Component Folder
     Component/Component.h
     Component/Component.cpp
     Component/Entity.h
     Component/Entity.cpp
+    Component/ApplicationComponent.h
+    Component/ComponentManager.h
 
     # RTTI Folder
     RTTI/TypeName.h
@@ -84,29 +86,27 @@ set(FILES
     Module/ModuleManager.h
     Module/ModuleManager.cpp
 
-    # TorcStd folder
-    TorcStd/Containers/circular_queue.h
-    TorcStd/Containers/sparse_set.h
-    TorcStd/Containers/freelist.h
-    TorcStd/Containers/queue.h
-    TorcStd/Containers/stack.h
-    TorcStd/String/string.cpp
-    TorcStd/String/string.h
-    TorcStd/String/string_utils.cpp
-    TorcStd/String/string_utils.h
-    
-    # Threading folder
-    Threading/Atomic.h
-    Threading/Barrier.h
-    Threading/ConditionVariable.h
-    Threading/Mutex.cpp
-    Threading/Mutex.h
-    Threading/Thread.cpp
-    Threading/Thread.h
+    # Std folder
+    Std/Containers/circular_queue.h
+    Std/Containers/sparse_set.h
+    Std/Containers/freelist.h
+    Std/Containers/queue.h
+    Std/Containers/stack.h
+    Std/String/string.cpp
+    Std/String/string.h
+    Std/String/string_utils.cpp
+    Std/String/string_utils.h
+    Std/Threading/Atomic.h
+    Std/Threading/Barrier.h
+    Std/Threading/ConditionVariable.h
+    Std/Threading/Mutex.cpp
+    Std/Threading/Mutex.h
+    Std/Threading/Thread.cpp
+    Std/Threading/Thread.h
 
-    # TorcSystem folder
-    TorcSystem/ISystem.h
-    TorcSystem/SystemComponent.h
+    # System folder
+    System/ISystem.h
+    System/SystemComponent.h
 
     # Profiling folder
     Profiling/Timer.h

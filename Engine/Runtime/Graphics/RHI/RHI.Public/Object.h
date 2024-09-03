@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-#include <Core/Threading/Atomic.h>
+#include <Core/Std/Threading/Atomic.h>
 
 namespace Torc
 {

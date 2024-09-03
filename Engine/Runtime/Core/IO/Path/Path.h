@@ -1,6 +1,6 @@
 #pragma once
 #include "Core/Base.h"
-#include "Core/TorcStd/String/string.h"
+#include "Core/Std/String/string.h"
 
 namespace Torc
 {
@@ -12,15 +12,15 @@ namespace Torc
 	{
 	public:
 		Path() = default;
-		Path(const TorcStd::string& path);
+		Path(const Std::string& path);
 		Path(const char* path);
-		TorcStd::string GetExtension();
-		TorcStd::string GetDirectory();
-		TorcStd::string GetParentDirectory();
-		TorcStd::string GetFilenameWithoutExtension();
-		TorcStd::string GetFilename();
-		TorcStd::string ConvertToWindows();
-		TorcStd::string ConvertToPOSIX();
+		Std::string GetExtension();
+		Std::string GetDirectory();
+		Std::string GetParentDirectory();
+		Std::string GetFilenameWithoutExtension();
+		Std::string GetFilename();
+		Std::string ConvertToWindows();
+		Std::string ConvertToPOSIX();
 		PathView GetView() const;
 
 		Path operator+(const Path& rhs);

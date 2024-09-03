@@ -1,6 +1,6 @@
 #pragma once
 #include "Core/Base.h"
-#include "Core/TorcStd/String/string.h"
+#include "Core/Std/String/string.h"
 
 namespace Torc
 {
@@ -14,7 +14,7 @@ namespace Torc
 
 		//! Convertes UuidValue bytes to string representation
 		//! will return format as xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
-		TorcStd::string ToString() const;
+		Std::string ToString() const;
 
 		friend constexpr bool operator==(const Uuid& rhs, const Uuid& lhs);
 

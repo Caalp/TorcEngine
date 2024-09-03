@@ -2,7 +2,7 @@
 
 namespace Torc
 {
-	Path::Path(const TorcStd::string& path)
+	Path::Path(const Std::string& path)
 		: m_path(path.c_str())
 	{
 	}
@@ -12,7 +12,7 @@ namespace Torc
 	{
 	}
 
-	TorcStd::string Path::GetExtension()
+	Std::string Path::GetExtension()
 	{
 		uint32 len = m_path.Length();
 		for (int i = len - 1; i > -1; --i)
@@ -25,20 +25,20 @@ namespace Torc
 		return {};
 	}
 
-	TorcStd::string Path::GetDirectory()
+	Std::string Path::GetDirectory()
 	{
 		uint32 len = m_path.Length();
 		for (int i = len - 1; i > -1; --i)
 		{
 			if (m_path[i] == '/' || m_path[i] == '\\')
 			{
-				return TorcStd::string(m_path.c_str(), i);
+				return Std::string(m_path.c_str(), i);
 			}
 		}
 		return m_path.c_str();
 	}
 
-	TorcStd::string Path::GetParentDirectory()
+	Std::string Path::GetParentDirectory()
 	{
 		uint32 len = m_path.Length();
 		for (int i = len - 1; i > -1; --i)
@@ -46,14 +46,14 @@ namespace Torc
 			const char c = m_path[i];
 			if ((m_path[i] == '/' || m_path[i] == '\\') && i != len - 1)
 			{
-				TorcStd::string(m_path.c_str(), i);
+				Std::string(m_path.c_str(), i);
 			}
 		}
 
 		return m_path.c_str();
 	}
 
-	TorcStd::string Path::GetFilenameWithoutExtension()
+	Std::string Path::GetFilenameWithoutExtension()
 	{
 		uint32 len = m_path.Length();
 		int dotPos = 0;
@@ -77,10 +77,10 @@ namespace Torc
 			return {};
 		}
 
-		return TorcStd::string(m_path.Data() + separatorPos + 1, dotPos - separatorPos - 1);
+		return Std::string(m_path.Data() + separatorPos + 1, dotPos - separatorPos - 1);
 	}
 
-	TorcStd::string Path::GetFilename()
+	Std::string Path::GetFilename()
 	{
 		uint32 len = m_path.Length();
 		int dotPos = 0;
@@ -103,14 +103,14 @@ namespace Torc
 			return {};
 		}
 
-		return TorcStd::string(m_path.Data() + separatorPos + 1, len - separatorPos - 1);
+		return Std::string(m_path.Data() + separatorPos + 1, len - separatorPos - 1);
 	}
 
-	TorcStd::string Path::ConvertToWindows()
+	Std::string Path::ConvertToWindows()
 	{
 		uint32 len = m_path.Length();
 
-		TorcStd::string newStr;
+		Std::string newStr;
 		newStr.resize(len);
 
 		for (int i = len - 1; i > -1; --i)
@@ -127,11 +127,11 @@ namespace Torc
 		return newStr;
 	}
 
-	TorcStd::string Path::ConvertToPOSIX()
+	Std::string Path::ConvertToPOSIX()
 	{
 		uint32 len = m_path.Length();
 
-		TorcStd::string newStr;
+		Std::string newStr;
 		newStr.resize(len);
 
 		for (int i = len - 1; i > -1; --i)
@@ -155,6 +155,6 @@ namespace Torc
 
 	Path Path::operator+(const Path& rhs)
 	{
-		return Path(TorcStd::string{m_path.c_str()} + TorcStd::string{ rhs.m_path.c_str()});
+		return Path(Std::string{m_path.c_str()} + Std::string{ rhs.m_path.c_str()});
 	}
 }

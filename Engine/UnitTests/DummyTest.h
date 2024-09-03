@@ -1,8 +1,8 @@
 #pragma once
 
 #include <Core/Common/Math/MathUtils.h>
-#include <Core/TorcStd/Containers/stack.h>
-#include <Core/TorcStd/Containers/queue.h>
+#include <Core/Std/Containers/stack.h>
+#include <Core/Std/Containers/queue.h>
 #include <Core/Profiling/Timer.h>
 #include <Core/Memory/Memory.h>
 #include <Core/Math/Uuid.h>
@@ -57,9 +57,9 @@ TEST_CASE("Vec3DotProduct are computed", "[Uuid]") {
 	static Torc::Uuid test3 = "{4A5D1388-13FD-4742-AD1B-189318EB4D2E}";
 
 	bool a = test == test2;
-	TorcStd::string s0 = test.ToString();
-	TorcStd::string s1 = test2.ToString();
-	TorcStd::string s2 = test3.ToString();
+	Std::string s0 = test.ToString();
+	Std::string s1 = test2.ToString();
+	Std::string s2 = test3.ToString();
 
 	TestB b;
 	bool aa = TestB::IsTypeOf<TestC>();
@@ -79,7 +79,7 @@ TEST_CASE("Vec3DotProduct are computed", "[Uuid]") {
 
 	tc0_2 = m_entity.GetComponent<TestComp0>();
 
-	//TorcStd::string uuidStr = test.ToString();
+	//Std::string uuidStr = test.ToString();
 
 }
 

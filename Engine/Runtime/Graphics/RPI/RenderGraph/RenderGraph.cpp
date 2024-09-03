@@ -3,7 +3,7 @@
 #include "RPI/GPUObjects/DepthStencilBuffer.h"
 #include "RDI/RDIShared/ITorcGfxBackend.h"
 
-#include <Core/TorcStd/String/string_utils.h>
+#include <Core/Std/String/string_utils.h>
 
 RenderGraph::RenderGraph() 
 	: m_backBuffer(gEnv->gfx->GetMainRT())

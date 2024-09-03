@@ -2,9 +2,9 @@
 
 namespace Torc
 {
-	TorcStd::string Uuid::ToString() const
+	Std::string Uuid::ToString() const
 	{
-		TorcStd::string str;
+		Std::string str;
 		str.push_back('{');
 		int i = 0;
 		while (i < 16)

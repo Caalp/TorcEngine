@@ -1,5 +1,5 @@
 #pragma once
-#include "Core/TorcStd/String/string.h"
+#include "Core/Std/String/string.h"
 #include <map>
 
 namespace Torc
@@ -8,7 +8,7 @@ namespace Torc
 
 	class ModuleManager
 	{
-		typedef TorcStd::string ModuleName;
+		typedef Std::string ModuleName;
 	public:
 		Module* CreateModule(const char* moduleName);
 		Module* GetModuleByName(const char* moduleName);

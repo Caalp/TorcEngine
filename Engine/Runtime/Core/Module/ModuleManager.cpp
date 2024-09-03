@@ -12,7 +12,7 @@ namespace Torc
 			// oh no
 			TE_Error(LogChannel::LC_Core, "Couldn't load the module %s", moduleName);
 		}
-		TorcStd::string methodName = (TorcStd::string{ "CreateModule_" } + TorcStd::string{ moduleName });
+		Std::string methodName = (Std::string{ "CreateModule_" } + Std::string{ moduleName });
 		Module::InitFunc initFunc = (Module::InitFunc)Platform::RetrieveMethodFromDLL(moduleInstance, methodName.c_str());
 
 		//Release DLL if we werent able to get the function

@@ -2,8 +2,8 @@
 
 #include "Core/Base.h"
 #include "Core/JobSystem/GenericTaskQueue.h"
-#include "Core/Threading/Thread.h"
-#include "Core/TorcSystem/ISystem.h"
+#include "Core/Std/Threading/Thread.h"
+#include "Core/System/ISystem.h"
 
 class WindowBase : public IWindowEventDispatcher
 {

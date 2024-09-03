@@ -3,7 +3,7 @@
 #include <Core/Application.h>
 #include <Core/IO/FileIOBase.h>
 #include <Core/Logging/Logger.h>
-#include <Core/TorcSystem/ISystem.h>
+#include <Core/System/ISystem.h>
 #include <GameCore/Components/TransformComponent.h>
 
 #include <variant>
