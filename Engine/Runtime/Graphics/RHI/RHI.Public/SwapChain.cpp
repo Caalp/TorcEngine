@@ -1,9 +1,16 @@
 #include "SwapChain.h"
+#include <RHI/RHI.Public/Factory.h>
+#include <Core/Environment/Environment.h>
 
 namespace Torc
 {
 	namespace RHI
 	{
+		SwapChain* SwapChain::Create()
+		{
+			return Torc::Interface<Factory>::Get()->CreateSwapChain();
+		}
+
 		Result SwapChain::Init(const SwapChainDescription& description, void* wnd, bool isMultiSampled)
 		{
 			m_description = description;

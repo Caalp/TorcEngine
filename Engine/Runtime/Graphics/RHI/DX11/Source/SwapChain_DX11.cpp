@@ -2,15 +2,15 @@
 #include "RHI/DX11/Public/RHITypeConverter.h"
 
 #include "RHI/DX11/Include/base.h"
+#include <Core/Environment/Environment.h>
+#include <RHI/RHI.Public/RHIContext.h>
+
+#include "RHI/DX11/Public/Device_DX11.h"
+#include "RHI/DX11/Public/DeviceContext_DX11.h"
 namespace Torc
 {
 	namespace RHI
 	{
-		SwapChain* SwapChain::Create()
-		{
-			return new DX11::SwapChain_DX11();
-		}
-
 		namespace DX11
 		{
 			Result SwapChain_DX11::ResizeBuffersInternal(uint32 width, uint32 height, Format newFormat, uint32 swapChainFlags)
@@ -46,25 +46,40 @@ namespace Torc
 				swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
 				swapChainDesc.Flags = 0;
 
-				//HRESULT hr = D3D11CreateDeviceAndSwapChain(
-				//	nullptr,
-				//	D3D_DRIVER_TYPE_HARDWARE,
-				//	nullptr,
-				//	0,
-				//	nullptr,
-				//	0,
-				//	D3D11_SDK_VERSION,
-				//	&swapChainDesc,
-				//	m_swapChain.GetAddressOf(),
-				//	m_device.GetAddressOf(),
-				//	nullptr,
-				//	m_context.GetAddressOf());
+				RHIContext* rhiContext = Interface<RHIContext>::Get();
 
-				//if (FAILED(hr))
-				//{
-				//	//TE_Error()
-				//	return Result::Failure;
-				//}
+				namespace wrl = Microsoft::WRL;
+
+				ID3D11Device* nativeDevice = nullptr;
+				ID3D11DeviceContext* nativeContext = nullptr;
+
+				HRESULT hr = D3D11CreateDeviceAndSwapChain(
+					nullptr,
+					D3D_DRIVER_TYPE_HARDWARE,
+					nullptr,
+					0,
+					nullptr,
+					0,
+					D3D11_SDK_VERSION,
+					&swapChainDesc,
+					&m_swapChain,
+					&nativeDevice,
+					nullptr,
+					&nativeContext
+					);
+
+				if (FAILED(hr))
+				{
+					//TE_Error()
+					return Result::Failure;
+				}
+
+				Device_DX11* device = torc_new Device_DX11(nativeDevice);
+				DeviceContext_DX11* deviceContext = torc_new DeviceContext_DX11(nativeContext);
+
+				rhiContext->SetDeviceContext(deviceContext);
+				rhiContext->SetDevice(device);
+
 				return Result::Success;
 			}
 		}

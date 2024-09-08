@@ -12,11 +12,13 @@ namespace Torc
 		class Factory
 		{
 		public:
+			virtual ~Factory() = default;
+
 			SwapChain* CreateSwapChain();
-			Device* CreateDevice() { return nullptr; }
-
+			Device* CreateDevice();
 		private:
-
+			virtual SwapChain* CreateSwapChainInternal() = 0;
+			virtual Device* CreateDeviceInternal() = 0;
 		};
 	}
 }

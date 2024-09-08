@@ -15,11 +15,15 @@ set(FILES
  
 	# Public folder
 	Public/SwapChain_DX11.h
+	Public/Factory_DX11.h
 	Public/Device_DX11.h
 	Public/RHITypeConverter.h
+	Public/DeviceContext_DX11.h
 
 	# Source folder
 	Source/SwapChain_DX11.cpp
+	Source/Factory_DX11.cpp
 	Source/Device_DX11.cpp
 	Source/RHITypeConverter.cpp
+	Source/DeviceContext_DX11.cpp
 )

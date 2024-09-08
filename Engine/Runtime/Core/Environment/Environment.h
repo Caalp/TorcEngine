@@ -7,7 +7,7 @@ namespace Torc
 	{
 		template<typename T>
 		struct EnvironmentVariable;
-
+	
 		struct Environment
 		{
 			template<typename T>
@@ -15,6 +15,9 @@ namespace Torc
 
 			template<typename T, typename... Args>
 			static EnvironmentVariable<T>* GetOrCreate(Args... args);
+
+			template<typename T>
+			static EnvironmentVariable<T>* Get();
 
 			template<typename T>
 			static EnvironmentVariable<T>* Register(T* instance);
@@ -28,6 +31,16 @@ namespace Torc
 			static void Destroy();
 		};
 	}
+
+	template<typename T>
+	struct Interface
+	{
+		static T* Get()
+		{
+			Core::EnvironmentVariable<T>* v = Core::Environment::Get<T>();
+			return (*v)->operator->();
+		}
+	};
 }
 
 #include "Core/Environment/Environment.inl"

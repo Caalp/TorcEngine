@@ -1,6 +1,7 @@
 #pragma once
-#include "RHI/DX11/Include/base.h"
 #include <RHI/RHI.Public/SwapChain.h>
+
+struct IDXGISwapChain;
 
 namespace Torc
 {
@@ -21,7 +22,7 @@ namespace Torc
 				Result PresentInternal() override;
 				Result InitInternal(const SwapChainDescription& description, void* wnd, bool isMultiSampled) override;
 			private:
-				Microsoft::WRL::ComPtr<IDXGISwapChain> m_swapChain;
+				IDXGISwapChain* m_swapChain;
 			};
 		}
 	}

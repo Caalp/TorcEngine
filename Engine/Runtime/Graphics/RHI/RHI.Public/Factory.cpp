@@ -7,7 +7,12 @@ namespace Torc
 	{
 		SwapChain* Factory::CreateSwapChain()
 		{
-			return SwapChain::Create();
+			return CreateSwapChainInternal();
+		}
+
+		Device* Factory::CreateDevice()
+		{
+			return CreateDeviceInternal();
 		}
 	}
 }

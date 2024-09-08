@@ -11,5 +11,10 @@ SET(FILES
 	RHI.Public/HandleRegistry.h
 	RHI.Public/ITorcGfxBackend.h
 	RHI.Public/RHITypes.h
+	RHI.Public/DeviceContext.h
+
+	RHI.Public/RHIContext.h
+	RHI.Public/RHIContext.cpp
+	RHI.Public/DeviceContext.cpp
 )
 	
