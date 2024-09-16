@@ -6,6 +6,7 @@
 #include <map>
 #include <string>
 #include <deque>
+#include "Core/Std/Threading/thread.h"
 
 inline std::string SystemTimeToString(const SystemTime& time)
 {
@@ -121,7 +122,7 @@ struct SystemGlobalEnvironment
 	struct IEditor* editor;
 	gfx::ITorcGfxBackend* gfx;
 
-	uint64 mainThreadId;
+	Std::thread::id mainThreadId;
 };
 
 struct IEditor

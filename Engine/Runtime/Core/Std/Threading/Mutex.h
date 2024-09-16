@@ -1,27 +1,17 @@
 #pragma once
-#include <mutex>
 
-namespace core
+#include <Core/Platform/Std/Threading/platform_mutex.h>
+
+namespace Std
 {
-	class Mutex
+	class scoped_lock
 	{
 	public:
-		Mutex() noexcept;
-		Mutex(const Mutex&) = delete;
-		void Lock();
-		void Unlock();
-		bool TryLock();
+		scoped_lock(mutex& m) noexcept;
+		scoped_lock(const scoped_lock&) = delete;
+		scoped_lock& operator=(const scoped_lock&) = delete;
+		~scoped_lock();
 	private:
-		std::mutex m_mutex;
-	};
-
-	class ScopedLock
-	{
-	public:
-		ScopedLock(Mutex& m) noexcept;
-		ScopedLock(const ScopedLock&) = delete;
-		~ScopedLock();
-	private:
-		Mutex& m_mutex;
+		mutex& m_mutex;
 	};
 }

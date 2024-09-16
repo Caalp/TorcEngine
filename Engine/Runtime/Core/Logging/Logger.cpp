@@ -12,7 +12,7 @@ namespace
 		std::wstring wstr(str1.begin(), str1.end());
 		return wstr;
 	}
-	core::Mutex lock;
+	Std::mutex lock;
 }
 
 LoggerBase::LoggerBase()
@@ -39,7 +39,7 @@ void LoggerBase::Log(const char* msg, LogChannel channel, LogSeverity severity, 
 
 	CString<256> temp = (currTimeStr + " " + std::string(fixedSizeString.c_str()) + "\n").c_str();
 	
-	core::ScopedLock{ lock };
+	Std::scoped_lock{ lock };
 	for (auto& listener : m_logListeners)
 	{	
 		listener->OnLog(temp.c_str(), channel, severity);
@@ -48,7 +48,7 @@ void LoggerBase::Log(const char* msg, LogChannel channel, LogSeverity severity, 
 
 void LoggerBase::RegisterListener(ILogListener* listener)
 {
-	core::ScopedLock{ lock };
+	Std::scoped_lock{ lock };
 	std::vector<ILogListener*>::iterator begin = m_logListeners.begin();
 	std::vector<ILogListener*>::iterator end = m_logListeners.end();
 	for (auto i = begin; i != end; i++)
@@ -63,7 +63,7 @@ void LoggerBase::RegisterListener(ILogListener* listener)
 
 void LoggerBase::RemoveListener(ILogListener* listener)
 {
-	core::ScopedLock{ lock };
+	Std::scoped_lock{ lock };
 	std::vector<ILogListener*>::iterator begin = m_logListeners.begin();
 	std::vector<ILogListener*>::iterator end = m_logListeners.end();
 	for (auto i = begin; i != end; i++)

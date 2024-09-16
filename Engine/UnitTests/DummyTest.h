@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Core/Common/Math/MathUtils.h>
+#include <Core/Math/MathUtils.h>
 #include <Core/Std/Containers/stack.h>
 #include <Core/Std/Containers/queue.h>
 #include <Core/Profiling/Timer.h>
@@ -14,6 +14,9 @@
 #include <Core/Component/Component.h>
 
 #include <Core/Module/Module.h>
+
+#include <Core/Std/intrusive_ptr.h>
+#include <Core/Std/Threading/thread.h>
 
 struct TestA
 {
@@ -81,6 +84,141 @@ TEST_CASE("Vec3DotProduct are computed", "[Uuid]") {
 
 	//Std::string uuidStr = test.ToString();
 
+}
+
+struct RefCountedBaseTest
+{
+	RefCountedBaseTest(int a)
+	{
+		id = new int(a);
+	}
+
+	~RefCountedBaseTest()
+	{
+		delete id;
+	}
+
+	int* id = 0;
+
+protected:
+
+	friend class Std::intrusive_ptr<RefCountedBaseTest>::CountingPolicy;
+
+	void add_ref()
+	{
+		m_refCount++;
+	}
+
+	void release()
+	{
+		m_refCount--;
+
+		if (m_refCount == 0)
+		{
+			delete this;
+		}
+	}
+
+	int m_refCount = 0;
+};
+
+struct RefCountedBaseTest2
+{
+	~RefCountedBaseTest2()
+	{
+
+	}
+
+protected:
+
+	friend class Std::intrusive_ptr<RefCountedBaseTest2>::CountingPolicy;
+
+	void add_ref()
+	{
+		m_refCount++;
+	}
+
+	void release()
+	{
+		m_refCount--;
+
+		if (m_refCount == 0)
+		{
+			delete this;
+		}
+	}
+
+	int m_refCount = 0;
+};
+
+struct RefCountedBaseTest3 : RefCountedBaseTest
+{
+	RefCountedBaseTest3(int a)
+		: RefCountedBaseTest(a)
+	{
+
+	}
+
+	~RefCountedBaseTest3()
+	{
+
+	}
+
+protected:
+
+	friend class Std::intrusive_ptr<RefCountedBaseTest3>::CountingPolicy;
+
+	void add_ref()
+	{
+		m_refCount++;
+	}
+
+	void release()
+	{
+		m_refCount--;
+
+		if (m_refCount == 0)
+		{
+			delete this;
+		}
+	}
+
+	int m_refCount = 0;
+};
+
+TEST_CASE("STD", "[intrusive_ptr]")
+{
+	//Std::intrusive_ptr<RefCountedBaseTest> iptr0 = new RefCountedBaseTest(1);
+	//Std::intrusive_ptr<RefCountedBaseTest> iptr1= new RefCountedBaseTest(2);
+	Std::intrusive_ptr<RefCountedBaseTest3> iptr2 = new RefCountedBaseTest3(3);
+	//Std::intrusive_ptr<RefCountedBaseTest2> iptr3 = new RefCountedBaseTest2;
+	Std::intrusive_ptr<RefCountedBaseTest3> iptr4 = new RefCountedBaseTest3(4);
+
+	auto temp = std::move(iptr2);
+	REQUIRE(iptr2 == nullptr);
+
+	Std::intrusive_ptr<RefCountedBaseTest3> iptr6 = Std::static_pointer_cast<RefCountedBaseTest3>(iptr4);
+
+	//iptr1 = iptr0;
+
+	//if (iptr2 == iptr0)
+	{
+		
+	}
+
+}
+
+void TestFunc()
+{
+	int a = 5; 
+	int b = a + 2;
+}
+
+TEST_CASE("Test Thread", "[thread]")
+{
+	Std::thread thr;
+	thr.start(&TestFunc);
+	thr.join();
 }
 
 TEST_CASE("Vec3DotProduct are computed", "[RHI]") {

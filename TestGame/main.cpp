@@ -290,7 +290,7 @@ int APIENTRY WinMain(HINSTANCE hInst, HINSTANCE hInstPrev, PSTR cmdline, int cmd
 	params.wndWidth = 1280;
 	params.wndHeight = 720;
 	params.wndCaption = "TestGame";
-	Application app;
+	Torc::Application app;
 	app.Initialize(params);
 
 	app.Run(&Main3);

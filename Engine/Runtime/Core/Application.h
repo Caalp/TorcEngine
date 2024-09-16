@@ -81,7 +81,7 @@ namespace Torc
 		BaseInput* GetBaseInput();
 		Application* GetApplication();
 
-		uint64 GetMainThreadId() const;
+		Std::thread::id GetMainThreadId() const;
 
 	private:
 		void ProcessSavedEventsIfAny();

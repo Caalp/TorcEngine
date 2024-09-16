@@ -55,7 +55,7 @@ namespace Torc
 		, m_debugWindowLogger(nullptr)
 	{
 		gEnv = &env;
-		gEnv->mainThreadId = core::Thread::GetCurrentThreadID();
+		gEnv->mainThreadId = Std::this_thread::get_id();
 		gEnv->application = this;
 
 		//m_ecFactory = new EntityComponentFactory;
@@ -495,7 +495,7 @@ namespace Torc
 		return gEnv->application;
 	}
 
-	uint64 Application::GetMainThreadId() const
+	Std::thread::id Application::GetMainThreadId() const
 	{
 		return gEnv->mainThreadId;
 	}

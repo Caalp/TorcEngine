@@ -7,27 +7,29 @@
 
 #include "RHI/DX11/Public/Device_DX11.h"
 #include "RHI/DX11/Public/DeviceContext_DX11.h"
+#include "RHI/DX11/Public/Image_DX11.h"
+
 namespace Torc
 {
 	namespace RHI
 	{
 		namespace DX11
 		{
-			Result SwapChain_DX11::ResizeBuffersInternal(uint32 width, uint32 height, Format newFormat, uint32 swapChainFlags)
+			EResult SwapChain_DX11::ResizeBuffersInternal(uint32 width, uint32 height, EResourceFormat newFormat, uint32 swapChainFlags)
 			{
-				return Result();
+				return EResult();
 			}
 
-			Result SwapChain_DX11::PresentInternal()
+			EResult SwapChain_DX11::PresentInternal()
 			{
 				if (FAILED(m_swapChain->Present(0, 0)))
 				{
-					return Result::Failure;
+					return EResult::Failure;
 				}
-				return Result::Success;
+				return EResult::Success;
 			}
 
-			Result SwapChain_DX11::InitInternal(const SwapChainDescription& description, void* wnd, bool isMultiSampled)
+			EResult SwapChain_DX11::InitInternal(const SwapChainDescription& description, void* wnd, bool isMultiSampled)
 			{
 				DXGI_SWAP_CHAIN_DESC swapChainDesc = {};
 				swapChainDesc.BufferDesc.Width = description.m_width;
@@ -71,7 +73,7 @@ namespace Torc
 				if (FAILED(hr))
 				{
 					//TE_Error()
-					return Result::Failure;
+					return EResult::Failure;
 				}
 
 				Device_DX11* device = torc_new Device_DX11(nativeDevice);
@@ -80,7 +82,24 @@ namespace Torc
 				rhiContext->SetDeviceContext(deviceContext);
 				rhiContext->SetDevice(device);
 
-				return Result::Success;
+				return EResult::Success;
+			}
+
+			void SwapChain_DX11::GetBufferInternal(uint32_t bufferIdx, Image** pImages)
+			{
+				if (bufferIdx < 0)
+				{
+					return;
+				}
+
+				Image* image = *pImages;
+				ResourceDesc desc = image->GetDesc();
+				if (desc.m_dimension == EResourceDimension::RESOURCE_DIMENSION_TEXTURE2D)
+				{
+					void* bufferPtr;
+					m_swapChain->GetBuffer(bufferIdx, IID_ID3D11Texture2D, &bufferPtr);
+					((Image2D_DX11*)image)->SetResource(bufferPtr);
+				}
 			}
 		}
 	}

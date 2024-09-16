@@ -229,7 +229,7 @@ const char* Torc::MainWindow::GetName() const
 
 Torc::DebugWindow::DebugWindow(const WndCreateParams& params)
 {
-	m_thread.Start(([this, params]() {
+	m_thread.start(([this, params]() {
 		this->CreateWnd(params);
 		this->ProcessMessages();
 		}));
@@ -239,7 +239,7 @@ Torc::DebugWindow::~DebugWindow()
 {
 	// NOTE(cagri): Later main thread will be calling delete on this object which will invoke
 	// desctructor.
-	m_thread.WaitToFinish();
+	m_thread.wait_to_finish();
 	gEnv->logger->RemoveListener(debugWindowLogger);
 	delete debugWindowLogger;
 }

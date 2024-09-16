@@ -7,7 +7,7 @@ namespace Torc
 	{
 		namespace DX11
 		{
-			uint32_t ConvertType(Format op);
+			uint32_t ConvertType(EResourceFormat op);
 		}
 		/*D3D11_BLEND_OP ConvertTorcGfxType(gfx::TORC_GFX_BLEND_OP op);
 		D3D11_BLEND ConvertTorcGfxType(gfx::TORC_GFX_BLEND op);

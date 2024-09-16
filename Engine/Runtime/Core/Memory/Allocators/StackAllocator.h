@@ -68,7 +68,7 @@ private:
 	uint32_t m_inUse;
 	uint8_t* m_top;
 	bool m_isAligned = false;
-	core::Mutex m_mutex;
+	Std::mutex m_mutex;
 };
 
 
@@ -133,7 +133,7 @@ template<typename T>
 template<typename E>
 inline void StackAllocator<T>::Destroy_TS(E* elem)
 {
-	core::ScopedLock m(m_mutex);
+	Std::scoped_lock m(m_mutex);
 	if (m_inUse == 0)
 	{
 		return; // all empty
@@ -172,7 +172,7 @@ inline E* StackAllocator<T>::Construct_TS()
 {
 	const size_t bytesToRequest = sizeof(E);
 
-	core::ScopedLock m(m_mutex);
+	core::scoped_lock m(m_mutex);
 
 	if (m_inUse + bytesToRequest > m_totalSize)
 	{

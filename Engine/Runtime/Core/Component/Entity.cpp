@@ -7,7 +7,7 @@
 namespace Torc
 {
 
-	static core::Atomic<EntityId> s_entityId{1};
+	static Std::atomic<EntityId> s_entityId{1};
 
 	EntityId Entity::GenerateId()
 	{
@@ -17,7 +17,7 @@ namespace Torc
 
 	bool Entity::HasComponent(const Component* component)
 	{
-		core::ScopedLock lock{ m_mutex };
+		Std::scoped_lock lock{ m_mutex };
 		for (Component* comp : m_components)
 		{
 			if (comp->IsSameAs(*component))

@@ -43,7 +43,7 @@ namespace Torc
 		template<typename T>
 		bool AssignComponent(T& component)
 		{
-			core::ScopedLock lock{ m_mutex };
+			Std::scoped_lock lock{ m_mutex };
 			if (!m_allowDuplicateComponents)
 			{
 				for (Component* comp : m_components)
@@ -62,7 +62,7 @@ namespace Torc
 		template<typename T>
 		T* RemoveComponent()
 		{
-			core::ScopedLock lock{ m_mutex };
+			Std::scoped_lock lock{ m_mutex };
 			for (auto iter = m_components.begin(); iter != m_components.end(); iter++)
 			{
 				if ((*iter)->IsSameAs(*(*iter)))
@@ -78,7 +78,7 @@ namespace Torc
 		template<typename T>
 		T* GetComponent()
 		{
-			core::ScopedLock lock{ m_mutex };
+			Std::scoped_lock lock{ m_mutex };
 			for (Component* comp : m_components)
 			{
 				if (comp->IsSameAs(*comp))
@@ -98,7 +98,7 @@ namespace Torc
 
 		EntityId m_id;
 		bool m_allowDuplicateComponents;
-		core::Mutex m_mutex;
+		Std::mutex m_mutex;
 		std::vector<Component*> m_components;
 	};
 }

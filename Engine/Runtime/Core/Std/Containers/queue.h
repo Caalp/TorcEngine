@@ -14,37 +14,37 @@ public:
 
     void PushBack(T&& val)
     {
-        core::ScopedLock sl(m_lock);
+        Std::scoped_lock sl(m_lock);
         m_storage.push_back(std::forward<T>(val));
     }
 
     int32 Size()
     {
-        core::ScopedLock sl(m_lock);
+        Std::scoped_lock sl(m_lock);
         return (int32)m_storage.size();
     }
 
     void Clear()
     {
-        core::ScopedLock sl(m_lock);
+        Std::scoped_lock sl(m_lock);
         m_storage.clear();
     }
 
     T& operator[](int32 idx)
     {
-        core::ScopedLock sl(m_lock);
+        Std::scoped_lock sl(m_lock);
         return m_storage[idx];
     }
 
     const T& operator[](int32 idx) const
     {
-        core::ScopedLock sl(m_lock);
+        Std::scoped_lock sl(m_lock);
         return m_storage[idx];
     }
 
 private:
     std::vector<T> m_storage;
-    core::Mutex m_lock;
+    Std::mutex m_lock;
 };
 
 template <class T, class Allocator = PoolAllocator>
@@ -70,18 +70,18 @@ public:
 
     void Enqueue(T value)
     {   
-        m_mutex.Lock();
+        m_mutex.lock();
         Node* new_node = m_allocator.Construct_TS<Node>();
         new_node->next = NULL;
         new_node->value = value;
         m_tail->next = new_node;
         m_tail = new_node;
-        m_mutex.Unlock();       
+        m_mutex.unlock();       
     }
 
     bool Dequeue(T* value)
     {
-        m_mutex.Lock();
+        m_mutex.lock();
         Node* head = m_head;
         Node* new_head = head->next;
         if(new_head == NULL)
@@ -92,7 +92,7 @@ public:
         
         *value = new_head->value;
         m_head= new_head;
-        m_mutex.Unlock();
+        m_mutex.unlock();
         m_allocator.Destroy_TS(head);
         return true;
     }
@@ -106,7 +106,7 @@ private:
     Node* m_head;
     Node* m_tail;
     Allocator m_allocator;
-    core::Mutex m_mutex;
+    Std::mutex m_mutex;
 };
 
 template <class T, class Allocator = PoolAllocator>
@@ -136,25 +136,25 @@ public:
         Node* new_node = m_allocator.Construct_TS<Node>();
         new_node->next = NULL;
         new_node->value = value;
-        m_enqueueLock.Lock();
+        m_enqueueLock.lock();
         m_tail->next = new_node;
         m_tail = new_node;
-        m_enqueueLock.Unlock();
+        m_enqueueLock.unlock();
     }
 
     bool Dequeue(T * value)
     {
-        m_dequeueLock.Lock();
+        m_dequeueLock.lock();
         Node* head = m_head;
         Node* new_head = head->next;
         if (new_head == NULL)
         {
-            m_dequeueLock.Unlock();
+            m_dequeueLock.unlock();
             return false;
         }
         *value = new_head->value;
         m_head = new_head;
-        m_dequeueLock.Unlock();
+        m_dequeueLock.unlock();
         m_allocator.Destroy_TS(head);
         return true;
     }
@@ -168,8 +168,8 @@ private:
     Node* m_head;
     Node* m_tail;
     Allocator m_allocator;
-    core::Mutex m_enqueueLock;
-    core::Mutex m_dequeueLock;
+    Std::mutex m_enqueueLock;
+    Std::mutex m_dequeueLock;
 };
 
 template <class T, class Allocator = PoolAllocator>

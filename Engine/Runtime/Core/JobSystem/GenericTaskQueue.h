@@ -16,7 +16,7 @@ public:
     void Clear();
      
 private:
-    core::Mutex m_mutex;
+    Std::mutex m_mutex;
     std::deque<std::packaged_task<void()>> m_tasks;
  };
 

@@ -15,12 +15,13 @@ namespace Torc
 				SwapChain_DX11() = default;
 
 			private:
-				Result ResizeBuffersInternal(uint32 width,
+				EResult ResizeBuffersInternal(uint32 width,
 											 uint32 height,
-											 Format newFormat,
+											 EResourceFormat newFormat,
 											 uint32 swapChainFlags) override;
-				Result PresentInternal() override;
-				Result InitInternal(const SwapChainDescription& description, void* wnd, bool isMultiSampled) override;
+				EResult PresentInternal() override;
+				EResult InitInternal(const SwapChainDescription& description, void* wnd, bool isMultiSampled) override;
+				void GetBufferInternal(uint32_t bufferIdx, Image** pImages) override;
 			private:
 				IDXGISwapChain* m_swapChain;
 			};

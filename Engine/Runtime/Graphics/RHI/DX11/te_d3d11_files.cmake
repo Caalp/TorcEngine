@@ -19,6 +19,7 @@ set(FILES
 	Public/Device_DX11.h
 	Public/RHITypeConverter.h
 	Public/DeviceContext_DX11.h
+	Public/Image_DX11.h
 
 	# Source folder
 	Source/SwapChain_DX11.cpp
@@ -26,4 +27,5 @@ set(FILES
 	Source/Device_DX11.cpp
 	Source/RHITypeConverter.cpp
 	Source/DeviceContext_DX11.cpp
+	Source/Image_DX11.cpp
 )

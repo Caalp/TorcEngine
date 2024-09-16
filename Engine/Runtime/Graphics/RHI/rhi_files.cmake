@@ -16,5 +16,12 @@ SET(FILES
 	RHI.Public/RHIContext.h
 	RHI.Public/RHIContext.cpp
 	RHI.Public/DeviceContext.cpp
+
+	RHI.Public/Image.h
+	RHI.Public/Image.cpp
+	RHI.Public/Resource.h
+	RHI.Public/Resource.cpp
+	RHI.Public/Pageable.h
+	RHI.Public/DeviceChild.h
 )
 	

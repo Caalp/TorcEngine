@@ -15,6 +15,16 @@ namespace Torc
 			{
 				return m_deviceContext;
 			}
+
+			void DeviceContext_DX11::ClearDepthStencilViewInternal(CPUDescriptorHandle handle, EClearFlags clearFlags, float depth, uint8_t stencil, uint32_t numRects, const Rect* pRects)
+			{
+
+			}
+
+			void DeviceContext_DX11::ClearRenderTargetViewInternal(CPUDescriptorHandle renderTargetView, const float colorRGBA[4], uint32_t numRects, const Rect* pRects)
+			{
+
+			}
 		}
 	}
 }

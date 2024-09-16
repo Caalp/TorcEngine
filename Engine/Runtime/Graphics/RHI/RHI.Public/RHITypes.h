@@ -11,7 +11,7 @@ namespace Torc
 		};
 
 		/* Blend */
-		enum class BlendOp : uint8_t
+		enum class EBlendOp : uint8_t
 		{
 			ADD = 1,
 			SUBTRACT = 2,
@@ -20,7 +20,7 @@ namespace Torc
 			MAX = 5
 		};
 
-		enum class Blend : uint8_t
+		enum class EBlend : uint8_t
 		{
 			ZERO = 1,
 			ONE = 2,
@@ -41,7 +41,7 @@ namespace Torc
 			INV_SRC1_ALPHA = 19
 		};
 
-		enum class ColorChannel : uint8_t
+		enum class EColorChannel : uint8_t
 		{
 			NONE = 0,
 			RED = 1,
@@ -52,13 +52,13 @@ namespace Torc
 		};
 
 		/* Depth */
-		enum class DepthWrite : uint8_t
+		enum class EDepthWrite : uint8_t
 		{
 			NONE,
 			ALL
 		};
 
-		enum class ComparisonFunc : uint8_t
+		enum class EComparisonFunc : uint8_t
 		{
 			NEVER = 0,
 			LESS = 1,
@@ -70,7 +70,7 @@ namespace Torc
 			ALWAYS = 7
 		};
 
-		enum class StencilOp : uint8_t
+		enum class EStencilOp : uint8_t
 		{
 			KEEP = 0,
 			ZERO = 1,
@@ -83,14 +83,14 @@ namespace Torc
 		};
 
 		/* Rasterizer */
-		enum class FillMode : uint8_t
+		enum class EFillMode : uint8_t
 		{
 			WIREFRAME = 0,
 			SOLID,
 			COUNT
 		};
 
-		enum class CullMode : uint8_t
+		enum class ECullMode : uint8_t
 		{
 			NONE = 0,
 			FRONT,
@@ -99,7 +99,7 @@ namespace Torc
 		};
 
 		/* Texture */
-		enum class Format : uint16_t
+		enum class EResourceFormat : uint16_t
 		{
 			FORMAT_UNKNOWN = 0,
 			FORMAT_R32G32B32A32_TYPELESS = 1,
@@ -225,7 +225,7 @@ namespace Torc
 			FORMAT_FORCE_UINT = 0xffff
 		};
 
-		enum class ResourceAccess : uint8_t
+		enum class EResourceAccess : uint8_t
 		{
 			USAGE_GPU_READ_AND_WRITE = 0,
 			USAGE_GPU_READ = 1,
@@ -233,7 +233,7 @@ namespace Torc
 			USAGE_GPU_CPU_READ_WRITE = 3
 		};
 
-		typedef enum ResourceUsage : uint16_t
+		typedef enum EResourceUsage : uint16_t
 		{
 			BIND_VERTEX_BUFFER = (1 << 0),
 			BIND_INDEX_BUFFER = (1 << 1),
@@ -247,14 +247,14 @@ namespace Torc
 			BIND_CONSTANT_BUFFER = (1 << 9)
 		} TORC_GFX_RESOURCE_BIND_FLAG;
 
-		enum CPUAccess : uint8_t
+		enum ECPUAccessFlag : uint8_t
 		{
 			NO_ACCESS = 0,
 			CPU_ACCESS_WRITE = 1 << 0,
 			CPU_ACCESS_READ = 1 << 1
 		};
 
-		enum class ResourceMiscFlags
+		enum class EResourceMiscFlags
 		{
 			RESOURCE_MISC_NOT_USED = 0,
 			RESOURCE_MISC_GENERATE_MIPS = 0x1L,
@@ -278,7 +278,7 @@ namespace Torc
 			RESOURCE_MISC_SHARED_EXCLUSIVE_WRITER
 		};
 
-		enum class Filter
+		enum class EFilter
 		{
 			FILTER_MIN_MAG_MIP_POINT = 0,
 			FILTER_MIN_MAG_POINT_MIP_LINEAR,
@@ -318,7 +318,7 @@ namespace Torc
 			FILTER_MAXIMUM_ANISOTROPIC
 		};
 
-		enum class TextureAddressMode : uint8_t
+		enum class ETextureAddressMode : uint8_t
 		{
 			TEXTURE_ADDRESS_WRAP = 0,
 			TEXTURE_ADDRESS_MIRROR,
@@ -327,7 +327,7 @@ namespace Torc
 			TEXTURE_ADDRESS_MIRROR_ONCE
 		};
 
-		enum class PrimitiveTopology : uint8_t
+		enum class EPrimitiveTopology : uint8_t
 		{
 			PRIMITIVE_TOPOLOGY_UNDEFINED = 0,
 			PRIMITIVE_TOPOLOGY_POINTLIST,
@@ -341,7 +341,7 @@ namespace Torc
 			PRIMITIVE_TOPOLOGY_TRIANGLESTRIP_ADJ,
 		};
 
-		enum class ImageDimension : uint8_t
+		enum class EImageDimension : uint8_t
 		{
 			DIMENSION_UNKNOWN = 0,
 			DIMENSION_BUFFER = 1,
@@ -363,13 +363,13 @@ namespace Torc
 
 		struct SamplerDescription
 		{
-			Filter					m_filter;
-			TextureAddressMode		m_addressU;
-			TextureAddressMode		m_addressV;
-			TextureAddressMode		m_addressW;
+			EFilter					m_filter;
+			ETextureAddressMode		m_addressU;
+			ETextureAddressMode		m_addressV;
+			ETextureAddressMode		m_addressW;
 			float					m_mipLODBias;
 			uint32_t		    	m_maxAnisotropy;
-			ComparisonFunc			m_comparisonFunc;
+			EComparisonFunc			m_comparisonFunc;
 			float					m_borderColor[4];
 			float					m_minLOD;
 			float					m_maxLOD;
@@ -377,10 +377,10 @@ namespace Torc
 
 		struct StencilDescription
 		{
-			StencilOp		m_stencilFailOp;
-			StencilOp		m_stencilDepthFailOp;
-			StencilOp		m_stencilPassOp;
-			ComparisonFunc	m_stencilFunc;
+			EStencilOp		m_stencilFailOp;
+			EStencilOp		m_stencilDepthFailOp;
+			EStencilOp		m_stencilPassOp;
+			EComparisonFunc	m_stencilFunc;
 		};
 
 		struct DepthStencilDescription
@@ -391,8 +391,8 @@ namespace Torc
 			uint8_t				m_stencilWriteMask;
 			StencilDescription	m_frontFace;
 			StencilDescription	m_backFace;
-			DepthWrite			m_depthWrite;
-			ComparisonFunc		m_depthFunc;
+			EDepthWrite			m_depthWrite;
+			EComparisonFunc		m_depthFunc;
 		};
 
 		struct BlendDescription
@@ -400,13 +400,13 @@ namespace Torc
 			bool			m_blendEnable;
 			bool			m_alphaToCoverageEnable;
 			bool			m_independentBlendEnable;
-			Blend			m_srcBlend;
-			Blend			m_destBlend;
-			BlendOp			m_blendOp;
-			Blend			m_srcBlendAlpha;
-			Blend			m_destBlendAlpha;
-			BlendOp			m_blendOpAlpha;
-			ColorChannel	m_rtWriteMask;
+			EBlend			m_srcBlend;
+			EBlend			m_destBlend;
+			EBlendOp		m_blendOp;
+			EBlend			m_srcBlendAlpha;
+			EBlend			m_destBlendAlpha;
+			EBlendOp		m_blendOpAlpha;
+			EColorChannel	m_rtWriteMask;
 		};
 
 		struct RasterizerDescription
@@ -419,8 +419,8 @@ namespace Torc
 			bool		m_multisampleEnable;
 			bool		m_antialiasedLineEnable;
 			bool		m_frontCCW;
-			FillMode	m_fillMode;
-			FillMode	m_cullMode;
+			EFillMode	m_fillMode;
+			EFillMode	m_cullMode;
 		};
 
 		struct ImageDescription
@@ -429,9 +429,9 @@ namespace Torc
 			uint32_t			m_height;
 			uint32_t			m_mipLevels;
 			uint32_t			m_arraySize;
-			Format				m_format;
+			EResourceFormat		m_format;
 			SampleDescription	m_sampleDesc;
-			ResourceUsage		m_usage;
+			EResourceUsage		m_usage;
 			uint32_t			m_bindFlags;
 			uint32_t			m_cpuAccessFlags;
 			uint32_t			m_miscFlags;
@@ -445,6 +445,22 @@ namespace Torc
 			float m_height;
 			float m_minDepth;
 			float m_maxDepth;
+		};
+
+		typedef enum EResourceDimension
+		{
+			RESOURCE_DIMENSION_UNKNOWN = 0,
+			RESOURCE_DIMENSION_BUFFER = 1,
+			RESOURCE_DIMENSION_TEXTURE1D = 2,
+			RESOURCE_DIMENSION_TEXTURE2D = 3,
+			RESOURCE_DIMENSION_TEXTURE3D = 4
+		};
+
+		typedef enum EImageLayout {
+			TEXTURE_LAYOUT_UNKNOWN = 0,
+			TEXTURE_LAYOUT_ROW_MAJOR = 1,
+			TEXTURE_LAYOUT_64KB_UNDEFINED_SWIZZLE = 2,
+			TEXTURE_LAYOUT_64KB_STANDARD_SWIZZLE = 3
 		};
 
 		//	struct RenderTargetDesc

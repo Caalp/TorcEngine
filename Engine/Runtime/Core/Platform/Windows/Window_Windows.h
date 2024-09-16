@@ -54,6 +54,6 @@ namespace Torc
 		virtual void ProcessMessages() noexcept override;
 		HWND m_debugHandle;
 	private:
-		core::Thread m_thread;
+		Std::thread m_thread;
 	};
 }

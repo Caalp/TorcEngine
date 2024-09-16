@@ -25,7 +25,7 @@ public:
 
 private:
     Node* m_top;
-    core::Mutex m_mutex;
+    Std::mutex m_mutex;
     Allocator m_allocator;
 };
 
@@ -156,7 +156,7 @@ public:
     void Clear();
     
 private:
-    core::Atomic<pointer_t<Node>> m_top;
+    Std::atomic<pointer_t<Node>> m_top;
     Allocator m_allocator;
 };
 

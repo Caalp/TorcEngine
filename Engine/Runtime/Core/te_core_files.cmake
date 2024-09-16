@@ -87,6 +87,7 @@ set(FILES
     Module/ModuleManager.cpp
 
     # Std folder
+    Std/intrusive_ptr.h
     Std/Containers/circular_queue.h
     Std/Containers/sparse_set.h
     Std/Containers/freelist.h
@@ -96,13 +97,12 @@ set(FILES
     Std/String/string.h
     Std/String/string_utils.cpp
     Std/String/string_utils.h
-    Std/Threading/Atomic.h
-    Std/Threading/Barrier.h
-    Std/Threading/ConditionVariable.h
-    Std/Threading/Mutex.cpp
-    Std/Threading/Mutex.h
-    Std/Threading/Thread.cpp
-    Std/Threading/Thread.h
+    Std/Threading/atomic.h
+    Std/Threading/barrier.h
+    Std/Threading/condition_variable.h
+    Std/Threading/mutex.cpp
+    Std/Threading/mutex.h
+    Std/Threading/thread.h
 
     # System folder
     System/ISystem.h

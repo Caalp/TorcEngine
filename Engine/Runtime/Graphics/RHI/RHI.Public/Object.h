@@ -1,91 +1,144 @@
 #pragma once
-#include <iostream>
-#include <Core/Std/Threading/Atomic.h>
+#include <Core/Std/Threading/atomic.h>
+#include "RHI/RHI.Public/RHITypes.h"
+#include <d3d12.h>
 
 namespace Torc
 {
 	namespace RHI
 	{
-		//! Check boost library documentation
-		template<typename T>
-		struct IntrusivePtrCountPolicy
+		typedef uint64_t GPUVirtualAddress;
+
+		enum class EResult
 		{
-			static void add_ref(T* px) { px->add_ref(); }
-			static void release(T* px) { px->release(); }
+			Success,
+			Failure
 		};
 
-		template<typename T>
-		class intrusive_ptr
-		{
 
+		typedef struct CPUDescriptorHandle
+		{
+			size_t m_ptr;
+		} CPUDescriptorHandle;
+
+		typedef struct GPUDescriptorHandle
+		{
+			size_t m_ptr;
+		} GPUDescriptorHandle;
+
+		struct DescriptorHandles
+		{
+			CPUDescriptorHandle m_cpuHandle;
+			GPUDescriptorHandle m_gpuHandle;
+		};
+
+		typedef enum EClearFlags
+		{
+			CLEAR_FLAG_DEPTH = 0x1,
+			CLEAR_FLAG_STENCIL = 0x2
+		};
+
+
+		typedef struct Rect {
+			long m_left;
+			long m_top;
+			long m_right;
+			long m_bottom;
+		} Rect, * Rect, * Rect, * Rect;
+
+		typedef struct ResourceDesc {
+			EResourceDimension		 m_dimension;
+			uint64_t                 m_alignment;
+			uint64_t                 m_width;
+			uint32_t                 m_height;
+			uint16_t                 m_depthOrArraySize;
+			uint16_t                 m_mipLevels;
+			EResourceFormat          m_format;
+			SampleDescription        m_sampleDesc;
+			EImageLayout			 m_layout;
+			EResourceUsage			 m_flags;
+		} ResourceDesc;
+
+		typedef struct Box
+		{
+			uint32_t left;
+			uint32_t top;
+			uint32_t front;
+			uint32_t right;
+			uint32_t bottom;
+			uint32_t back;
+		} RHIBox;
+
+
+		typedef struct Range
+		{
+			size_t m_begin;
+			size_t m_end;
+		};
+
+		typedef struct ShaderByteCode
+		{
+			const void* pShaderBytecode;
+			size_t BytecodeLength;
+		};
+		
+		class RootSignature: public DeviceChild
+		{
 		public:
-			typedef T element_type;
-			typedef IntrusivePtrCountPolicy<T> CountingPolicy;
-
-			intrusive_ptr(); // never throws
-			intrusive_ptr(T* p, bool add_ref = true);
-
-			intrusive_ptr(const intrusive_ptr& r);
-
-			template<class Y>
-			intrusive_ptr(const intrusive_ptr<Y>& r);
-
-			~intrusive_ptr();
-
-			intrusive_ptr& operator=(const intrusive_ptr& r);
-
-			template<class Y>
-			intrusive_ptr& operator=(const intrusive_ptr<Y>& r);
-			intrusive_ptr& operator=(T* r);
-
-			void reset();
-			void reset(T* r);
-
-			T& operator*() const; // never throws
-			T* operator->() const; // never throws
-			T* get() const; // never throws
-
-			void swap(intrusive_ptr& b); // never throws
-		private:
-			T* m_px;
 		};
 
-		template<class T, class U>
-		bool operator==(intrusive_ptr<T> const& a, intrusive_ptr<U> const& b); // never throws
+		typedef struct SO_DECLARATION_ENTRY
+		{
+			UINT Stream;
+			LPCSTR SemanticName;
+			UINT SemanticIndex;
+			BYTE StartComponent;
+			BYTE ComponentCount;
+			BYTE OutputSlot;
+		} 	SO_DECLARATION_ENTRY;
 
-		template<class T, class U>
-		bool operator!=(intrusive_ptr<T> const& a, intrusive_ptr<U> const& b); // never throws
+		typedef struct StreamOutputDesc
+		{
+			_Field_size_full_(NumEntries)  const D3D12_SO_DECLARATION_ENTRY* pSODeclaration;
+			UINT NumEntries;
+			_Field_size_full_(NumStrides)  const UINT* pBufferStrides;
+			UINT NumStrides;
+			UINT RasterizedStream;
+		} 	D3D12_STREAM_OUTPUT_DESC;
 
-		template<class T>
-		bool operator==(intrusive_ptr<T> const& a, T* b); // never throws
+		typedef struct PipelineStateDesc
+		{
+			RootSignature* pRootSignature;
+			ShaderByteCode VS;
+			ShaderByteCode PS;
+			ShaderByteCode DS;
+			ShaderByteCode HS;
+			ShaderByteCode GS;
+			StreamOutputDesc StreamOutput;
+			BlendDescription BlendState;
+			uint32_t SampleMask;
+			RasterizerDescription RasterizerState;
+			DepthStencilDescription DepthStencilState;
+			//D3D12_INPUT_LAYOUT_DESC InputLayout;
+			//D3D12_INDEX_BUFFER_STRIP_CUT_VALUE IBStripCutValue;
+			EPrimitiveTopology PrimitiveTopologyType;
+			uint32_t NumRenderTargets;
+			EResourceFormat RTVFormats[8];
+			EResourceFormat DSVFormat;
+			SampleDescription SampleDesc;
+			EResourceFormat NodeMask;
+			//D3D12_CACHED_PIPELINE_STATE CachedPSO;
+			//D3D12_PIPELINE_STATE_FLAGS Flags;
+		} PSO;
 
-		template<class T>
-		bool operator!=(intrusive_ptr<T> const& a, T* b); // never throws
 
-		template<class T>
-		bool operator==(T* a, intrusive_ptr<T> const& b); // never throws
 
-		template<class T>
-		bool operator!=(T* a, intrusive_ptr<T> const& b); // never throws
+		class Object;	
 
-		template<class T, class U>
-		bool operator<(intrusive_ptr<T> const& a, intrusive_ptr<U> const& b); // never throws
+		/*class Buffer : public Resource
+		{
 
-		template<class T> void swap(intrusive_ptr<T>& a, intrusive_ptr<T>& b); // never throws
-
-		template<class T> T* get_pointer(intrusive_ptr<T> const& p); // never throws
-
-		template<class T, class U>
-		intrusive_ptr<T> static_pointer_cast(intrusive_ptr<U> const& r); // never throws
-
-		template<class T, class U>
-		intrusive_ptr<T> const_pointer_cast(intrusive_ptr<U> const& r); // never throws
-
-		template<class T, class U>
-		intrusive_ptr<T> dynamic_pointer_cast(intrusive_ptr<U> const& r); // never throws
-
-		template<class E, class T, class Y>
-		std::basic_ostream<E, T>& operator<< (std::basic_ostream<E, T>& os, intrusive_ptr<Y> const& p);
+		};*/
 
 		template<typename T>
 		using RefCountedPtr = intrusive_ptr<T>;
@@ -94,91 +147,17 @@ namespace Torc
 		{
 		public:
 			virtual ~Object() = default;
+			void SetName(wchar_t* name) { m_name = name; }
 
 		private:
-			void add_ref();
-			void release();
+
+			virtual void add_ref() {};
+			virtual void release() {};
 
 
-
-			core::Atomic<int32> m_refCount;
+			const wchar_t* m_name;
+			Std::atomic<int32_t> m_refCount;
 		};
-
-		template<typename T>
-		inline intrusive_ptr<T>::intrusive_ptr()
-		{
-		}
-
-		template<typename T>
-		inline intrusive_ptr<T>::intrusive_ptr(T* p, bool add_ref)
-		{
-			if (m_px)
-			{
-				CountingPolicy::add_ref(px);
-			}
-		}
-
-		template<typename T>
-		inline intrusive_ptr<T>::intrusive_ptr(const intrusive_ptr& r)
-		{
-		}
-
-		template<typename T>
-		inline intrusive_ptr<T>::~intrusive_ptr()
-		{
-			if (m_px)
-			{
-				CountingPolicy::Release();
-			}
-		}
-
-		template<typename T>
-		inline intrusive_ptr<T>& intrusive_ptr<T>::operator=(const intrusive_ptr& r)
-		{
-			// TODO: insert return statement here
-		}
-
-		template<typename T>
-		inline intrusive_ptr<T>& intrusive_ptr<T>::operator=(T* r)
-		{
-			// TODO: insert return statement here
-		}
-
-		template<typename T>
-		inline void intrusive_ptr<T>::reset()
-		{
-		}
-
-		template<typename T>
-		inline void intrusive_ptr<T>::reset(T* r)
-		{
-		}
-
-		template<typename T>
-		inline T& intrusive_ptr<T>::operator*() const
-		{
-			// TODO: insert return statement here
-		}
-
-		template<typename T>
-		inline T* intrusive_ptr<T>::operator->() const
-		{
-			return nullptr;
-		}
-
-		template<typename T>
-		inline T* intrusive_ptr<T>::get() const
-		{
-			return nullptr;
-		}
-
-		template<typename T>
-		inline void intrusive_ptr<T>::swap(intrusive_ptr& b)
-		{
-			T* temp = this->m_px;
-			this->m_px = b->m_px;
-			b->m_px = temp;
-		}
 	}
 }
 
