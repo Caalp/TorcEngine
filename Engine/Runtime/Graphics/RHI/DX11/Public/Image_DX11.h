@@ -12,6 +12,7 @@ namespace Torc
 			{
 			public:
 				void SetResource(void* pResource) override { m_tex2D = (ID3D11Texture2D*)pResource; };
+				ID3D11Texture2D* GetResource() { return m_tex2D; }
 			private:
 
 				ID3D11Texture2D* m_tex2D;

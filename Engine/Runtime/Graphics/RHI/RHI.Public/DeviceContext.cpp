@@ -9,8 +9,8 @@ namespace Torc
 			EClearFlags clearFlags,
 			float depth,
 			uint8_t stencil,
-			uint32_t numRects = 0,
-			const Rect* pRects = nullptr
+			uint32_t numRects,
+			const Rect* pRects
 		)
 		{
 			ClearDepthStencilViewInternal(handle, clearFlags, depth, stencil, numRects, pRects);

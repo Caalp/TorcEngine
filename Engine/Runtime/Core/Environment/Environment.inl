@@ -22,6 +22,12 @@ namespace Torc
 			// since already have an instance, just return it
 			return EnvironmentVariable<T>::Get();
 		}
+
+		template<typename T>
+		inline EnvironmentVariable<T>* Environment::Get()
+		{
+			return EnvironmentVariable<T>::Get();
+		}
 		
 		template<typename T>
 		inline EnvironmentVariable<T>* Environment::Register(T* instance)

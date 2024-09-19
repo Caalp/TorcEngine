@@ -2,8 +2,10 @@
 #include "RHI/DX11/Public/RHITypeConverter.h"
 
 #include "RHI/DX11/Include/base.h"
+
 #include <Core/Environment/Environment.h>
 #include <RHI/RHI.Public/RHIContext.h>
+
 
 #include "RHI/DX11/Public/Device_DX11.h"
 #include "RHI/DX11/Public/DeviceContext_DX11.h"
@@ -76,7 +78,8 @@ namespace Torc
 					return EResult::Failure;
 				}
 
-				Device_DX11* device = torc_new Device_DX11(nativeDevice);
+				Device_DX11* device = torc_new Device_DX11();
+				device->m_device = nativeDevice;
 				DeviceContext_DX11* deviceContext = torc_new DeviceContext_DX11(nativeContext);
 
 				rhiContext->SetDeviceContext(deviceContext);

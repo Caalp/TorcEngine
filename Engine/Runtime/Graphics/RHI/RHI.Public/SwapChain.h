@@ -1,6 +1,6 @@
 #pragma once
 #include "RHI/Include/base.h"
-#include "RHI/RHI.Public/RHITypes.h"
+#include "RHI/RHI.Internal/RHIEnumTypes.h"
 #include "RHI/RHI.Public/Object.h"
 
 namespace Torc

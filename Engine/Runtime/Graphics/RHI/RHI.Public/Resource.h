@@ -1,5 +1,7 @@
 #pragma once
 #include "RHI/RHI.Public/Pageable.h"
+#include <RHI/RHI.Common/RHICommon.h>
+#include <RHI/RHI.Internal/RHITypeDesc.h>
 
 namespace Torc
 {
@@ -41,10 +43,6 @@ namespace Torc
 				D3D12_HEAP_PROPERTIES* pHeapProperties,
 				D3D12_HEAP_FLAGS* pHeapFlags) = 0;*/
 
-			ResourceDesc GetDesc();
-			GPUVirtualAddress GetGPUVirtualAddress();
-		protected:
-			void SetResource(void** ppResource);
 		private:
 			virtual void SetResource(void* pResource) = 0;
 

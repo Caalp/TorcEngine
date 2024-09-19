@@ -5,11 +5,12 @@ namespace Torc
 {
 	namespace RHI
 	{
-		class DeviceChild : public Object
+		class Device;
+
+		class DeviceChild : public RHI::Object
 		{
 		public:
-			virtual int GetDevice(void** ppvDevice) = 0;
-
+			virtual int GetDevice(Device* ppvDevice) = 0;
 		};
 	}
 }

@@ -18,6 +18,8 @@
 #include <Core/Std/intrusive_ptr.h>
 #include <Core/Std/Threading/thread.h>
 
+#include <Core/Environment/Environment.h>
+
 struct TestA
 {
 	TORC_RTTI(TestA, "{4A5D1388-13FD-4742-AD1B-189318EB4D2E}");

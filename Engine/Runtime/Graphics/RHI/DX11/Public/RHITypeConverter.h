@@ -1,5 +1,5 @@
 #pragma once
-#include <RHI/RHI.Public/RHITypes.h>
+#include <RHI/RHI.Internal/RHIEnumTypes.h>
 
 namespace Torc
 {

@@ -38,7 +38,7 @@ namespace Torc
 		static T* Get()
 		{
 			Core::EnvironmentVariable<T>* v = Core::Environment::Get<T>();
-			return (*v)->operator->();
+			return (*v).operator->();
 		}
 	};
 }

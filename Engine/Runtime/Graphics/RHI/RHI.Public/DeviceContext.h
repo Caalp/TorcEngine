@@ -1,10 +1,14 @@
 #pragma once
 #include "RHI/RHI.Public/Object.h"
+#include "RHI/RHI.Internal/RHIEnumTypes.h"
+#include "RHI/RHI.Internal/Descriptor.h"
 
 namespace Torc
 {
 	namespace RHI
 	{
+		class Rect;
+
 		class DeviceContext : public Object
 		{
 		public:
@@ -42,7 +46,6 @@ namespace Torc
 				uint32_t numRects,
 				const Rect* pRects
 			) = 0;
-
 		};
 	}
 }

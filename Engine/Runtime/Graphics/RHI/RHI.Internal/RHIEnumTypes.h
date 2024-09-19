@@ -447,7 +447,7 @@ namespace Torc
 			float m_maxDepth;
 		};
 
-		typedef enum EResourceDimension
+		enum class EResourceDimension
 		{
 			RESOURCE_DIMENSION_UNKNOWN = 0,
 			RESOURCE_DIMENSION_BUFFER = 1,
@@ -456,11 +456,17 @@ namespace Torc
 			RESOURCE_DIMENSION_TEXTURE3D = 4
 		};
 
-		typedef enum EImageLayout {
+		enum class EImageLayout {
 			TEXTURE_LAYOUT_UNKNOWN = 0,
 			TEXTURE_LAYOUT_ROW_MAJOR = 1,
 			TEXTURE_LAYOUT_64KB_UNDEFINED_SWIZZLE = 2,
 			TEXTURE_LAYOUT_64KB_STANDARD_SWIZZLE = 3
+		};
+
+		enum EClearFlags
+		{
+			CLEAR_FLAG_DEPTH = 0x1,
+			CLEAR_FLAG_STENCIL = 0x2
 		};
 
 		//	struct RenderTargetDesc
