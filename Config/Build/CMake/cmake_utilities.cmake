@@ -118,9 +118,9 @@ endfunction()
 
 # given file list will capture folder structure
 function(te_source_group FILES)
-foreach(FILE ${FILES}) 
+  foreach(FILE ${FILES}) 
     #convert source file to absolute
-	get_filename_component(ABSOLUTE_PATH "${FILE}" ABSOLUTE)
+	  get_filename_component(ABSOLUTE_PATH "${FILE}" ABSOLUTE)
 	
     # Get the directory of the absolute source file
     get_filename_component(PARENT_DIR "${ABSOLUTE_PATH}" DIRECTORY)
@@ -132,7 +132,7 @@ foreach(FILE ${FILES})
     string(REPLACE "/" "\\" GROUP "${GROUP}")
     set(GROUP "${GROUP}")
     source_group("${GROUP}" FILES "${FILE}")
-endforeach()
+  endforeach()
 endfunction()
 
 MACRO(TE_GROUP_SRC SRCS)
@@ -156,7 +156,6 @@ MACRO(TE_GROUP_SRC SRCS)
       set(GROUP "Header Files${GROUP}")
     endif()
     source_group("${GROUP}" FILES "${FILE}")
-  #message(STATUS "Setting the source ${GROUP}")
   endforeach()
 ENDMACRO(TE_GROUP_SRC)
 
