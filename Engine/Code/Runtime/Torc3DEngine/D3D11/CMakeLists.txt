@@ -15,7 +15,9 @@ te_add_target(SHARED SOURCE_GROUP
         LINKER_LANGUAGE CXX
     INCLUDE_DIRECTORIES
         PUBLIC
-            ./Public/D3D11
+            Public
+        PRIVATE
+            Public/D3D11
     BUILD_DEPENDENCIES
         PRIVATE
             TE::Core

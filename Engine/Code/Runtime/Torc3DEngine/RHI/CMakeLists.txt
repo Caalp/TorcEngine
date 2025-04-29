@@ -12,7 +12,9 @@ te_add_target(STATIC SOURCE_GROUP
         LINKER_LANGUAGE CXX
     INCLUDE_DIRECTORIES
         PUBLIC
-            ./Public/RHI
+            Public
+        PRIVATE
+            Public/RHI
 	BUILD_DEPENDENCIES
         PUBLIC
             TE::Core

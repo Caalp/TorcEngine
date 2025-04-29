@@ -1,35 +1,34 @@
 set(PUBLIC_FILES
-    Public/Common/RHICommon.h
-    Public/Common/Base.h
 
-    Public/Object.h	
-    Public/Factory.h
+    Public/RHI/RHIBase.h
+    Public/RHI/RHIObject.h	
+    Public/RHI/Factory.h
 
-    Public/SwapChain.h
-    Public/Device.h
-    Public/HandleRegistry.h
-    Public/ITorcGfxBackend.h
-    Public/DeviceContext.h
-    Public/RHIContext.h
-    Public/Image.h
-    Public/Resource.h
-    Public/Pageable.h
-    Public/DeviceChild.h
-    Public/ResourceView.h
-    Public/PipelineStateObject.h
-    Public/RHITypeDesc.h
-    Public/Descriptor.h
-    Public/RHIEnumTypes.h
+    Public/RHI/SwapChain.h
+    Public/RHI/Device.h
+    Public/RHI/HandleRegistry.h
+    Public/RHI/ITorcGfxBackend.h
+    Public/RHI/DeviceContext.h
+    Public/RHI/RHIContext.h
+    Public/RHI/Image.h
+    Public/RHI/Resource.h
+    Public/RHI/Pageable.h
+    Public/RHI/DeviceChild.h
+    Public/RHI/ResourceView.h
+    Public/RHI/PipelineStateObject.h
+    Public/RHI/RHITypeDesc.h
+    Public/RHI/Descriptor.h
+    Public/RHI/RHIEnumTypes.h
 )
 
 set(PRIVATE_FILES
-    Private/Factory.cpp
-    Private/SwapChain.cpp
-    Private/Device.cpp
+    Private/RHI/Factory.cpp
+    Private/RHI/SwapChain.cpp
+    Private/RHI/Device.cpp
 
-    Private/RHIContext.cpp
-    Private/DeviceContext.cpp
+    Private/RHI/RHIContext.cpp
+    Private/RHI/DeviceContext.cpp
 
-    Private/Image.cpp
-    Private/Resource.cpp
+    Private/RHI/Image.cpp
+    Private/RHI/Resource.cpp
 )

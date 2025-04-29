@@ -10,7 +10,9 @@ te_add_target(STATIC SOURCE_GROUP
         FOLDER Engine/Code/Runtime/Core
     INCLUDE_DIRECTORIES
         PUBLIC
-            ./Private/Platform/${TARGET_PLATFORM}
+            ./Private/Core/Platform/${TARGET_PLATFORM}
+        PRIVATE
+            Public/Core
     BUILD_DEPENDENCIES
         PUBLIC
             3rdParty::DirectXMath

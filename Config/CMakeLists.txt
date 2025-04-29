@@ -13,6 +13,6 @@ set (FILES
   generate_md5.py
 )
 
-add_custom_target(Config SOURCES ${FILES})
+add_custom_target(Config SOURCES ${FILES} COMMENT "Adding Config Folder to solution.")
 set_target_properties(Config PROPERTIES FOLDER Config)
 te_source_group("${FILES}")

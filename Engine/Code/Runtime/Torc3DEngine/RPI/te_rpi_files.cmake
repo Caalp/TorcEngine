@@ -1,75 +1,75 @@
 set(PUBLIC_FILES
 
-	Public/Camera.h
-	Public/IGPUResource.h
-	Public/Renderer.h
-	Public/rrPredefines.h
+	Public/RPI/Camera.h
+	Public/RPI/IGPUResource.h
+	Public/RPI/Renderer.h
+	Public/RPI/rrPredefines.h
 	
-	Public/BlendState.h
-	Public/Buffer.h
-	Public/DepthStencilBuffer.h
-	Public/DepthStencilState.h
-	Public/InputLayout.h
-	Public/PrimitiveTopology.h
-	Public/RasterizerState.h
-	Public/RenderTarget.h
-	Public/SamplerState.h
-	Public/Shader.h
-	Public/Texture.h
-	Public/TransformationBuffer.h
+	Public/RPI/BlendState.h
+	Public/RPI/Buffer.h
+	Public/RPI/DepthStencilBuffer.h
+	Public/RPI/DepthStencilState.h
+	Public/RPI/InputLayout.h
+	Public/RPI/PrimitiveTopology.h
+	Public/RPI/RasterizerState.h
+	Public/RPI/RenderTarget.h
+	Public/RPI/SamplerState.h
+	Public/RPI/Shader.h
+	Public/RPI/Texture.h
+	Public/RPI/TransformationBuffer.h
 	
 	#RenderGraph folder
-	Public/FrameGraph/BindingPass.h
-	Public/FrameGraph/Job.h
-	Public/FrameGraph/Pass.h
-	Public/FrameGraph/PassReflection.h
-	Public/FrameGraph/RenderGraph.h
-	Public/FrameGraph/RenderQueuePass.h
-	Public/FrameGraph/Sink.h
-	Public/FrameGraph/Source.h
-	Public/FrameGraph/Step.h
-	Public/FrameGraph/Technique.h
+	Public/RPI/FrameGraph/BindingPass.h
+	Public/RPI/FrameGraph/Job.h
+	Public/RPI/FrameGraph/Pass.h
+	Public/RPI/FrameGraph/PassReflection.h
+	Public/RPI/FrameGraph/RenderGraph.h
+	Public/RPI/FrameGraph/RenderQueuePass.h
+	Public/RPI/FrameGraph/Sink.h
+	Public/RPI/FrameGraph/Source.h
+	Public/RPI/FrameGraph/Step.h
+	Public/RPI/FrameGraph/Technique.h
 	
 	#RenderPasses folder
-	Public/Passes/MarkMirrorPass.h
-	Public/Passes/MirrorReflectionPass.h
-	Public/Passes/SkyBoxPass.h
+	Public/RPI/Passes/MarkMirrorPass.h
+	Public/RPI/Passes/MirrorReflectionPass.h
+	Public/RPI/Passes/SkyBoxPass.h
 )
 
 set(PRIVATE_FILES
-	Private/Camera.cpp
-	Private/IGPUResource.cpp
-	Private/Renderer.cpp
+	Private/RPI/Camera.cpp
+	Private/RPI/IGPUResource.cpp
+	Private/RPI/Renderer.cpp
 	
 	#GPUObjects folder
-	Private/BlendState.cpp
-	Private/Buffer.cpp
-	Private/DepthStencilBuffer.cpp
-	Private/DepthStencilState.cpp
-	Private/InputLayout.cpp
-	Private/PrimitiveTopology.cpp
-	Private/RasterizerState.cpp
-	Private/RenderTarget.cpp
-	Private/SamplerState.cpp
-	Private/Shader.cpp
-	Private/Texture.cpp
-	Private/TransformationBuffer.cpp
+	Private/RPI/BlendState.cpp
+	Private/RPI/Buffer.cpp
+	Private/RPI/DepthStencilBuffer.cpp
+	Private/RPI/DepthStencilState.cpp
+	Private/RPI/InputLayout.cpp
+	Private/RPI/PrimitiveTopology.cpp
+	Private/RPI/RasterizerState.cpp
+	Private/RPI/RenderTarget.cpp
+	Private/RPI/SamplerState.cpp
+	Private/RPI/Shader.cpp
+	Private/RPI/Texture.cpp
+	Private/RPI/TransformationBuffer.cpp
 	
 	#RenderGraph folder
-	Private/FrameGraph/BindingPass.cpp
-	Private/FrameGraph/Job.cpp
-	Private/FrameGraph/Pass.cpp
-	Private/FrameGraph/PassReflection.cpp
-	Private/FrameGraph/RenderGraph.cpp
-	Private/FrameGraph/RenderQueuePass.cpp
-	Private/FrameGraph/Sink.cpp
-	Private/FrameGraph/Source.cpp
-	Private/FrameGraph/Step.cpp
-	Private/FrameGraph/Technique.cpp
+	Private/RPI/FrameGraph/BindingPass.cpp
+	Private/RPI/FrameGraph/Job.cpp
+	Private/RPI/FrameGraph/Pass.cpp
+	Private/RPI/FrameGraph/PassReflection.cpp
+	Private/RPI/FrameGraph/RenderGraph.cpp
+	Private/RPI/FrameGraph/RenderQueuePass.cpp
+	Private/RPI/FrameGraph/Sink.cpp
+	Private/RPI/FrameGraph/Source.cpp
+	Private/RPI/FrameGraph/Step.cpp
+	Private/RPI/FrameGraph/Technique.cpp
 	
 	#RenderPasses folder
-	Private/Passes/MarkMirrorPass.cpp
-	Private/Passes/MirrorReflectionPass.cpp
-	Private/Passes/SkyBoxPass.cpp
+	Private/RPI/Passes/MarkMirrorPass.cpp
+	Private/RPI/Passes/MirrorReflectionPass.cpp
+	Private/RPI/Passes/SkyBoxPass.cpp
 )
 	

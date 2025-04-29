@@ -1,9 +1,9 @@
 #define _CRTDBG_MAP_ALLOC
 
-#include <Application.h>
-#include <IO/FileIOBase.h>
-#include <Logging/Logger.h>
-#include <System/ISystem.h>
+#include <Core/Application.h>
+#include <Core/IO/FileIOBase.h>
+#include <Core/Logging/Logger.h>
+#include <Core/System/ISystem.h>
 //#include <Components/TransformComponent.h>
 
 #include <variant>
@@ -218,8 +218,8 @@
 //static std::vector<IGPUResource*> m_gpuResources;
 
 #include <FreeImage/FreeImage.h>
-#include <Singleton/Singleton.h>
-#include <Asset/Asset.h>
+#include <Core/Singleton/Singleton.h>
+#include <Core/Asset/Asset.h>
 
 void Main2()
 {

@@ -11,10 +11,13 @@ te_add_target(STATIC SOURCE_GROUP
         FOLDER Engine/Code/Runtime/Torc3DEngine/RPI
     INCLUDE_DIRECTORIES
         PUBLIC
-            ./Public/RPI
+            Public
+        PRIVATE
+            Public/RPI
     BUILD_DEPENDENCIES
         PUBLIC
             TE::Core
+            TE::RHI.Public
         PRIVATE
             3rdParty::DirectXMath
 )

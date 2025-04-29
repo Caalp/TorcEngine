@@ -9,6 +9,7 @@ te_add_target(EXECUTABLE SOURCE_GROUP
             .
     BUILD_DEPENDENCIES
         PUBLIC
-            #TE::Runtime.Static  # TE::Core, TE::Asset, TE::GameCore, TE::RPI
+            #TE::Runtime.Static  # TE::Core, TE::Asset, TE::GameCore,
+            TE::RPI
             TE::Core
 )
