@@ -2,18 +2,18 @@
 #include <WinUser.h>
 #include <debugapi.h>
 
-#include "Renderer.h"
+#include "RPI/Renderer.h"
 #include <Core/Module/Module.h>
 #include <Core/Module/ModuleManager.h>
 
-#include "BlendState.h"
-#include "RasterizerState.h"
-#include "DepthStencilState.h"
-#include "SamplerState.h"
-#include "Buffer.h"
-#include "RenderTarget.h"
-#include "Shader.h"
-#include "Texture.h"
+#include "RPI/BlendState.h"
+#include "RPI/RasterizerState.h"
+#include "RPI/DepthStencilState.h"
+#include "RPI/SamplerState.h"
+#include "RPI/Buffer.h"
+#include "RPI/RenderTarget.h"
+#include "RPI/Shader.h"
+#include "RPI/Texture.h"
 
 #include <Core/Logging/Logger.h>
 

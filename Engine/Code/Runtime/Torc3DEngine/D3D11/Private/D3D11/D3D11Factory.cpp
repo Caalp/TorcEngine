@@ -1,6 +1,6 @@
-#include "D3D11Factory.h"
-#include "D3D11Device.h"
-#include "D3D11SwapChain.h"
+#include "D3D11/D3D11Factory.h"
+#include "D3D11/D3D11Device.h"
+#include "D3D11/D3D11SwapChain.h"
 
 namespace Torc
 {

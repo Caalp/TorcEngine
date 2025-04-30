@@ -1,6 +1,6 @@
-#include "Input/Mouse.h"
-#include "Application.h"
-#include "Logging/Logger.h"
+#include "Core/Input/Mouse.h"
+#include "Core/Application.h"
+#include "Core/Logging/Logger.h"
 
 namespace
 {

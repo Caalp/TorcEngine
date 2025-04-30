@@ -1,5 +1,5 @@
 #pragma once
-#include "FrameGraph/RenderQueuePass.h"
+#include "RPI/FrameGraph/RenderQueuePass.h"
 
 class MirrorReflectionPass : public RenderQueuePass
 {

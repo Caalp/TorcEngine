@@ -1,8 +1,8 @@
-#include "Input/BaseInput.h"
+#include "Core/Input/BaseInput.h"
 
-#include "Application.h"
-#include "Input/PlatformInput.h"
-#include "Logging/Logger.h"
+#include "Core/Application.h"
+#include "Core/Input/PlatformInput.h"
+#include "Core/Logging/Logger.h"
 
 static const int32 GetDeviceIndexByKeyCode(KeyCode keyCode)
 {

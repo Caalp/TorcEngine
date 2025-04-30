@@ -1,6 +1,6 @@
 #pragma once
-#include "Memory/Memory.h"
-#include "Std/Threading/Mutex.h"
+#include "Core/Memory/Memory.h"
+#include "Core/Std/Threading/Mutex.h"
 
 /**
  * This allocator can be used with containers, specifically with stack type containers.

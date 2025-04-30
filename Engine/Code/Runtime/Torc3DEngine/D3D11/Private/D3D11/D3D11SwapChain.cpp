@@ -1,16 +1,16 @@
-#include "D3D11SwapChain.h"
-#include "D3D11TypeConverter.h"
+#include "D3D11/D3D11SwapChain.h"
+#include "D3D11/D3D11TypeConverter.h"
 
-#include "D3D11Base.h"
+#include "D3D11/D3D11Base.h"
 
 #include <Core/Environment/Environment.h>
 #include <Core/Memory/Memory_defs.h>
 #include <RHI/RHIContext.h>
 
 
-#include "D3D11Device.h"
-#include "D3D11DeviceContext.h"
-#include "D3D11Image.h"
+#include "D3D11/D3D11Device.h"
+#include "D3D11/D3D11DeviceContext.h"
+#include "D3D11/D3D11Image.h"
 
 namespace Torc
 {

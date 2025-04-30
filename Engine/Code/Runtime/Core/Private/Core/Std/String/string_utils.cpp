@@ -1,5 +1,5 @@
-#include "Std/String/string_utils.h"
-#include "Logging/Logger.h"
+#include "Core/Std/String/string_utils.h"
+#include "Core/Logging/Logger.h"
 
 std::wstring string::utils::ConvertToWideChar(const std::string& src)
 {

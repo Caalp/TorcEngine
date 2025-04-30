@@ -1,5 +1,5 @@
-#include "IGPUResource.h"
-#include "Renderer.h"
+#include "RPI/IGPUResource.h"
+#include "RPI/Renderer.h"
 
 //IGPUResource::IGPUResource() 
 //	: m_underlyingType(nullptr)

@@ -1,6 +1,6 @@
-#include "Memory/Memory.h"
-#include "Base.h"
-#include "Platform/Platform.h"
+#include "Core/Memory/Memory.h"
+#include "Core/Base.h"
+#include "Core/Platform/Platform.h"
 namespace
 {
 	size_t m_usage[(uint32_t)MemoryTag::COUNT];

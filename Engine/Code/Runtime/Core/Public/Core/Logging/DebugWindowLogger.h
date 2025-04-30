@@ -1,5 +1,5 @@
 #pragma once
-#include "Logging/Logger.h"
+#include "Core/Logging/Logger.h"
 
 class DebugWindowLogger : public ILogListener
 {

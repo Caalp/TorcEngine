@@ -1,8 +1,8 @@
-#include "Component/ECManager.h"
-#include "Component/Entity.h"
-#include "Component/ECRegistry.h"
-#include "Application.h"
-#include "System/ISystem.h"
+#include "Core/Component/ECManager.h"
+#include "Core/Component/Entity.h"
+#include "Core/Component/ECRegistry.h"
+#include "Core/Application.h"
+#include "Core/System/ISystem.h"
 
 namespace Torc
 {

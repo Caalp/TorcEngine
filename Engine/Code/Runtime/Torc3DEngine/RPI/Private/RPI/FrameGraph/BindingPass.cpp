@@ -1,4 +1,4 @@
-#include "FrameGraph/BindingPass.h"
+#include "RPI/FrameGraph/BindingPass.h"
 
 BindingPass::BindingPass(const char* passName) 
 	: Pass(passName)

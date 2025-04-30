@@ -15,7 +15,7 @@ namespace TorcEditor
             InitializeComponent();
 
             Editor editor = new Editor();
-            if (editor.Init())
+            if (!editor.Init())
             {
                 MessageBox.Show("Editor Initialization is failed.");
                 System.Windows.Application.Current.Shutdown();

@@ -1,22 +1,22 @@
-#include "Application.h"
+#include "Core/Application.h"
 
-#include "Std/String/string_utils.h"
-#include "Profiling/Timer.h"
-#include "Module/ModuleManager.h"
-#include "Logging/Logger.h"
+#include "Core/Std/String/string_utils.h"
+#include "Core/Profiling/Timer.h"
+#include "Core/Module/ModuleManager.h"
+#include "Core/Logging/Logger.h"
 
-#include "Platform/Platform.h"
-#include "Windowing/WindowBase.h"
-#include "Input/PlatformInput.h"
-#include "Input/BaseInput.h"
-#include "Profiling/SystemTimer.h"
-#include "Logging/DebugWindowLogger.h"
-#include "Logging/FileLogger.h"
+#include "Core/Platform/Platform.h"
+#include "Core/Windowing/WindowBase.h"
+#include "Core/Input/PlatformInput.h"
+#include "Core/Input/BaseInput.h"
+#include "Core/Profiling/SystemTimer.h"
+#include "Core/Logging/DebugWindowLogger.h"
+#include "Core/Logging/FileLogger.h"
 
 #include <RapidJSON/document.h>
 #include <CityHash/city.h>
-#include "Component/Entity.h"
-#include "Component/Component.h"
+#include "Core/Component/Entity.h"
+#include "Core/Component/Component.h"
 
 #include <stdarg.h>
 

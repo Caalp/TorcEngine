@@ -1,6 +1,6 @@
 #pragma once
-#include "Base.h"
-#include "System/ISystem.h"
+#include "Core/Base.h"
+#include "Core/System/ISystem.h"
 
 #include <vector>
 

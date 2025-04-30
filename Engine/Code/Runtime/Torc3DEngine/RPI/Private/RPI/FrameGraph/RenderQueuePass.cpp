@@ -1,5 +1,5 @@
-#include "FrameGraph/RenderQueuePass.h"
-#include "FrameGraph/Job.h"
+#include "RPI/FrameGraph/RenderQueuePass.h"
+#include "RPI/FrameGraph/Job.h"
 
 void RenderQueuePass::Accept(const Job& job)
 {

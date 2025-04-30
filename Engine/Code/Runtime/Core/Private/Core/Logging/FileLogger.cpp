@@ -1,8 +1,8 @@
-#include "Logging/FileLogger.h"
-#include "IO/FileStream.h"
-#include "IO/FileIOBase.h"
-#include "Std/String/string.h"
-#include "IO/Path/Path.h"
+#include "Core/Logging/FileLogger.h"
+#include "Core/IO/FileStream.h"
+#include "Core/IO/FileIOBase.h"
+#include "Core/Std/String/string.h"
+#include "Core/IO/Path/Path.h"
 
 namespace Torc
 {

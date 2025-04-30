@@ -1,6 +1,6 @@
-#include "Input/Gamepad.h"
-#include "Application.h"
-#include "Input/PlatformInput.h"
+#include "Core/Input/Gamepad.h"
+#include "Core/Application.h"
+#include "Core/Input/PlatformInput.h"
 
 namespace
 {

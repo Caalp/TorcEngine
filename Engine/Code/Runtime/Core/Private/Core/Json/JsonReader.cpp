@@ -1,6 +1,6 @@
-#include "Json/JsonReader.h"
-#include "IO/FileStream.h"
-#include "Logging/Logger.h"
+#include "Core/Json/JsonReader.h"
+#include "Core/IO/FileStream.h"
+#include "Core/Logging/Logger.h"
 #include <RapidJSON/document.h>
 
 namespace Torc

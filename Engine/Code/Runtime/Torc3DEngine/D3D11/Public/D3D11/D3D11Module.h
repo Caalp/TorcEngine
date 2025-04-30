@@ -1,6 +1,6 @@
 #pragma once
-#include <Memory/Memory_defs.h>
-#include <Module/Module.h>
+#include <Core/Memory/Memory_defs.h>
+#include <Core/Module/Module.h>
 
 namespace Torc
 {

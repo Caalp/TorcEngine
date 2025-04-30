@@ -1,6 +1,6 @@
 #include "FileIO.h"
-#include "Logging/Logger.h"
-#include "IO/Path/Path.h"
+#include "Core/Logging/Logger.h"
+#include "Core/IO/Path/Path.h"
 
 #include <Windows.h>
 #include <fileapi.h>

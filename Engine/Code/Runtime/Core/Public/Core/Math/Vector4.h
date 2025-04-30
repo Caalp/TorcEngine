@@ -40,4 +40,4 @@ namespace Torc
 	using Vector4f64 = Vector4<double>;
 }
 
-#include "../Private/Math/Vector4.inl"
+#include "../Private/Core/Math/Vector4.inl"

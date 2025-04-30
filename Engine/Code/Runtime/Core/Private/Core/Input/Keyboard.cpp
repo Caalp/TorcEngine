@@ -1,6 +1,6 @@
-#include "Input/Keyboard.h"
-#include "Application.h"
-#include "Logging/Logger.h"
+#include "Core/Input/Keyboard.h"
+#include "Core/Application.h"
+#include "Core/Logging/Logger.h"
 
 namespace
 {

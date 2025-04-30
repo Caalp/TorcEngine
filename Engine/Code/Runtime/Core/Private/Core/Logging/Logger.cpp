@@ -1,6 +1,6 @@
-#include "Logging/Logger.h"
-#include "Application.h"
-#include "Logging/FileLogger.h"
+#include "Core/Logging/Logger.h"
+#include "Core/Application.h"
+#include "Core/Logging/FileLogger.h"
 
 #include <stdarg.h>
 

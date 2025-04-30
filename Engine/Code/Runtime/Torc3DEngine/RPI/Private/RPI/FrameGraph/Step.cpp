@@ -1,5 +1,5 @@
-#include "FrameGraph/Step.h"
-#include "FrameGraph/RenderGraph.h"
+#include "RPI/FrameGraph/Step.h"
+#include "RPI/FrameGraph/RenderGraph.h"
 
 #include <Core/Logging/Logger.h>
 #include <RHI/HandleRegistry.h>

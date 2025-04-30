@@ -1,4 +1,4 @@
-#include "TerrainClass.h"
+#include "GameCore/TerrainClass.h"
 //#include "MatHelper.h"
 //
 //TerrainClass::TerrainClass(Graphics& gfx, DirectX::XMFLOAT3 eyePos,UINT tW, UINT tH, float width, float height) 

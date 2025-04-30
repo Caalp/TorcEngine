@@ -1,6 +1,6 @@
 #pragma once
-#include "Base.h"
-#include "Std/Threading/Mutex.h"
+#include "Core/Base.h"
+#include "Core/Std/Threading/Mutex.h"
 
 #include <vector>
 

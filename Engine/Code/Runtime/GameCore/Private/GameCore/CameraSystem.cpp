@@ -1,4 +1,4 @@
-#include "CameraSystem.h"
+#include "GameCore/CameraSystem.h"
 
 bool CameraSystem::AddCamera(Camera* camera)
 {

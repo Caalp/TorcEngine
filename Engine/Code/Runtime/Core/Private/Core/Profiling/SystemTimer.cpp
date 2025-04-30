@@ -1,5 +1,5 @@
-#include "Profiling/SystemTimer.h"
-#include "Platform/Platform.h"
+#include "Core/Profiling/SystemTimer.h"
+#include "Core/Platform/Platform.h"
 
 SystemTimer::SystemTimer() 
 	: m_startTime(0.0f)

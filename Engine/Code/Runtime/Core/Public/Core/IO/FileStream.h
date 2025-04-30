@@ -1,6 +1,6 @@
 #pragma once
-#include "Base.h"
-#include "IO/FileIOBase.h"
+#include "Core/Base.h"
+#include "Core/IO/FileIOBase.h"
 
 namespace Torc
 {

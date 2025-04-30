@@ -1,5 +1,5 @@
 #pragma once
-#include "System/SystemComponent.h"
+#include "Core/System/SystemComponent.h"
 
 namespace Torc
 {

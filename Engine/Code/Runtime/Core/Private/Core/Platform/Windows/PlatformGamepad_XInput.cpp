@@ -1,7 +1,7 @@
-#include "Input/PlatformInput.h"
-#include "Logging/Logger.h"
+#include "Core/Input/PlatformInput.h"
+#include "Core/Logging/Logger.h"
 
-#include "Input/Gamepad.h"
+#include "Core/Input/Gamepad.h"
 
 #include <wrl.h>
 #include <Xinput.h>

@@ -1,6 +1,6 @@
 #pragma once
-#include "RTTI/TypeList.h"
-#include "Math/Uuid.h"
+#include "Core/RTTI/TypeList.h"
+#include "Core/Math/Uuid.h"
 
 //! TORC_RTTI takes argument to _className which is the name of the class that is using this define,
 //! generated uuid for this class, and variable number of base classes that _className is inheriting from.

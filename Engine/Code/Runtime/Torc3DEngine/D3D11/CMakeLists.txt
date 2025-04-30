@@ -16,8 +16,6 @@ te_add_target(SHARED SOURCE_GROUP
     INCLUDE_DIRECTORIES
         PUBLIC
             Public
-        PRIVATE
-            Public/D3D11
     BUILD_DEPENDENCIES
         PRIVATE
             TE::Core

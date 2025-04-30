@@ -1,4 +1,4 @@
-#include "PrimitiveTopology.h"
+#include "RPI/PrimitiveTopology.h"
 
 PrimitiveTopology::PrimitiveTopology(gfx::TORC_GFX_PRIMITIVE_TOPOLOGY topology)
 	: m_topology(topology)

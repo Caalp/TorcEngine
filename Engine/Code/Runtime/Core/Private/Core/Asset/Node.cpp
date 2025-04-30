@@ -1,4 +1,4 @@
-#include "Asset/Node.h"
+#include "Core/Asset/Node.h"
 
 //Node::Node(int id, const std::string& name, std::vector<Mesh*> meshPtrs, const DirectX::XMMATRIX& transform) :
 //	id(id),

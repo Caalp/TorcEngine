@@ -1,6 +1,6 @@
 #pragma once
-#include "Base.h"
-#include "Std/String/string.h"
+#include "Core/Base.h"
+#include "Core/Std/String/string.h"
 
 namespace Torc
 {

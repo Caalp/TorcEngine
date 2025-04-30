@@ -121,7 +121,7 @@ namespace TorcEditor
             string editorProjectAbsPath = SearchFileInSubdirectories(EngineSourceDirectory, EditorProjectName);
             EditorProjectDirectory = GetDirectory(editorProjectAbsPath);
 
-            return EngineSourceDirectory != string.Empty || EditorProjectDirectory != string.Empty;
+            return EngineSourceDirectory != string.Empty && EditorProjectDirectory != string.Empty;
         }
 
 

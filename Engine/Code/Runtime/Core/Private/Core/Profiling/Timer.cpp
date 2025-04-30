@@ -1,5 +1,5 @@
-#include "Profiling/Timer.h"
-#include "Platform/Platform.h"
+#include "Core/Profiling/Timer.h"
+#include "Core/Platform/Platform.h"
 
 using namespace core;
 

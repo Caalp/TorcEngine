@@ -1,11 +1,11 @@
 #include "Window_Windows.h"
 
-#include "Application.h"
-#include "Profiling/Timer.h"
-#include "Logging/DebugWindowLogger.h"
-#include "Platform/Platform.h"
-#include "Input/PlatformInput.h"
-#include "Logging/Logger.h"
+#include "Core/Application.h"
+#include "Core/Profiling/Timer.h"
+#include "Core/Logging/DebugWindowLogger.h"
+#include "Core/Platform/Platform.h"
+#include "Core/Input/PlatformInput.h"
+#include "Core/Logging/Logger.h"
 
 #include <windowsx.h>
 #include <Dbt.h>

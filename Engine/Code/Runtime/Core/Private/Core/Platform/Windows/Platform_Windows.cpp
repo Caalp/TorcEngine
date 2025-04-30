@@ -1,11 +1,11 @@
 #include <Window_Windows.h>
-#include "Std/String/string_utils.h"
-#include "Logging/Logger.h"
-#include "System/ISystem.h"
-#include "Platform/Platform.h"
+#include "Core/Std/String/string_utils.h"
+#include "Core/Logging/Logger.h"
+#include "Core/System/ISystem.h"
+#include "Core/Platform/Platform.h"
 
-#include "Input/PlatformInput.h"
-#include "Application.h"
+#include "Core/Input/PlatformInput.h"
+#include "Core/Application.h"
 
 namespace Torc
 {

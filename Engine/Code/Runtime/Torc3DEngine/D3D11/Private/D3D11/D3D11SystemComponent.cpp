@@ -1,9 +1,9 @@
-#include "D3D11SystemComponent.h"
+#include "D3D11/D3D11SystemComponent.h"
 #include <Core/Base.h>
 #include <Core/Environment/Environment.h>
 
 #include <RHI/RHIContext.h>
-#include "D3D11Factory.h"
+#include "D3D11/D3D11Factory.h"
 
 namespace Torc
 {

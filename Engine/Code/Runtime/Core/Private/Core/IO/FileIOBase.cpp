@@ -1,5 +1,5 @@
-#include "IO/FileIOBase.h"
-#include "Logging/Logger.h"
+#include "Core/IO/FileIOBase.h"
+#include "Core/Logging/Logger.h"
 
 namespace Torc
 {

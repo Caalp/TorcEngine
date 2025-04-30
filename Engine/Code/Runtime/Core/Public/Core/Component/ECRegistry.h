@@ -1,8 +1,8 @@
 #pragma once
-#include "Base.h"
-#include "Component/Entity.h"
-#include "Std/Threading/Atomic.h"
-#include "Std/Threading/Mutex.h"
+#include "Core/Base.h"
+#include "Core/Component/Entity.h"
+#include "Core/Std/Threading/Atomic.h"
+#include "Core/Std/Threading/Mutex.h"
 
 #include <unordered_map>
 

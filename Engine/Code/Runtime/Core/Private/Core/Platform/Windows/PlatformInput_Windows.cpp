@@ -2,15 +2,15 @@
 #include <Windows.h>
 #include <windowsx.h>
 
-#include "Input/PlatformInput.h"
+#include "Core/Input/PlatformInput.h"
 
-#include "Platform/Platform.h"
-#include "Windowing/WindowBase.h"
-#include "Input/BaseInput.h"
-#include "Application.h"
+#include "Core/Platform/Platform.h"
+#include "Core/Windowing/WindowBase.h"
+#include "Core/Input/BaseInput.h"
+#include "Core/Application.h"
 
-#include "Logging/Logger.h"
-#include "Common/UtilMacros.h"
+#include "Core/Logging/Logger.h"
+#include "Core/Common/UtilMacros.h"
 
 #include <iterator>
 

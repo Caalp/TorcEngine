@@ -12,8 +12,6 @@ te_add_target(STATIC SOURCE_GROUP
     INCLUDE_DIRECTORIES
         PUBLIC
             Public
-        PRIVATE
-            Public/RPI
     BUILD_DEPENDENCIES
         PUBLIC
             TE::Core

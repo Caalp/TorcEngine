@@ -1,6 +1,6 @@
 #pragma once
-#include "D3D11TypeConverter.h"
-#include "D3D11Common.h"
+#include "D3D11/D3D11TypeConverter.h"
+#include "D3D11/D3D11Common.h"
 
 //D3D11_BLEND_OP typeConverter::ConvertTorcGfxType(TORC_GFX_BLEND_OP op)
 //{

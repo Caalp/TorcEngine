@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Base.h"
-#include "JobSystem/GenericTaskQueue.h"
-#include "Std/Threading/Thread.h"
-#include "System/ISystem.h"
+#include "Core/Base.h"
+#include "Core/JobSystem/GenericTaskQueue.h"
+#include "Core/Std/Threading/Thread.h"
+#include "Core/System/ISystem.h"
 
 class WindowBase : public IWindowEventDispatcher
 {

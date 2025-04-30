@@ -1,5 +1,5 @@
 #pragma once
-#include "Component/Entity.h"
+#include "Core/Component/Entity.h"
 
 class SystemGlobalEnvironment;
 

@@ -1,5 +1,5 @@
 
-#include "SystemInfo/SystemInfo.h"
+#include "Core/SystemInfo/SystemInfo.h"
 
 #include <wrl.h>
 #include <sysinfoapi.h>

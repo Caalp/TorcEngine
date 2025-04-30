@@ -1,3 +1,3 @@
 #pragma once
 
-#include <Core/Platform/Std/Threading/platform_barrier.h>
+#include <Platform/Std/Threading/platform_barrier.h>

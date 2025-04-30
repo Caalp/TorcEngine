@@ -1,4 +1,4 @@
-#include "Camera.h"
+#include "RPI/Camera.h"
 
 Camera::Camera() 
 	: m_cameraPos(0.0f,0.0f,-30.0f)

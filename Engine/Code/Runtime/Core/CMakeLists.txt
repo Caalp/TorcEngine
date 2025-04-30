@@ -11,8 +11,6 @@ te_add_target(STATIC SOURCE_GROUP
     INCLUDE_DIRECTORIES
         PUBLIC
             ./Private/Core/Platform/${TARGET_PLATFORM}
-        PRIVATE
-            Public/Core
     BUILD_DEPENDENCIES
         PUBLIC
             3rdParty::DirectXMath

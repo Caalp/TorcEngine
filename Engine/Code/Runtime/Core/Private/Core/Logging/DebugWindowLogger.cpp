@@ -1,5 +1,5 @@
-#include "Logging/DebugWindowLogger.h"
-#include "Std/String/String.h"
+#include "Core/Logging/DebugWindowLogger.h"
+#include "Core/Std/String/String.h"
 
 DebugWindowLogger::DebugWindowLogger(TORC_HWND debugWindowHandle)
 	: m_debugWindowHandle(debugWindowHandle)

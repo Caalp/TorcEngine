@@ -1,6 +1,6 @@
-#include "Module/ModuleManager.h"
-#include "Module/Module.h"
-#include "Logging/Logger.h"
+#include "Core/Module/ModuleManager.h"
+#include "Core/Module/Module.h"
+#include "Core/Logging/Logger.h"
 
 namespace Torc
 {

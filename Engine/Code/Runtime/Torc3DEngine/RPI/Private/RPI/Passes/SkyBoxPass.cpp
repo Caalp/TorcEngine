@@ -1,6 +1,6 @@
-#include "Passes/SkyBoxPass.h"
-#include "DepthStencilBuffer.h"
-#include "RenderTarget.h"
+#include "RPI/Passes/SkyBoxPass.h"
+#include "RPI/DepthStencilBuffer.h"
+#include "RPI/RenderTarget.h"
 
 SkyBoxPass::SkyBoxPass(const PassDescriptor& desc)
 	: RasterPass(desc)

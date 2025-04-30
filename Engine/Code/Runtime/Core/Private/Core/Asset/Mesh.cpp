@@ -1,4 +1,4 @@
-#include "Asset/Mesh.h"
+#include "Core/Asset/Mesh.h"
 //#include "additional_headers.h"
 //
 //void Mesh::ParseMesh(const aiMesh& mesh, const aiMaterial* const* pMaterials, std::string texIncludeDir)

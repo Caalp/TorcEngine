@@ -1,6 +1,6 @@
-#include "GameCore.h"
+#include "GameCore/GameCore.h"
 
-#include "CameraSystem.h"
+#include "GameCore/CameraSystem.h"
 
 void GameCore::Update(float dt)
 {

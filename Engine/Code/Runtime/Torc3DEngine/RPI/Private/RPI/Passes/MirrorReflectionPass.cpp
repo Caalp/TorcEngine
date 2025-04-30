@@ -1,4 +1,4 @@
-#include "Passes/MirrorReflectionPass.h"
+#include "RPI/Passes/MirrorReflectionPass.h"
 
 MirrorReflectionPass::MirrorReflectionPass(const char* passName) 
 	: RenderQueuePass(passName)

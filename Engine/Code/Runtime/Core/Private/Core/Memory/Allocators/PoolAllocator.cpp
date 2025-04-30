@@ -1,5 +1,5 @@
-#include "Memory/Allocators/PoolAllocator.h"
-#include "Memory/Memory.h"
+#include "Core/Memory/Allocators/PoolAllocator.h"
+#include "Core/Memory/Memory.h"
 
 #include <cstdio>
 #include <assert.h>
