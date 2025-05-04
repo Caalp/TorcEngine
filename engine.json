@@ -1,3 +1,6 @@
 {
 	"PackagesDirectory" : "3rdParty/packages"
+	"Modules" : [
+		"RHI"
+	]
 }

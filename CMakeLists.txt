@@ -18,7 +18,8 @@ define_property(GLOBAL PROPERTY COPY_TARGET_DEPENDENCY_LIST)
 
 add_subdirectory(3rdParty)
 add_subdirectory(Engine)
-add_subdirectory(TestGame)
+add_subdirectory(Samples)
+add_subdirectory(Config)
 
 get_property(test_var GLOBAL PROPERTY COPY_TARGET_DEPENDENCY_LIST)
 write_file(${CMAKE_CURRENT_BINARY_DIR}/dependecy_list "${test_var}")
