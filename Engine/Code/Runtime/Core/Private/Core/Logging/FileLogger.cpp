@@ -54,8 +54,9 @@ namespace Torc
 			break;
 			}
 
-			FileHandle handle;
 			Path fullFileName = loggerMainDirectory + channelName + "_" + currentTimeString + ".txt";
+
+			FileHandle handle;
 			IO::FileIOBase& fileIO = IO::FileIOBase::GetInstance();
 			IO::Result result = fileIO.Open(fullFileName, IO::OpenMode::Create | IO::OpenMode::ReadWrite, handle);
 

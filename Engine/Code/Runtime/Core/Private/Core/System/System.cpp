@@ -2,6 +2,11 @@
 #include "Core/System/SystemComponent.h"
 #include "Core/Platform/PlatformComponent.h"
 
+Torc::System::~System()
+{
+	Shutdown();
+}
+
 void Torc::System::Initialize()
 {
 	m_platformComponent = PlatformComponent::Create();

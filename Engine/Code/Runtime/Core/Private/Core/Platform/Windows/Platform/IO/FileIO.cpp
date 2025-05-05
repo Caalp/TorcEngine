@@ -63,17 +63,18 @@ namespace Torc
 				switch (cursorPosition)
 				{
 				case SeekPos::Current:
-				return FILE_CURRENT;
+					return FILE_CURRENT;
 				case SeekPos::End:
-				return FILE_END;				
+					return FILE_END;
 				default:
-				return FILE_BEGIN;
+					return FILE_BEGIN;
 				}
 			}
 
 			inline uint32 Win32GetCreationFlag(OpenMode mode)
 			{
-				switch (mode)
+				uint32 mask = ((uint32)mode & (uint32)OpenMode::Create) | ((uint32)mode & (uint32)OpenMode::Append) | ((uint32)mode & (uint32)OpenMode::CreateIfNotExist);
+				switch ((OpenMode)mask)
 				{
 				case OpenMode::Create:
 					return CREATE_ALWAYS;
@@ -104,8 +105,12 @@ namespace Torc
 				if (fileHandle == INVALID_HANDLE_VALUE)
 				{
 					code.m_resultCode = Result::Failed;
+					
+					//DWORD error = GetLastError();
+
 					return code;
 				}
+
 				code.m_resultCode = Result::Success;
 				handle = fileHandle;
 				return code;

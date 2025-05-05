@@ -269,9 +269,6 @@ namespace Torc
 		m_platformInput->Release();
 
 		Platform::Release();
-		
-		// Initialize system which will initialize system components and PlatformComponent
-		m_system.Shutdown();
 
 		delete logger;
 		if (m_fileLogger)
@@ -477,8 +474,8 @@ namespace Torc
 	bool Application::IsLogToFileEnabled() const
 	{
 		const auto& iter = std::find_if(m_cmdArgList.begin(), m_cmdArgList.end(),
-			[](CMDArg arg) -> bool { return (arg == CMDArg("noLogToFile")); });
-		return (iter == m_cmdArgList.end());
+			[](CMDArg arg) -> bool { return (arg == CMDArg("logToFile")); });
+		return (iter != m_cmdArgList.end());
 	}
 
 	bool Application::IsDebugWindowEnabled() const

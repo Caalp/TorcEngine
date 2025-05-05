@@ -8,6 +8,8 @@ namespace Torc
 	class System
 	{
 	public:
+		~System();
+
 		void Initialize();
 		void Shutdown();
 
