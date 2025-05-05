@@ -7,6 +7,7 @@ namespace Torc
 	//! Used for uniquely identifying objects, currently supported format is {8-4-4-4-12} that is 128-bits in total
 	class Uuid
 	{
+		friend class Crc32;
 	public:
 
 		//! Expects a uuid string enclosed with curly braces "{xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx}"

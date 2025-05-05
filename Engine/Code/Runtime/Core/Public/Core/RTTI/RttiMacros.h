@@ -1,6 +1,7 @@
 #pragma once
 #include "Core/RTTI/TypeList.h"
 #include "Core/Math/Uuid.h"
+#include "Core/Math/Crc32.h"
 
 //! TORC_RTTI takes argument to _className which is the name of the class that is using this define,
 //! generated uuid for this class, and variable number of base classes that _className is inheriting from.
@@ -11,6 +12,7 @@
 	typedef _className ThisType;\
 	typedef typename Torc::NoDuplicates<Torc::BuildTypeList<_className, __VA_ARGS__>::Result>::Result _torcRttiTypeList;\
 	static constexpr Torc::Uuid _torcRttiUuid{_classUuid};\
+	static constexpr Torc::Crc32 _crc32 {ThisType::_torcRttiUuid};\
 	const char* _torcGetClassName() const { return #_className; }\
 	template<typename T> static bool IsTypeOf() {return Torc::HasType<T, Torc::TypeList<_torcRttiTypeList::type, _torcRttiTypeList::rest>>::value;}
 

@@ -295,7 +295,7 @@ int APIENTRY WinMain(HINSTANCE hInst, HINSTANCE hInstPrev, PSTR cmdline, int cmd
 
 	app.Run(&Main3);
 
-	app.Release();
+	app.Shutdown();
 
 	// an object with
 	// PS: C:\\Users\\calp\\source\\repos\\TorcEngine\\TorcEngine\\Shaders\\BasicPS.hlsl

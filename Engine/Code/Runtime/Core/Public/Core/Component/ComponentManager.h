@@ -10,6 +10,5 @@ namespace Torc
 	public:
 
 	private:
-
 	};
 }

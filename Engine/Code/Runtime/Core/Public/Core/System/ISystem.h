@@ -137,6 +137,9 @@ extern SystemGlobalEnvironment* gEnv;
 
 namespace Torc
 {
+
+	class SystemComponent;
+
 	namespace Core
 	{
 		//! This class manages instance of SystemGlobalEnvironment.

@@ -1,6 +1,7 @@
 #pragma once
 #include "Input/BaseInput.h"
 #include "System/ISystem.h"
+#include "System/System.h"
 #include "Windowing/WindowBase.h"
 #include "Input/Mouse.h"
 #include "Input/Keyboard.h"
@@ -48,7 +49,10 @@ namespace Torc
 		~Application();
 		bool Initialize(AppCreateParams& createParams);
 		bool Run(main loop);
-		void Release();
+		void Shutdown();
+
+		void Activate() override;
+		void Deactivate() override;
 
 		float GetPrevFrameDt() const;
 
@@ -128,6 +132,8 @@ namespace Torc
 		DebugWindowLogger* m_debugWindowLogger;
 
 		PlatformInput* m_platformInput;
+
+		System m_system;
 	};
 }
 

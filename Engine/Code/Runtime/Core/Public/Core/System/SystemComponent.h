@@ -11,8 +11,11 @@ namespace Torc
 		TORC_COMPONENT(SystemComponent)
 		~SystemComponent() = default;
 
-		void Activate() override;
-		void Deactivate() override;
+		void Activate() override {};
+		void Deactivate() override {};
+	
+	protected:
+		
 	};
 
 	/*

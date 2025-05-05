@@ -96,6 +96,16 @@ namespace Torc
 			}
 
 			Code m_resultCode;
+
+			bool operator == (const Result::Code& rhs)
+			{
+				return this->m_resultCode == rhs;
+			}
+
+			bool operator != (const Result::Code& rhs)
+			{
+				return this->m_resultCode != rhs;
+			}
 		};
 
 		//! Platform specific implementation, definations in platfrom folder

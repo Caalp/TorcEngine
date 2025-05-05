@@ -54,13 +54,16 @@ namespace Torc
 			break;
 			}
 
-			IO::FileStream fStream;
-			Path fullFileName = loggerMainDirectory + channelName + "_" + currentTimeString + ".txt";
-			fStream.Open(fullFileName, IO::OpenMode::Write);
-
 			FileHandle handle;
+			Path fullFileName = loggerMainDirectory + channelName + "_" + currentTimeString + ".txt";
 			IO::FileIOBase& fileIO = IO::FileIOBase::GetInstance();
-			fileIO.Open(fullFileName, IO::OpenMode::Create | IO::OpenMode::ReadWrite, handle);
+			IO::Result result = fileIO.Open(fullFileName, IO::OpenMode::Create | IO::OpenMode::ReadWrite, handle);
+
+			if (result != IO::Result::Success)
+			{
+				TE_Error(LogChannel::LC_Core, "Opening file is failed %s", fullFileName.GetView().c_str());
+				continue;
+			}
 
 			LogFileDesc desc;
 			desc.filename = fullFileName.GetView().c_str();

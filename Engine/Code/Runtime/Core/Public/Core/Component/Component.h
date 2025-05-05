@@ -1,6 +1,7 @@
 #pragma once
 #include <Core/Base.h>
 #include <Core/Std/String/String.h>
+#include <Core/RTTI/RttiMacros.h>
 
 typedef uint64 ComponentId;
 

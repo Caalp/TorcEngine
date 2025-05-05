@@ -82,7 +82,10 @@ namespace Torc
 			gEnv->editor->Initialize();
 		}
 		Torc::Platform::Initialize(&createParams);
-
+		
+		// Initialize system which will initialize system components and PlatformComponent
+		m_system.Initialize();
+		Activate();
 		if (IsLogToFileEnabled())
 		{
 			m_fileLogger = new Torc::FileLogger;
@@ -133,6 +136,9 @@ namespace Torc
 		{
 			listener->OnSystemEvent(SystemEvent::SYSTEM_EVENT_RENDERER_INITIALIZED, 0, 0);
 		}*/
+
+		// Activate components
+		
 
 		return true;
 	}
@@ -258,11 +264,14 @@ namespace Torc
 		return false;
 	}
 
-	void Application::Release()
+	void Application::Shutdown()
 	{
 		m_platformInput->Release();
 
 		Platform::Release();
+		
+		// Initialize system which will initialize system components and PlatformComponent
+		m_system.Shutdown();
 
 		delete logger;
 		if (m_fileLogger)
@@ -279,6 +288,17 @@ namespace Torc
 		debugWnd = nullptr;
 		env = { 0 };
 		gEnv = nullptr;
+		Deactivate();
+	}
+
+	void Application::Activate()
+	{
+		m_system.Activate();
+	}
+
+	void Application::Deactivate()
+	{
+		m_system.Deactivate();
 	}
 
 	float Application::GetPrevFrameDt() const
